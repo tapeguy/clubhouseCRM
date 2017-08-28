@@ -1,0 +1,15 @@
+-----
+ CSCI466 Software Engineering I Project
+ -----
+ CSCI466 Software Engineering I Project
+ -----
+
+Maven Site for our project
+
+ 1st crack at making this work
+
++-----+
+
+mvn site
+
++-----+
