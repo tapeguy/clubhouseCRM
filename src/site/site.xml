@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<project name="Maven" xmlns="http://maven.apache.org/DECORATION/1.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/DECORATION/1.0.0 http://maven.apache.org/xsd/decoration-1.0.0.xsd">
+    <bannerLeft>
+        <name>CSCI466 Software Engineering Project: clubhouseCRM</name>
+    </bannerLeft>
+
+    <body>
+        <links>
+            <item name="Github Link" href="https://github.com/tapeguy/clubhouseCRM"/>
+        </links>
+
+        <menu name="Regular Web Site">
+            <item name="APT Doc Placeholder" href="APT_PLaceholder.html"/>
+            <item name="Xdoc Placeholder" href="xdoc_placeholder.html"/>
+            <item name="FAQ Placeholder" href="faq.html"/>
+        </menu>
+
+        <menu ref="reports"/>
+    </body>
+</project>
