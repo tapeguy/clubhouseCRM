@@ -25,7 +25,7 @@ import edu.fhsu.csci466.clubhouse.crm.service.UserService;
  */
 @RestController
 @RequestMapping( "/crm" )
-public class Controller
+public class CrmRestController
 {
     @Autowired
     UserService service;
@@ -48,7 +48,7 @@ public class Controller
     public ResponseEntity<User> addUser( @RequestBody User user )
     {
         service.addUser( user );
-        return new ResponseEntity<User>( user, HttpStatus.OK );
+        return new ResponseEntity<>( user, HttpStatus.OK );
     }
 
     /**

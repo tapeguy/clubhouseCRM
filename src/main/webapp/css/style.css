@@ -1,0 +1,143 @@
+body {
+    font-family: arial, helvetica, sans-serif;
+}
+
+a:link {
+    text-decoration: none;
+    color: black;
+}
+
+a:visited {
+    text-decoration: none;
+    color: black;
+}
+
+a:hover {
+    color: red
+}
+
+img {
+    border-style: none;
+}
+
+.left_margin {
+    margin-left: 6px;
+}
+
+.right_margin {
+    margin-right: 6px;
+}
+
+.logo {
+    padding-top: 4px;
+    padding-left: 6px;
+    padding-bottom: 4px;
+}
+
+.breadcrumb_container {
+    padding-left: 10px;
+    border-style: dotted;
+    border-width: 1px;
+}
+
+.breadcrumb_container > .breadcrumb {
+    padding: 0;
+    float: left;
+    font-size: 14px;
+}
+
+.breadcrumb_container > .breadcrumb > a:link { color: #666666; }
+.breadcrumb_container > .breadcrumb > a:visited { color: #666666; }
+.breadcrumb_container > .breadcrumb > a:hover { color: red; }
+
+.breadcrumb_container > .arrow {
+    font-size: 14px;
+    padding: 0;
+    float: left;
+}
+
+.main_content {
+    position: relative;
+}
+
+.sidebar {
+    position: absolute;
+    width: 130px; /* Must match margin-left below */
+    top: 0px;
+    bottom: 0px;
+    left: 0px;
+}
+
+.sidebar_header {
+    font-weight: bold;
+    padding: 5px;
+    margin: 8px;
+    text-align: center;
+    border-bottom: 1px solid black;
+}
+
+.sidebar_main_content {
+    margin-left: 130px; /* Must match sidebar width above */
+    top: 0px;
+    bottom: 0px;
+    right: 0px;
+}
+
+.sidebar_button {
+    width: 100%;
+}
+
+.smoothbox {
+    background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#ffffff), to(#e0e0e0));
+    background: -moz-linear-gradient(top, #e0e0e0, #ffffff);
+    background: -moz-linear-gradient(top, #ffffff, #e0e0e0);
+    border: 1px solid #b3b3b3;
+    border-radius: 10px;
+    border-collapse: collapse;
+}
+
+.horiz_line {
+    height: 1px;
+    background: black;
+}
+
+#server_error {
+    display: none;
+    margin-left: 50px;
+    background: red;
+    font-weight: bold;
+    padding: 10px 20px;
+}
+
+#reload_page {
+    display: none;
+}
+
+.tooltip {
+    display: none;
+}
+
+.tooltip_balloon {
+    z-index: 100;
+    background: white;
+    border: 1px solid black;
+    border-radius: 8px;
+    padding: 4px;
+}
+
+#debug_output {
+    border: 1px solid black;
+    text-align: left;
+    width: 100%;
+}
+
+#debug_output th {
+    background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#ffffff), to(#e0e0e0));
+    background: -moz-linear-gradient(top, #e0e0e0, #ffffff);
+    background: -moz-linear-gradient(top, #ffffff, #e0e0e0);
+    border: 1px solid black;
+}
+
+#debug_output td {
+    border: 1px solid black;
+}

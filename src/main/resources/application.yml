@@ -1,4 +1,7 @@
 spring:
   application:
     name: clubhouseCRM
-    
+  contextPath: /
+  mvc:
+    view:
+      suffix: .jsp
