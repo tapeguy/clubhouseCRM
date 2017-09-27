@@ -79,14 +79,22 @@
 			<version>4.6.1</version>
 			<scope>provided</scope>
 		</dependency>
-	
+
 		<!-- db -->
 		<dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
 			<scope>runtime</scope>
 		</dependency>
-		
+
+<!--
+		<dependency>
+			<groupId>org.apache.derby</groupId>
+			<artifactId>derby</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+-->
+
 		<!-- tests -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

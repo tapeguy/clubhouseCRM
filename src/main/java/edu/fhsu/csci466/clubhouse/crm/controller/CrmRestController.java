@@ -12,12 +12,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import edu.fhsu.csci466.clubhouse.crm.service.User;
-import edu.fhsu.csci466.clubhouse.crm.service.UserService;
+import edu.fhsu.csci466.clubhouse.crm.service.Member;
+import edu.fhsu.csci466.clubhouse.crm.service.MemberService;
 
 /**
  * @author ss047890
@@ -28,45 +27,46 @@ import edu.fhsu.csci466.clubhouse.crm.service.UserService;
 public class CrmRestController
 {
     @Autowired
-    UserService service;
+    MemberService service;
 
     /**
      * @param lastName
-     * @return list of all users
+     * @return list of all member
      */
-    @GetMapping( value = "/user", produces = MediaType.APPLICATION_JSON_VALUE )
-    public @ResponseBody List<User> getUsers()
+    @GetMapping( value = "/member", produces = MediaType.APPLICATION_JSON_VALUE )
+    public List<Member> getMembers()
     {
-        return service.getUsers();
+        List<Member> members = service.getMembers();
+        return members;
     }
 
     /**
-     * @param user
+     * @param member
      * @return response entity the status to return
      */
-    @PostMapping( value = "/user/add", produces = MediaType.APPLICATION_JSON_VALUE )
-    public ResponseEntity<User> addUser( @RequestBody User user )
+    @PostMapping( value = "/member/add", produces = MediaType.APPLICATION_JSON_VALUE )
+    public ResponseEntity<Member> addMember( @RequestBody Member member )
     {
-        service.addUser( user );
-        return new ResponseEntity<>( user, HttpStatus.OK );
+        service.addMember( member );
+        return new ResponseEntity<>( member, HttpStatus.OK );
     }
 
     /**
      * @param id
-     * @return user
+     * @return member
      */
-    @GetMapping( value = "/user/{id}", produces = MediaType.APPLICATION_JSON_VALUE )
-    public @ResponseBody User getUser( @PathVariable Long id )
+    @GetMapping( value = "/member/{id}", produces = MediaType.APPLICATION_JSON_VALUE )
+    public Member getMember( @PathVariable Long id )
     {
-        return service.getUser( id );
+        return service.getMember( id );
     }
 
     /**
      * @param id
      */
-    @DeleteMapping( value = "/user/delete/{id}", produces = MediaType.APPLICATION_JSON_VALUE )
+    @DeleteMapping( value = "/member/delete/{id}", produces = MediaType.APPLICATION_JSON_VALUE )
     @ResponseStatus( HttpStatus.OK )
-    public void deleteUser( @PathVariable Long id )
+    public void deleteMember( @PathVariable Long id )
     {
         service.delete( id );
     }
