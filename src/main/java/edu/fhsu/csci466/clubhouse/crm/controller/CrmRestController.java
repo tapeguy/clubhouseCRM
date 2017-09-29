@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import edu.fhsu.csci466.clubhouse.crm.service.Member;
+import edu.fhsu.csci466.clubhouse.crm.model.Member;
 import edu.fhsu.csci466.clubhouse.crm.service.MemberService;
 
 /**
