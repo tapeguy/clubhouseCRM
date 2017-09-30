@@ -7,6 +7,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import edu.fhsu.csci466.clubhouse.crm.model.groups.Family;
+import edu.fhsu.csci466.clubhouse.crm.model.groups.Team;
+import edu.fhsu.csci466.clubhouse.crm.model.services.Event;
+
 public class Club
 {
 

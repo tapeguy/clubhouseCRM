@@ -1,13 +1,25 @@
 package edu.fhsu.csci466.clubhouse.crm.model;
 
 import java.io.Serializable;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
+import edu.fhsu.csci466.clubhouse.crm.model.groups.Family;
+import edu.fhsu.csci466.clubhouse.crm.model.groups.Team;
+import edu.fhsu.csci466.clubhouse.crm.model.services.Account;
+import edu.fhsu.csci466.clubhouse.crm.model.services.Credential;
+import edu.fhsu.csci466.clubhouse.crm.model.services.Event;
+import edu.fhsu.csci466.clubhouse.crm.model.services.PaymentPlan;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -25,23 +37,42 @@ import lombok.ToString;
 @EqualsAndHashCode
 public class Member implements Serializable
 {
+
     /**
      * 
      */
-    private static final long serialVersionUID = 8636031629593349291L;
+    private static final long serialVersionUID = 2475596850971781832L;
 
     @Id
     @GeneratedValue( strategy = GenerationType.AUTO )
     @Column( name = "id", unique = true )
     private Long              id;
 
-    private String            name;
+    private String            email;
 
-    private Long              accountNumber;
+    @OneToOne( fetch = FetchType.EAGER )
+    @JoinColumn( name = "credential_id" )
+    private Credential        credential;
 
+    @OneToOne( fetch = FetchType.EAGER )
+    @JoinColumn( name = "account_id" )
+    private Account           account;
+
+    @ManyToOne( fetch = FetchType.EAGER )
+    @JoinColumn( name = "payment_plan_id" )
     private PaymentPlan       paymentPlan;
 
-    private String            membershipPlan;
+    @ManyToOne( fetch = FetchType.EAGER )
+    @JoinColumn( name = "family_id" )
+    private Family            family;
+
+    @ManyToOne( fetch = FetchType.EAGER )
+    @JoinColumn( name = "team_id" )
+    private Team              team;
+
+    @ManyToMany( fetch = FetchType.EAGER )
+    @JoinColumn( name = "family_id" )
+    private Set<Event>        events;
 
     private Boolean           isAdmin;
 
@@ -62,51 +93,115 @@ public class Member implements Serializable
     }
 
     /**
-     * @return the name
+     * @return the email
      */
-    public String getName()
+    public String getEmail()
     {
-        return name;
+        return email;
     }
 
     /**
-     * @param name the name to set
+     * @param email the email to set
      */
-    public void setName( String name )
+    public void setEmail( String email )
     {
-        this.name = name;
+        this.email = email;
     }
 
     /**
-     * @return the accountNumber
+     * @return the credential
      */
-    public Long getAccountNumber()
+    public Credential getCredential()
     {
-        return accountNumber;
+        return credential;
     }
 
     /**
-     * @param accountNumber the accountNumber to set
+     * @param credential the credential to set
      */
-    public void setAccountNumber( Long accountNumber )
+    public void setCredential( Credential credential )
     {
-        this.accountNumber = accountNumber;
+        this.credential = credential;
     }
 
     /**
-     * @return the membershipPlan
+     * @return the account
      */
-    public String getMembershipPlan()
+    public Account getAccount()
     {
-        return membershipPlan;
+        return account;
     }
 
     /**
-     * @param membershipPlan the membershipPlan to set
+     * @param account the account to set
      */
-    public void setMembershipPlan( String membershipPlan )
+    public void setAccount( Account account )
     {
-        this.membershipPlan = membershipPlan;
+        this.account = account;
+    }
+
+    /**
+     * @return the paymentPlan
+     */
+    public PaymentPlan getPaymentPlan()
+    {
+        return paymentPlan;
+    }
+
+    /**
+     * @param paymentPlan the paymentPlan to set
+     */
+    public void setPaymentPlan( PaymentPlan paymentPlan )
+    {
+        this.paymentPlan = paymentPlan;
+    }
+
+    /**
+     * @return the family
+     */
+    public Family getFamily()
+    {
+        return family;
+    }
+
+    /**
+     * @param family the family to set
+     */
+    public void setFamily( Family family )
+    {
+        this.family = family;
+    }
+
+    /**
+     * @return the team
+     */
+    public Team getTeam()
+    {
+        return team;
+    }
+
+    /**
+     * @param team the team to set
+     */
+    public void setTeam( Team team )
+    {
+        this.team = team;
+    }
+
+    /**
+     * @return the events
+     */
+    public Set<Event> getEvents()
+    {
+        return events;
+    }
+
+    /**
+     * @param events the events to set
+     */
+    public void setEvents( Set<Event> events )
+    {
+        this.events = events;
     }
 
     /**

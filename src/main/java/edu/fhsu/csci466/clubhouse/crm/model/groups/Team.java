@@ -1,4 +1,4 @@
-package edu.fhsu.csci466.clubhouse.crm.model;
+package edu.fhsu.csci466.clubhouse.crm.model.groups;
 
 import java.io.Serializable;
 import java.util.Set;
@@ -9,6 +9,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import edu.fhsu.csci466.clubhouse.crm.model.Leader;
+import edu.fhsu.csci466.clubhouse.crm.model.Member;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -24,7 +26,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 @EqualsAndHashCode
-public class Family implements Serializable
+public class Team implements Serializable
 {
     /**
      * 
@@ -36,7 +38,9 @@ public class Family implements Serializable
     @Column( name = "id", unique = true )
     private Long              id;
 
-    private String            familyName;
+    private String            teamName;
+
+    private Leader            leader           = new Leader();
 
     private Set<Member>       members;
 
@@ -61,7 +65,7 @@ public class Family implements Serializable
      */
     public String getTeamName()
     {
-        return familyName;
+        return teamName;
     }
 
     /**
@@ -69,7 +73,23 @@ public class Family implements Serializable
      */
     public void setTeamName( String name )
     {
-        this.familyName = name;
+        this.teamName = name;
+    }
+
+    /**
+     * @return the leader
+     */
+    public Leader getLeader()
+    {
+        return leader;
+    }
+
+    /**
+     * @param leader the leader to set
+     */
+    public void setLeader( Leader leader )
+    {
+        this.leader = leader;
     }
 
     /**

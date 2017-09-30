@@ -1,14 +1,18 @@
-package edu.fhsu.csci466.clubhouse.crm.model;
+package edu.fhsu.csci466.clubhouse.crm.model.services;
 
 import java.io.Serializable;
 import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 
+import edu.fhsu.csci466.clubhouse.crm.model.Member;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -17,29 +21,32 @@ import lombok.ToString;
 /**
  * @author ss047890
  *
- *         Entity class representing a CRM member.
  */
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
 @EqualsAndHashCode
-public class Team implements Serializable
+public class PaymentPlan implements Serializable
 {
     /**
      * 
      */
-    private static final long serialVersionUID = 2186733647978029262L;
+    private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue( strategy = GenerationType.AUTO )
     @Column( name = "id", unique = true )
     private Long              id;
 
-    private String            teamName;
+    private String            display;
 
-    private Leader            leader           = new Leader();
+    private Integer           billingCycleInWeeks;
 
+    private Double            fee;
+
+    @OneToMany( fetch = FetchType.LAZY )
+    @JoinColumn( name = "member_id" )
     private Set<Member>       members;
 
     /**
@@ -59,35 +66,51 @@ public class Team implements Serializable
     }
 
     /**
-     * @return the name
+     * @return the display
      */
-    public String getTeamName()
+    public String getDisplay()
     {
-        return teamName;
+        return display;
     }
 
     /**
-     * @param name the name to set
+     * @param display the display to set
      */
-    public void setTeamName( String name )
+    public void setDisplay( String display )
     {
-        this.teamName = name;
+        this.display = display;
     }
 
     /**
-     * @return the leader
+     * @return the billingCycleInWeeks
      */
-    public Leader getLeader()
+    public Integer getBillingCycleInWeeks()
     {
-        return leader;
+        return billingCycleInWeeks;
     }
 
     /**
-     * @param leader the leader to set
+     * @param billingCycleInWeeks the billingCycleInWeeks to set
      */
-    public void setLeader( Leader leader )
+    public void setBillingCycleInWeeks( Integer billingCycleInWeeks )
     {
-        this.leader = leader;
+        this.billingCycleInWeeks = billingCycleInWeeks;
+    }
+
+    /**
+     * @return the fee
+     */
+    public Double getFee()
+    {
+        return fee;
+    }
+
+    /**
+     * @param fee the fee to set
+     */
+    public void setFee( Double fee )
+    {
+        this.fee = fee;
     }
 
     /**
