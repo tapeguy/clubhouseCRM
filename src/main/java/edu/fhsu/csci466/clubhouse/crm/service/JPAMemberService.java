@@ -47,16 +47,4 @@ public class JPAMemberService implements MemberService
         memberRepo.delete( id );
     }
 
-    @Override
-    public Member getMembersByName( final String name )
-    {
-        return memberRepo.findByName( name );
-    }
-
-    @Override
-    public Member getMembersByAccountNumber( final Long accountNumber )
-    {
-        return memberRepo.findByAccountNumber( accountNumber );
-    }
-
 }

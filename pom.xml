@@ -29,12 +29,6 @@
 	</properties>
 
 	<dependencies>
-		<dependency>
-			<groupId>org.projectlombok</groupId>
-			<artifactId>lombok</artifactId>
-			<optional>true</optional>
-		</dependency>
-		
 		<!-- SPRING DEPENDENCIES -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

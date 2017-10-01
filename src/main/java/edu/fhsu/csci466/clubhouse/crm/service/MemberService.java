@@ -30,16 +30,4 @@ public interface MemberService
      * @param id
      */
     public void delete( Long id );
-
-    /**
-     * @param name
-     * @return member
-     */
-    public Member getMembersByName( final String name );
-
-    /**
-     * @param accountNumber
-     * @return member
-     */
-    public Member getMembersByAccountNumber( final Long accountNumber );
 }
