@@ -24,10 +24,5 @@ public interface MemberService
      * @param id
      * @return member
      */
-    public Member getMember( Long id );
-
-    /**
-     * @param id
-     */
-    public void delete( Long id );
+    public Member getMember( final Long id );
 }

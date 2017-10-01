@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.stereotype.Service;
 
 import edu.fhsu.csci466.clubhouse.crm.service.model.Member;
+import edu.fhsu.csci466.clubhouse.crm.service.repo.MemberRepository;
 
 /**
  * @author ss047890
@@ -40,11 +41,4 @@ public class JPAMemberService implements MemberService
     {
         return memberRepo.findOne( id );
     }
-
-    @Override
-    public void delete( final Long id )
-    {
-        memberRepo.delete( id );
-    }
-
 }
