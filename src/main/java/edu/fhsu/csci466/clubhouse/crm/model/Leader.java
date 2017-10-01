@@ -1,21 +1,13 @@
 package edu.fhsu.csci466.clubhouse.crm.model;
 
-import java.util.Set;
+import java.io.Serializable;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
-import edu.fhsu.csci466.clubhouse.crm.model.groups.Team;
 import edu.fhsu.csci466.clubhouse.crm.model.services.Credential;
-import edu.fhsu.csci466.clubhouse.crm.model.services.Event;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 /**
  * @author ss047890
@@ -23,16 +15,12 @@ import lombok.ToString;
  *         Entity class representing a CRM member.
  */
 @Entity
-@ToString
-@NoArgsConstructor
-@AllArgsConstructor
-@EqualsAndHashCode( callSuper = true )
-public class Leader extends Member
+public class Leader implements Serializable
 {
     /**
      * 
      */
-    private static final long serialVersionUID = -693449250263673036L;
+    private static final long serialVersionUID = -1853417858470664394L;
 
     private String            leaderType;
 
@@ -41,14 +29,6 @@ public class Leader extends Member
     private Credential        credential;
 
     private String            email;
-
-    @OneToMany( fetch = FetchType.EAGER )
-    @JoinColumn( name = "team_id" )
-    private Set<Team>         teams;
-
-    @ManyToMany( fetch = FetchType.LAZY )
-    @JoinColumn( name = "event_id" )
-    private Set<Event>        events;
 
     /**
      * @return the leaderType
@@ -69,7 +49,6 @@ public class Leader extends Member
     /**
      * @return the credential
      */
-    @Override
     public Credential getCredential()
     {
         return credential;
@@ -78,7 +57,6 @@ public class Leader extends Member
     /**
      * @param credential the credential to set
      */
-    @Override
     public void setCredential( Credential credential )
     {
         this.credential = credential;
@@ -87,7 +65,6 @@ public class Leader extends Member
     /**
      * @return the email
      */
-    @Override
     public String getEmail()
     {
         return email;
@@ -96,43 +73,74 @@ public class Leader extends Member
     /**
      * @param email the email to set
      */
-    @Override
     public void setEmail( String email )
     {
         this.email = email;
     }
 
-    /**
-     * @return the teams
-     */
-    public Set<Team> getTeams()
-    {
-        return teams;
-    }
-
-    /**
-     * @param teams the teams to set
-     */
-    public void setTeams( Set<Team> teams )
-    {
-        this.teams = teams;
-    }
-
-    /**
-     * @return the events
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Object#hashCode()
      */
     @Override
-    public Set<Event> getEvents()
+    public int hashCode()
     {
-        return events;
+        final int prime = 19890919;
+        int result = 1;
+        result = prime * result + ((credential == null) ? 0 : credential.hashCode());
+        result = prime * result + ((email == null) ? 0 : email.hashCode());
+        result = prime * result + ((leaderType == null) ? 0 : leaderType.hashCode());
+        return result;
     }
 
-    /**
-     * @param events the events to set
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Object#equals(java.lang.Object)
      */
     @Override
-    public void setEvents( Set<Event> events )
+    public boolean equals( Object obj )
     {
-        this.events = events;
+        if ( this == obj )
+            return true;
+        if ( obj == null )
+            return false;
+        if ( getClass() != obj.getClass() )
+            return false;
+        Leader other = (Leader) obj;
+        if ( credential == null )
+        {
+            if ( other.credential != null )
+                return false;
+        }
+        else if ( !credential.equals( other.credential ) )
+            return false;
+        if ( email == null )
+        {
+            if ( other.email != null )
+                return false;
+        }
+        else if ( !email.equals( other.email ) )
+            return false;
+        if ( leaderType == null )
+        {
+            if ( other.leaderType != null )
+                return false;
+        }
+        else if ( !leaderType.equals( other.leaderType ) )
+            return false;
+        return true;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Object#toString()
+     */
+    @Override
+    public String toString()
+    {
+        return "Leader [leaderType=" + leaderType + ", credential=" + credential + ", email=" + email + "]";
     }
 }

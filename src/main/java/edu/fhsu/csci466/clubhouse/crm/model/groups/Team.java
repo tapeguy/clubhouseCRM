@@ -1,20 +1,17 @@
 package edu.fhsu.csci466.clubhouse.crm.model.groups;
 
 import java.io.Serializable;
-import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 
 import edu.fhsu.csci466.clubhouse.crm.model.Leader;
-import edu.fhsu.csci466.clubhouse.crm.model.Member;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 /**
  * @author ss047890
@@ -22,16 +19,12 @@ import lombok.ToString;
  *         Entity class representing a CRM member.
  */
 @Entity
-@NoArgsConstructor
-@AllArgsConstructor
-@ToString
-@EqualsAndHashCode
 public class Team implements Serializable
 {
     /**
      * 
      */
-    private static final long serialVersionUID = 2186733647978029262L;
+    private static final long serialVersionUID = 6649415180672374125L;
 
     @Id
     @GeneratedValue( strategy = GenerationType.AUTO )
@@ -40,9 +33,9 @@ public class Team implements Serializable
 
     private String            teamName;
 
-    private Leader            leader           = new Leader();
-
-    private Set<Member>       members;
+    @OneToOne( fetch = FetchType.EAGER )
+    @JoinColumn( name = "leader_id" )
+    private Leader            leader;
 
     /**
      * @return the id
@@ -61,7 +54,7 @@ public class Team implements Serializable
     }
 
     /**
-     * @return the name
+     * @return the teamName
      */
     public String getTeamName()
     {
@@ -69,11 +62,11 @@ public class Team implements Serializable
     }
 
     /**
-     * @param name the name to set
+     * @param teamName the teamName to set
      */
-    public void setTeamName( String name )
+    public void setTeamName( String teamName )
     {
-        this.teamName = name;
+        this.teamName = teamName;
     }
 
     /**
@@ -92,19 +85,69 @@ public class Team implements Serializable
         this.leader = leader;
     }
 
-    /**
-     * @return the members
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Object#hashCode()
      */
-    public Set<Member> getMembers()
+    @Override
+    public int hashCode()
     {
-        return members;
+        final int prime = 19890919;
+        int result = 1;
+        result = prime * result + ((id == null) ? 0 : id.hashCode());
+        result = prime * result + ((leader == null) ? 0 : leader.hashCode());
+        result = prime * result + ((teamName == null) ? 0 : teamName.hashCode());
+        return result;
     }
 
-    /**
-     * @param members the members to set
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Object#equals(java.lang.Object)
      */
-    public void setMembers( Set<Member> members )
+    @Override
+    public boolean equals( Object obj )
     {
-        this.members = members;
+        if ( this == obj )
+            return true;
+        if ( obj == null )
+            return false;
+        if ( getClass() != obj.getClass() )
+            return false;
+        Team other = (Team) obj;
+        if ( id == null )
+        {
+            if ( other.id != null )
+                return false;
+        }
+        else if ( !id.equals( other.id ) )
+            return false;
+        if ( leader == null )
+        {
+            if ( other.leader != null )
+                return false;
+        }
+        else if ( !leader.equals( other.leader ) )
+            return false;
+        if ( teamName == null )
+        {
+            if ( other.teamName != null )
+                return false;
+        }
+        else if ( !teamName.equals( other.teamName ) )
+            return false;
+        return true;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Object#toString()
+     */
+    @Override
+    public String toString()
+    {
+        return "Team [id=" + id + ", teamName=" + teamName + ", leader=" + leader + "]";
     }
 }

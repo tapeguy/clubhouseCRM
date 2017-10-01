@@ -1,4 +1,4 @@
-package edu.fhsu.csci466.clubhouse.crm.model.services;
+package edu.fhsu.csci466.clubhouse.crm.model.groups;
 
 import java.io.Serializable;
 
@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 
 import edu.fhsu.csci466.clubhouse.crm.model.Member;
@@ -18,12 +19,12 @@ import edu.fhsu.csci466.clubhouse.crm.model.Member;
  *
  */
 @Entity
-public class Account implements Serializable
+public class MemberTeamRel implements Serializable
 {
     /**
      * 
      */
-    private static final long serialVersionUID = 4145295082558370786L;
+    private static final long serialVersionUID = -4038994166007057066L;
 
     @Id
     @GeneratedValue( strategy = GenerationType.AUTO )
@@ -34,30 +35,9 @@ public class Account implements Serializable
     @JoinColumn( name = "member_id" )
     private Member            member;
 
-    private Double            balance;
-
-    private Double            annualClubDues;
-
-    /**
-     * no args
-     */
-    public Account ()
-    {
-    }
-
-    /**
-     * @param id
-     * @param member
-     * @param balance
-     * @param annualClubDues
-     */
-    public Account ( Long id, Member member, Double balance, Double annualClubDues )
-    {
-        this.id = id;
-        this.member = member;
-        this.balance = balance;
-        this.annualClubDues = annualClubDues;
-    }
+    @ManyToMany( fetch = FetchType.EAGER )
+    @JoinColumn( name = "team_id" )
+    private Team              team;
 
     /**
      * @return the id
@@ -92,35 +72,19 @@ public class Account implements Serializable
     }
 
     /**
-     * @return the balance
+     * @return the team
      */
-    public Double getBalance()
+    public Team getTeam()
     {
-        return balance;
+        return team;
     }
 
     /**
-     * @param balance the balance to set
+     * @param team the team to set
      */
-    public void setBalance( Double balance )
+    public void setTeam( Team team )
     {
-        this.balance = balance;
-    }
-
-    /**
-     * @return the annualClubDues
-     */
-    public Double getAnnualClubDues()
-    {
-        return annualClubDues;
-    }
-
-    /**
-     * @param annualClubDues the annualClubDues to set
-     */
-    public void setAnnualClubDues( Double annualClubDues )
-    {
-        this.annualClubDues = annualClubDues;
+        this.team = team;
     }
 
     /*
@@ -133,10 +97,9 @@ public class Account implements Serializable
     {
         final int prime = 19890919;
         int result = 1;
-        result = prime * result + ((annualClubDues == null) ? 0 : annualClubDues.hashCode());
-        result = prime * result + ((balance == null) ? 0 : balance.hashCode());
         result = prime * result + ((id == null) ? 0 : id.hashCode());
         result = prime * result + ((member == null) ? 0 : member.hashCode());
+        result = prime * result + ((team == null) ? 0 : team.hashCode());
         return result;
     }
 
@@ -154,21 +117,7 @@ public class Account implements Serializable
             return false;
         if ( getClass() != obj.getClass() )
             return false;
-        Account other = (Account) obj;
-        if ( annualClubDues == null )
-        {
-            if ( other.annualClubDues != null )
-                return false;
-        }
-        else if ( !annualClubDues.equals( other.annualClubDues ) )
-            return false;
-        if ( balance == null )
-        {
-            if ( other.balance != null )
-                return false;
-        }
-        else if ( !balance.equals( other.balance ) )
-            return false;
+        MemberTeamRel other = (MemberTeamRel) obj;
         if ( id == null )
         {
             if ( other.id != null )
@@ -183,6 +132,13 @@ public class Account implements Serializable
         }
         else if ( !member.equals( other.member ) )
             return false;
+        if ( team == null )
+        {
+            if ( other.team != null )
+                return false;
+        }
+        else if ( !team.equals( other.team ) )
+            return false;
         return true;
     }
 
@@ -194,7 +150,6 @@ public class Account implements Serializable
     @Override
     public String toString()
     {
-        return "Account [id=" + id + ", member=" + member + ", balance=" + balance + ", annualClubDues="
-                        + annualClubDues + "]";
+        return "MemberTeamRel [id=" + id + ", member=" + member + ", team=" + team + "]";
     }
 }

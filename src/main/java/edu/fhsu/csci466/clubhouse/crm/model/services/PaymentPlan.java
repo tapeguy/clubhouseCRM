@@ -1,38 +1,24 @@
 package edu.fhsu.csci466.clubhouse.crm.model.services;
 
 import java.io.Serializable;
-import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
-
-import edu.fhsu.csci466.clubhouse.crm.model.Member;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 /**
  * @author ss047890
  *
  */
 @Entity
-@NoArgsConstructor
-@AllArgsConstructor
-@ToString
-@EqualsAndHashCode
 public class PaymentPlan implements Serializable
 {
     /**
      * 
      */
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 8682725344697726728L;
 
     @Id
     @GeneratedValue( strategy = GenerationType.AUTO )
@@ -44,10 +30,6 @@ public class PaymentPlan implements Serializable
     private Integer           billingCycleInWeeks;
 
     private Double            fee;
-
-    @OneToMany( fetch = FetchType.LAZY )
-    @JoinColumn( name = "member_id" )
-    private Set<Member>       members;
 
     /**
      * @return the id
@@ -113,19 +95,78 @@ public class PaymentPlan implements Serializable
         this.fee = fee;
     }
 
-    /**
-     * @return the members
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Object#hashCode()
      */
-    public Set<Member> getMembers()
+    @Override
+    public int hashCode()
     {
-        return members;
+        final int prime = 19890919;
+        int result = 1;
+        result = prime * result + ((billingCycleInWeeks == null) ? 0 : billingCycleInWeeks.hashCode());
+        result = prime * result + ((display == null) ? 0 : display.hashCode());
+        result = prime * result + ((fee == null) ? 0 : fee.hashCode());
+        result = prime * result + ((id == null) ? 0 : id.hashCode());
+        return result;
     }
 
-    /**
-     * @param members the members to set
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Object#equals(java.lang.Object)
      */
-    public void setMembers( Set<Member> members )
+    @Override
+    public boolean equals( Object obj )
     {
-        this.members = members;
+        if ( this == obj )
+            return true;
+        if ( obj == null )
+            return false;
+        if ( getClass() != obj.getClass() )
+            return false;
+        PaymentPlan other = (PaymentPlan) obj;
+        if ( billingCycleInWeeks == null )
+        {
+            if ( other.billingCycleInWeeks != null )
+                return false;
+        }
+        else if ( !billingCycleInWeeks.equals( other.billingCycleInWeeks ) )
+            return false;
+        if ( display == null )
+        {
+            if ( other.display != null )
+                return false;
+        }
+        else if ( !display.equals( other.display ) )
+            return false;
+        if ( fee == null )
+        {
+            if ( other.fee != null )
+                return false;
+        }
+        else if ( !fee.equals( other.fee ) )
+            return false;
+        if ( id == null )
+        {
+            if ( other.id != null )
+                return false;
+        }
+        else if ( !id.equals( other.id ) )
+            return false;
+        return true;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Object#toString()
+     */
+    @Override
+    public String toString()
+    {
+        return "PaymentPlan [id=" + id + ", display=" + display + ", billingCycleInWeeks=" + billingCycleInWeeks
+                        + ", fee=" + fee + "]";
     }
 }
