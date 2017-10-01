@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.stereotype.Service;
 
-import edu.fhsu.csci466.clubhouse.crm.model.Member;
+import edu.fhsu.csci466.clubhouse.crm.service.model.Member;
 
 /**
  * @author ss047890

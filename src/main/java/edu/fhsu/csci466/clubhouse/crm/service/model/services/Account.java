@@ -1,28 +1,29 @@
-package edu.fhsu.csci466.clubhouse.crm.model.services;
+package edu.fhsu.csci466.clubhouse.crm.service.model.services;
 
 import java.io.Serializable;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 
-import edu.fhsu.csci466.clubhouse.crm.model.Member;
+import edu.fhsu.csci466.clubhouse.crm.service.model.Member;
 
 /**
  * @author ss047890
  *
  */
-public class MemberEventRel implements Serializable
+@Entity
+public class Account implements Serializable
 {
     /**
      * 
      */
-    private static final long serialVersionUID = 5249249392642353020L;
+    private static final long serialVersionUID = 4145295082558370786L;
 
     @Id
     @GeneratedValue( strategy = GenerationType.AUTO )
@@ -33,9 +34,30 @@ public class MemberEventRel implements Serializable
     @JoinColumn( name = "member_id" )
     private Member            member;
 
-    @ManyToMany( fetch = FetchType.EAGER )
-    @JoinColumn( name = "event_id" )
-    private Event             event;
+    private Double            balance;
+
+    private Double            annualClubDues;
+
+    /**
+     * no args
+     */
+    public Account ()
+    {
+    }
+
+    /**
+     * @param id
+     * @param member
+     * @param balance
+     * @param annualClubDues
+     */
+    public Account ( Long id, Member member, Double balance, Double annualClubDues )
+    {
+        this.id = id;
+        this.member = member;
+        this.balance = balance;
+        this.annualClubDues = annualClubDues;
+    }
 
     /**
      * @return the id
@@ -70,19 +92,35 @@ public class MemberEventRel implements Serializable
     }
 
     /**
-     * @return the event
+     * @return the balance
      */
-    public Event getEvent()
+    public Double getBalance()
     {
-        return event;
+        return balance;
     }
 
     /**
-     * @param event the event to set
+     * @param balance the balance to set
      */
-    public void setEvent( Event event )
+    public void setBalance( Double balance )
     {
-        this.event = event;
+        this.balance = balance;
+    }
+
+    /**
+     * @return the annualClubDues
+     */
+    public Double getAnnualClubDues()
+    {
+        return annualClubDues;
+    }
+
+    /**
+     * @param annualClubDues the annualClubDues to set
+     */
+    public void setAnnualClubDues( Double annualClubDues )
+    {
+        this.annualClubDues = annualClubDues;
     }
 
     /*
@@ -95,7 +133,8 @@ public class MemberEventRel implements Serializable
     {
         final int prime = 19890919;
         int result = 1;
-        result = prime * result + ((event == null) ? 0 : event.hashCode());
+        result = prime * result + ((annualClubDues == null) ? 0 : annualClubDues.hashCode());
+        result = prime * result + ((balance == null) ? 0 : balance.hashCode());
         result = prime * result + ((id == null) ? 0 : id.hashCode());
         result = prime * result + ((member == null) ? 0 : member.hashCode());
         return result;
@@ -115,13 +154,20 @@ public class MemberEventRel implements Serializable
             return false;
         if ( getClass() != obj.getClass() )
             return false;
-        MemberEventRel other = (MemberEventRel) obj;
-        if ( event == null )
+        Account other = (Account) obj;
+        if ( annualClubDues == null )
         {
-            if ( other.event != null )
+            if ( other.annualClubDues != null )
                 return false;
         }
-        else if ( !event.equals( other.event ) )
+        else if ( !annualClubDues.equals( other.annualClubDues ) )
+            return false;
+        if ( balance == null )
+        {
+            if ( other.balance != null )
+                return false;
+        }
+        else if ( !balance.equals( other.balance ) )
             return false;
         if ( id == null )
         {
@@ -148,6 +194,7 @@ public class MemberEventRel implements Serializable
     @Override
     public String toString()
     {
-        return "EventMemberRel [id=" + id + ", member=" + member + ", event=" + event + "]";
+        return "Account [id=" + id + ", member=" + member + ", balance=" + balance + ", annualClubDues="
+                        + annualClubDues + "]";
     }
 }

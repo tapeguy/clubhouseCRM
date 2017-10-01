@@ -1,4 +1,4 @@
-package edu.fhsu.csci466.clubhouse.crm.model.services;
+package edu.fhsu.csci466.clubhouse.crm.service.model.services;
 
 import java.io.Serializable;
 

@@ -1,4 +1,4 @@
-package edu.fhsu.csci466.clubhouse.crm.model;
+package edu.fhsu.csci466.clubhouse.crm.service.model;
 
 import java.io.Serializable;
 import java.util.HashSet;
@@ -12,16 +12,16 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
-import edu.fhsu.csci466.clubhouse.crm.model.groups.MemberFamilyRel;
-import edu.fhsu.csci466.clubhouse.crm.model.groups.MemberTeamRel;
-import edu.fhsu.csci466.clubhouse.crm.model.services.Account;
-import edu.fhsu.csci466.clubhouse.crm.model.services.Credential;
-import edu.fhsu.csci466.clubhouse.crm.model.services.MemberEventRel;
-import edu.fhsu.csci466.clubhouse.crm.model.services.PaymentPlan;
+import edu.fhsu.csci466.clubhouse.crm.service.model.groups.MemberFamilyRel;
+import edu.fhsu.csci466.clubhouse.crm.service.model.groups.MemberTeamRel;
+import edu.fhsu.csci466.clubhouse.crm.service.model.services.Account;
+import edu.fhsu.csci466.clubhouse.crm.service.model.services.Credential;
+import edu.fhsu.csci466.clubhouse.crm.service.model.services.MemberEventRel;
+import edu.fhsu.csci466.clubhouse.crm.service.model.services.PaymentPlan;
 
 /**
  * @author ss047890
@@ -56,16 +56,13 @@ public class Member implements Serializable
     @JoinColumn( name = "payment_plan_id" )
     private PaymentPlan          paymentPlan;
 
-    @ManyToMany( fetch = FetchType.LAZY, mappedBy = "member", cascade = CascadeType.REMOVE )
-    @JoinColumn( name = "member_family_id" )
+    @OneToMany( fetch = FetchType.LAZY, mappedBy = "member", cascade = CascadeType.REMOVE )
     private Set<MemberFamilyRel> memberFamilyRels = new HashSet<>();
 
-    @ManyToMany( fetch = FetchType.LAZY, mappedBy = "member", cascade = CascadeType.REMOVE )
-    @JoinColumn( name = "team_id" )
+    @OneToMany( fetch = FetchType.LAZY, mappedBy = "member", cascade = CascadeType.REMOVE )
     private Set<MemberTeamRel>   memberTeamRels   = new HashSet<>();
 
-    @ManyToMany( fetch = FetchType.LAZY, mappedBy = "member", cascade = CascadeType.REMOVE )
-    @JoinColumn( name = "event_id" )
+    @OneToMany( fetch = FetchType.LAZY, mappedBy = "member", cascade = CascadeType.REMOVE )
     private Set<MemberEventRel>  memberEventRels  = new HashSet<>();
 
     /**

@@ -1,52 +1,42 @@
-package edu.fhsu.csci466.clubhouse.crm.model.services;
+package edu.fhsu.csci466.clubhouse.crm.service.model.groups;
 
 import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+
+import edu.fhsu.csci466.clubhouse.crm.service.model.Member;
 
 /**
  * @author ss047890
  *
  */
 @Entity
-public class Credential implements Serializable
+public class MemberTeamRel implements Serializable
 {
     /**
      * 
      */
-    private static final long serialVersionUID = -3138934565369842486L;
+    private static final long serialVersionUID = -4038994166007057066L;
 
     @Id
     @GeneratedValue( strategy = GenerationType.AUTO )
     @Column( name = "id", unique = true )
     private Long              id;
 
-    private String            userName;
+    @OneToOne( fetch = FetchType.EAGER )
+    @JoinColumn( name = "member_id" )
+    private Member            member;
 
-    private String            password;
-
-    /**
-     * no args
-     */
-    public Credential ()
-    {
-    }
-
-    /**
-     * @param id
-     * @param userName
-     * @param password
-     */
-    public Credential ( Long id, String userName, String password )
-    {
-        this.id = id;
-        this.userName = userName;
-        this.password = password;
-    }
+    @OneToOne( fetch = FetchType.EAGER )
+    @JoinColumn( name = "team_id" )
+    private Team              team;
 
     /**
      * @return the id
@@ -65,35 +55,35 @@ public class Credential implements Serializable
     }
 
     /**
-     * @return the userName
+     * @return the member
      */
-    public String getUserName()
+    public Member getMember()
     {
-        return userName;
+        return member;
     }
 
     /**
-     * @param userName the userName to set
+     * @param member the member to set
      */
-    public void setUserName( String userName )
+    public void setMember( Member member )
     {
-        this.userName = userName;
+        this.member = member;
     }
 
     /**
-     * @return the password
+     * @return the team
      */
-    public String getPassword()
+    public Team getTeam()
     {
-        return password;
+        return team;
     }
 
     /**
-     * @param password the password to set
+     * @param team the team to set
      */
-    public void setPassword( String password )
+    public void setTeam( Team team )
     {
-        this.password = password;
+        this.team = team;
     }
 
     /*
@@ -107,8 +97,8 @@ public class Credential implements Serializable
         final int prime = 19890919;
         int result = 1;
         result = prime * result + ((id == null) ? 0 : id.hashCode());
-        result = prime * result + ((password == null) ? 0 : password.hashCode());
-        result = prime * result + ((userName == null) ? 0 : userName.hashCode());
+        result = prime * result + ((member == null) ? 0 : member.hashCode());
+        result = prime * result + ((team == null) ? 0 : team.hashCode());
         return result;
     }
 
@@ -126,7 +116,7 @@ public class Credential implements Serializable
             return false;
         if ( getClass() != obj.getClass() )
             return false;
-        Credential other = (Credential) obj;
+        MemberTeamRel other = (MemberTeamRel) obj;
         if ( id == null )
         {
             if ( other.id != null )
@@ -134,19 +124,19 @@ public class Credential implements Serializable
         }
         else if ( !id.equals( other.id ) )
             return false;
-        if ( password == null )
+        if ( member == null )
         {
-            if ( other.password != null )
+            if ( other.member != null )
                 return false;
         }
-        else if ( !password.equals( other.password ) )
+        else if ( !member.equals( other.member ) )
             return false;
-        if ( userName == null )
+        if ( team == null )
         {
-            if ( other.userName != null )
+            if ( other.team != null )
                 return false;
         }
-        else if ( !userName.equals( other.userName ) )
+        else if ( !team.equals( other.team ) )
             return false;
         return true;
     }
@@ -159,6 +149,6 @@ public class Credential implements Serializable
     @Override
     public String toString()
     {
-        return "Credential [id=" + id + ", userName=" + userName + ", password=" + password + "]";
+        return "MemberTeamRel [id=" + id + ", member=" + member + ", team=" + team + "]";
     }
 }

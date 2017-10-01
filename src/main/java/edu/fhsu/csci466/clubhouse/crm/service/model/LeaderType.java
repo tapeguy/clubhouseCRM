@@ -1,4 +1,4 @@
-package edu.fhsu.csci466.clubhouse.crm.model.groups;
+package edu.fhsu.csci466.clubhouse.crm.service.model;
 
 import java.io.Serializable;
 
@@ -11,22 +11,38 @@ import javax.persistence.Id;
 /**
  * @author ss047890
  *
- *         Entity class representing a CRM member.
  */
 @Entity
-public class Family implements Serializable
+public class LeaderType implements Serializable
 {
     /**
      * 
      */
-    private static final long serialVersionUID = 9211437925695051298L;
+    private static final long serialVersionUID = 1078978072074481968L;
 
     @Id
     @GeneratedValue( strategy = GenerationType.AUTO )
     @Column( name = "id", unique = true )
     private Long              id;
 
-    private String            familyName;
+    private String            display;
+
+    /**
+     * 
+     */
+    public LeaderType ()
+    {
+    }
+
+    /**
+     * @param id
+     * @param display
+     */
+    public LeaderType ( Long id, String display )
+    {
+        this.id = id;
+        this.display = display;
+    }
 
     /**
      * @return the id
@@ -45,19 +61,19 @@ public class Family implements Serializable
     }
 
     /**
-     * @return the familyName
+     * @return the display
      */
-    public String getFamilyName()
+    public String getDisplay()
     {
-        return familyName;
+        return display;
     }
 
     /**
-     * @param familyName the familyName to set
+     * @param display the display to set
      */
-    public void setFamilyName( String familyName )
+    public void setDisplay( String display )
     {
-        this.familyName = familyName;
+        this.display = display;
     }
 
     /*
@@ -68,9 +84,9 @@ public class Family implements Serializable
     @Override
     public int hashCode()
     {
-        final int prime = 19890919;
+        final int prime = 31;
         int result = 1;
-        result = prime * result + ((familyName == null) ? 0 : familyName.hashCode());
+        result = prime * result + ((display == null) ? 0 : display.hashCode());
         result = prime * result + ((id == null) ? 0 : id.hashCode());
         return result;
     }
@@ -89,13 +105,13 @@ public class Family implements Serializable
             return false;
         if ( getClass() != obj.getClass() )
             return false;
-        Family other = (Family) obj;
-        if ( familyName == null )
+        LeaderType other = (LeaderType) obj;
+        if ( display == null )
         {
-            if ( other.familyName != null )
+            if ( other.display != null )
                 return false;
         }
-        else if ( !familyName.equals( other.familyName ) )
+        else if ( !display.equals( other.display ) )
             return false;
         if ( id == null )
         {
@@ -115,6 +131,6 @@ public class Family implements Serializable
     @Override
     public String toString()
     {
-        return "Family [id=" + id + ", familyName=" + familyName + "]";
+        return "LeaderType [id=" + id + ", display=" + display + "]";
     }
 }

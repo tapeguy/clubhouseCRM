@@ -1,4 +1,4 @@
-package edu.fhsu.csci466.clubhouse.crm.model.display;
+package edu.fhsu.csci466.clubhouse.crm.service.model.display;
 
 /**
  * @author ss047890

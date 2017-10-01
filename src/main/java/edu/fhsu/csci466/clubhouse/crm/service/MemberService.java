@@ -2,7 +2,7 @@ package edu.fhsu.csci466.clubhouse.crm.service;
 
 import java.util.List;
 
-import edu.fhsu.csci466.clubhouse.crm.model.Member;
+import edu.fhsu.csci466.clubhouse.crm.service.model.Member;
 
 /**
  * @author ss047890

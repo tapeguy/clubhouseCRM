@@ -1,18 +1,22 @@
-package edu.fhsu.csci466.clubhouse.crm.model;
+package edu.fhsu.csci466.clubhouse.crm.service.model;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
-import edu.fhsu.csci466.clubhouse.crm.model.services.Credential;
+import edu.fhsu.csci466.clubhouse.crm.service.model.services.Credential;
 
 /**
  * @author ss047890
  *
- *         Entity class representing a CRM member.
+ * 
  */
 @Entity
 public class Leader implements Serializable
@@ -22,7 +26,14 @@ public class Leader implements Serializable
      */
     private static final long serialVersionUID = -1853417858470664394L;
 
-    private String            leaderType;
+    @Id
+    @GeneratedValue( strategy = GenerationType.AUTO )
+    @Column( name = "id", unique = true )
+    private Long              id;
+
+    @OneToOne( fetch = FetchType.EAGER )
+    @JoinColumn( name = "leader_type_id" )
+    private LeaderType        leaderType;
 
     @OneToOne( fetch = FetchType.EAGER )
     @JoinColumn( name = "credential_id" )
@@ -31,9 +42,25 @@ public class Leader implements Serializable
     private String            email;
 
     /**
+     * @return the id
+     */
+    public Long getId()
+    {
+        return id;
+    }
+
+    /**
+     * @param id the id to set
+     */
+    public void setId( Long id )
+    {
+        this.id = id;
+    }
+
+    /**
      * @return the leaderType
      */
-    public String getLeaderType()
+    public LeaderType getLeaderType()
     {
         return leaderType;
     }
@@ -41,7 +68,7 @@ public class Leader implements Serializable
     /**
      * @param leaderType the leaderType to set
      */
-    public void setLeaderType( String leaderType )
+    public void setLeaderType( LeaderType leaderType )
     {
         this.leaderType = leaderType;
     }
@@ -90,6 +117,7 @@ public class Leader implements Serializable
         int result = 1;
         result = prime * result + ((credential == null) ? 0 : credential.hashCode());
         result = prime * result + ((email == null) ? 0 : email.hashCode());
+        result = prime * result + ((id == null) ? 0 : id.hashCode());
         result = prime * result + ((leaderType == null) ? 0 : leaderType.hashCode());
         return result;
     }
@@ -123,6 +151,13 @@ public class Leader implements Serializable
         }
         else if ( !email.equals( other.email ) )
             return false;
+        if ( id == null )
+        {
+            if ( other.id != null )
+                return false;
+        }
+        else if ( !id.equals( other.id ) )
+            return false;
         if ( leaderType == null )
         {
             if ( other.leaderType != null )
@@ -141,6 +176,7 @@ public class Leader implements Serializable
     @Override
     public String toString()
     {
-        return "Leader [leaderType=" + leaderType + ", credential=" + credential + ", email=" + email + "]";
+        return "Leader [id=" + id + ", leaderType=" + leaderType + ", credential=" + credential + ", email=" + email
+                        + "]";
     }
 }

@@ -1,9 +1,10 @@
-package edu.fhsu.csci466.clubhouse.crm.model.services;
+package edu.fhsu.csci466.clubhouse.crm.service.model.services;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -11,12 +12,13 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-import edu.fhsu.csci466.clubhouse.crm.model.Leader;
+import edu.fhsu.csci466.clubhouse.crm.service.model.Leader;
 
 /**
  * @author ss047890
  *
  */
+@Entity
 public class Event implements Serializable
 {
     /**
@@ -29,12 +31,12 @@ public class Event implements Serializable
     @Column( name = "id", unique = true )
     private Long              id;
 
-    private LocalDateTime     eventDate;
+    private Timestamp         eventDateTime;
 
-    private String            eventDisplay;
+    private String            display;
 
     @ManyToOne( fetch = FetchType.EAGER )
-    @JoinColumn( name = "account_id" )
+    @JoinColumn( name = "leader_id" )
     private Leader            leader;
 
     private String            eventLocation;
@@ -60,35 +62,35 @@ public class Event implements Serializable
     }
 
     /**
-     * @return the eventDate
+     * @return the eventDateTime
      */
-    public LocalDateTime getEventDate()
+    public Timestamp getEventDateTime()
     {
-        return eventDate;
+        return eventDateTime;
     }
 
     /**
-     * @param eventDate the eventDate to set
+     * @param eventDateTime the eventDate to set
      */
-    public void setEventDate( LocalDateTime eventDate )
+    public void setEventDateTIme( Timestamp eventDateTime )
     {
-        this.eventDate = eventDate;
+        this.eventDateTime = eventDateTime;
     }
 
     /**
-     * @return the eventDisplay
+     * @return the display
      */
-    public String getEventDisplay()
+    public String getDisplay()
     {
-        return eventDisplay;
+        return display;
     }
 
     /**
-     * @param eventDisplay the eventDisplay to set
+     * @param display the eventDisplay to set
      */
-    public void setEventDisplay( String eventDisplay )
+    public void setDisplay( String display )
     {
-        this.eventDisplay = eventDisplay;
+        this.display = display;
     }
 
     /**
@@ -187,8 +189,8 @@ public class Event implements Serializable
     {
         final int prime = 19890919;
         int result = 1;
-        result = prime * result + ((eventDate == null) ? 0 : eventDate.hashCode());
-        result = prime * result + ((eventDisplay == null) ? 0 : eventDisplay.hashCode());
+        result = prime * result + ((eventDateTime == null) ? 0 : eventDateTime.hashCode());
+        result = prime * result + ((display == null) ? 0 : display.hashCode());
         result = prime * result + ((eventLocation == null) ? 0 : eventLocation.hashCode());
         result = prime * result + ((leader == null) ? 0 : leader.hashCode());
         result = prime * result + ((id == null) ? 0 : id.hashCode());
@@ -213,19 +215,19 @@ public class Event implements Serializable
         if ( getClass() != obj.getClass() )
             return false;
         Event other = (Event) obj;
-        if ( eventDate == null )
+        if ( eventDateTime == null )
         {
-            if ( other.eventDate != null )
+            if ( other.eventDateTime != null )
                 return false;
         }
-        else if ( !eventDate.equals( other.eventDate ) )
+        else if ( !eventDateTime.equals( other.eventDateTime ) )
             return false;
-        if ( eventDisplay == null )
+        if ( display == null )
         {
-            if ( other.eventDisplay != null )
+            if ( other.display != null )
                 return false;
         }
-        else if ( !eventDisplay.equals( other.eventDisplay ) )
+        else if ( !display.equals( other.display ) )
             return false;
         if ( eventLocation == null )
         {
@@ -275,7 +277,7 @@ public class Event implements Serializable
     @Override
     public String toString()
     {
-        return "Event [id=" + id + ", eventDate=" + eventDate + ", eventDisplay=" + eventDisplay + ", eventLocation="
+        return "Event [id=" + id + ", eventDate=" + eventDateTime + ", eventDisplay=" + display + ", eventLocation="
                         + eventLocation + ", leader=" + leader + ", maxEventSeats=" + maxEventSeats + ", reservedSeats="
                         + reservedSeats + ", isFull=" + isFull() + "]";
     }

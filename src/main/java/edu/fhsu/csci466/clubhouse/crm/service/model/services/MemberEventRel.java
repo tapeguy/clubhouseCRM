@@ -1,4 +1,4 @@
-package edu.fhsu.csci466.clubhouse.crm.model.services;
+package edu.fhsu.csci466.clubhouse.crm.service.model.services;
 
 import java.io.Serializable;
 
@@ -11,19 +11,19 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
-import edu.fhsu.csci466.clubhouse.crm.model.Member;
+import edu.fhsu.csci466.clubhouse.crm.service.model.Member;
 
 /**
  * @author ss047890
  *
  */
 @Entity
-public class Account implements Serializable
+public class MemberEventRel implements Serializable
 {
     /**
      * 
      */
-    private static final long serialVersionUID = 4145295082558370786L;
+    private static final long serialVersionUID = 5249249392642353020L;
 
     @Id
     @GeneratedValue( strategy = GenerationType.AUTO )
@@ -34,30 +34,9 @@ public class Account implements Serializable
     @JoinColumn( name = "member_id" )
     private Member            member;
 
-    private Double            balance;
-
-    private Double            annualClubDues;
-
-    /**
-     * no args
-     */
-    public Account ()
-    {
-    }
-
-    /**
-     * @param id
-     * @param member
-     * @param balance
-     * @param annualClubDues
-     */
-    public Account ( Long id, Member member, Double balance, Double annualClubDues )
-    {
-        this.id = id;
-        this.member = member;
-        this.balance = balance;
-        this.annualClubDues = annualClubDues;
-    }
+    @OneToOne( fetch = FetchType.EAGER )
+    @JoinColumn( name = "event_id" )
+    private Event             event;
 
     /**
      * @return the id
@@ -92,35 +71,19 @@ public class Account implements Serializable
     }
 
     /**
-     * @return the balance
+     * @return the event
      */
-    public Double getBalance()
+    public Event getEvent()
     {
-        return balance;
+        return event;
     }
 
     /**
-     * @param balance the balance to set
+     * @param event the event to set
      */
-    public void setBalance( Double balance )
+    public void setEvent( Event event )
     {
-        this.balance = balance;
-    }
-
-    /**
-     * @return the annualClubDues
-     */
-    public Double getAnnualClubDues()
-    {
-        return annualClubDues;
-    }
-
-    /**
-     * @param annualClubDues the annualClubDues to set
-     */
-    public void setAnnualClubDues( Double annualClubDues )
-    {
-        this.annualClubDues = annualClubDues;
+        this.event = event;
     }
 
     /*
@@ -133,8 +96,7 @@ public class Account implements Serializable
     {
         final int prime = 19890919;
         int result = 1;
-        result = prime * result + ((annualClubDues == null) ? 0 : annualClubDues.hashCode());
-        result = prime * result + ((balance == null) ? 0 : balance.hashCode());
+        result = prime * result + ((event == null) ? 0 : event.hashCode());
         result = prime * result + ((id == null) ? 0 : id.hashCode());
         result = prime * result + ((member == null) ? 0 : member.hashCode());
         return result;
@@ -154,20 +116,13 @@ public class Account implements Serializable
             return false;
         if ( getClass() != obj.getClass() )
             return false;
-        Account other = (Account) obj;
-        if ( annualClubDues == null )
+        MemberEventRel other = (MemberEventRel) obj;
+        if ( event == null )
         {
-            if ( other.annualClubDues != null )
+            if ( other.event != null )
                 return false;
         }
-        else if ( !annualClubDues.equals( other.annualClubDues ) )
-            return false;
-        if ( balance == null )
-        {
-            if ( other.balance != null )
-                return false;
-        }
-        else if ( !balance.equals( other.balance ) )
+        else if ( !event.equals( other.event ) )
             return false;
         if ( id == null )
         {
@@ -194,7 +149,6 @@ public class Account implements Serializable
     @Override
     public String toString()
     {
-        return "Account [id=" + id + ", member=" + member + ", balance=" + balance + ", annualClubDues="
-                        + annualClubDues + "]";
+        return "EventMemberRel [id=" + id + ", member=" + member + ", event=" + event + "]";
     }
 }

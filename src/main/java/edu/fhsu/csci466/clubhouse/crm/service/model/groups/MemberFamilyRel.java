@@ -1,4 +1,4 @@
-package edu.fhsu.csci466.clubhouse.crm.model.groups;
+package edu.fhsu.csci466.clubhouse.crm.service.model.groups;
 
 import java.io.Serializable;
 
@@ -9,22 +9,21 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 
-import edu.fhsu.csci466.clubhouse.crm.model.Member;
+import edu.fhsu.csci466.clubhouse.crm.service.model.Member;
 
 /**
  * @author ss047890
  *
  */
 @Entity
-public class MemberTeamRel implements Serializable
+public class MemberFamilyRel implements Serializable
 {
     /**
      * 
      */
-    private static final long serialVersionUID = -4038994166007057066L;
+    private static final long serialVersionUID = -3998713292318738500L;
 
     @Id
     @GeneratedValue( strategy = GenerationType.AUTO )
@@ -35,9 +34,9 @@ public class MemberTeamRel implements Serializable
     @JoinColumn( name = "member_id" )
     private Member            member;
 
-    @ManyToMany( fetch = FetchType.EAGER )
-    @JoinColumn( name = "team_id" )
-    private Team              team;
+    @OneToOne( fetch = FetchType.EAGER )
+    @JoinColumn( name = "family_id" )
+    private Family            family;
 
     /**
      * @return the id
@@ -72,19 +71,19 @@ public class MemberTeamRel implements Serializable
     }
 
     /**
-     * @return the team
+     * @return the family
      */
-    public Team getTeam()
+    public Family getFamily()
     {
-        return team;
+        return family;
     }
 
     /**
-     * @param team the team to set
+     * @param family the family to set
      */
-    public void setTeam( Team team )
+    public void setFamily( Family family )
     {
-        this.team = team;
+        this.family = family;
     }
 
     /*
@@ -97,9 +96,9 @@ public class MemberTeamRel implements Serializable
     {
         final int prime = 19890919;
         int result = 1;
+        result = prime * result + ((family == null) ? 0 : family.hashCode());
         result = prime * result + ((id == null) ? 0 : id.hashCode());
         result = prime * result + ((member == null) ? 0 : member.hashCode());
-        result = prime * result + ((team == null) ? 0 : team.hashCode());
         return result;
     }
 
@@ -117,7 +116,14 @@ public class MemberTeamRel implements Serializable
             return false;
         if ( getClass() != obj.getClass() )
             return false;
-        MemberTeamRel other = (MemberTeamRel) obj;
+        MemberFamilyRel other = (MemberFamilyRel) obj;
+        if ( family == null )
+        {
+            if ( other.family != null )
+                return false;
+        }
+        else if ( !family.equals( other.family ) )
+            return false;
         if ( id == null )
         {
             if ( other.id != null )
@@ -132,13 +138,6 @@ public class MemberTeamRel implements Serializable
         }
         else if ( !member.equals( other.member ) )
             return false;
-        if ( team == null )
-        {
-            if ( other.team != null )
-                return false;
-        }
-        else if ( !team.equals( other.team ) )
-            return false;
         return true;
     }
 
@@ -150,6 +149,6 @@ public class MemberTeamRel implements Serializable
     @Override
     public String toString()
     {
-        return "MemberTeamRel [id=" + id + ", member=" + member + ", team=" + team + "]";
+        return "MemberFamilyRel [id=" + id + ", member=" + member + ", family=" + family + "]";
     }
 }

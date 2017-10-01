@@ -1,17 +1,12 @@
-package edu.fhsu.csci466.clubhouse.crm.model.groups;
+package edu.fhsu.csci466.clubhouse.crm.service.model.groups;
 
 import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
-
-import edu.fhsu.csci466.clubhouse.crm.model.Leader;
 
 /**
  * @author ss047890
@@ -19,23 +14,19 @@ import edu.fhsu.csci466.clubhouse.crm.model.Leader;
  *         Entity class representing a CRM member.
  */
 @Entity
-public class Team implements Serializable
+public class Family implements Serializable
 {
     /**
      * 
      */
-    private static final long serialVersionUID = 6649415180672374125L;
+    private static final long serialVersionUID = 9211437925695051298L;
 
     @Id
     @GeneratedValue( strategy = GenerationType.AUTO )
     @Column( name = "id", unique = true )
     private Long              id;
 
-    private String            teamName;
-
-    @OneToOne( fetch = FetchType.EAGER )
-    @JoinColumn( name = "leader_id" )
-    private Leader            leader;
+    private String            familyName;
 
     /**
      * @return the id
@@ -54,35 +45,19 @@ public class Team implements Serializable
     }
 
     /**
-     * @return the teamName
+     * @return the familyName
      */
-    public String getTeamName()
+    public String getFamilyName()
     {
-        return teamName;
+        return familyName;
     }
 
     /**
-     * @param teamName the teamName to set
+     * @param familyName the familyName to set
      */
-    public void setTeamName( String teamName )
+    public void setFamilyName( String familyName )
     {
-        this.teamName = teamName;
-    }
-
-    /**
-     * @return the leader
-     */
-    public Leader getLeader()
-    {
-        return leader;
-    }
-
-    /**
-     * @param leader the leader to set
-     */
-    public void setLeader( Leader leader )
-    {
-        this.leader = leader;
+        this.familyName = familyName;
     }
 
     /*
@@ -95,9 +70,8 @@ public class Team implements Serializable
     {
         final int prime = 19890919;
         int result = 1;
+        result = prime * result + ((familyName == null) ? 0 : familyName.hashCode());
         result = prime * result + ((id == null) ? 0 : id.hashCode());
-        result = prime * result + ((leader == null) ? 0 : leader.hashCode());
-        result = prime * result + ((teamName == null) ? 0 : teamName.hashCode());
         return result;
     }
 
@@ -115,27 +89,20 @@ public class Team implements Serializable
             return false;
         if ( getClass() != obj.getClass() )
             return false;
-        Team other = (Team) obj;
+        Family other = (Family) obj;
+        if ( familyName == null )
+        {
+            if ( other.familyName != null )
+                return false;
+        }
+        else if ( !familyName.equals( other.familyName ) )
+            return false;
         if ( id == null )
         {
             if ( other.id != null )
                 return false;
         }
         else if ( !id.equals( other.id ) )
-            return false;
-        if ( leader == null )
-        {
-            if ( other.leader != null )
-                return false;
-        }
-        else if ( !leader.equals( other.leader ) )
-            return false;
-        if ( teamName == null )
-        {
-            if ( other.teamName != null )
-                return false;
-        }
-        else if ( !teamName.equals( other.teamName ) )
             return false;
         return true;
     }
@@ -148,6 +115,6 @@ public class Team implements Serializable
     @Override
     public String toString()
     {
-        return "Team [id=" + id + ", teamName=" + teamName + ", leader=" + leader + "]";
+        return "Family [id=" + id + ", familyName=" + familyName + "]";
     }
 }
