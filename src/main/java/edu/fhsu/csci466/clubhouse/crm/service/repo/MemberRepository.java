@@ -1,4 +1,4 @@
-package edu.fhsu.csci466.clubhouse.crm.service;
+package edu.fhsu.csci466.clubhouse.crm.service.repo;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
