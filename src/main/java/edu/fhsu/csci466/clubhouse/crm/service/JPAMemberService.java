@@ -7,6 +7,9 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.stereotype.Service;
 
+import edu.fhsu.csci466.clubhouse.crm.service.model.Member;
+import edu.fhsu.csci466.clubhouse.crm.service.repo.MemberRepository;
+
 /**
  * @author ss047890
  *
@@ -38,23 +41,4 @@ public class JPAMemberService implements MemberService
     {
         return memberRepo.findOne( id );
     }
-
-    @Override
-    public void delete( final Long id )
-    {
-        memberRepo.delete( id );
-    }
-
-    @Override
-    public Member getMembersByName( final String name )
-    {
-        return memberRepo.findByName( name );
-    }
-
-    @Override
-    public Member getMembersByAccountNumber( final Long accountNumber )
-    {
-        return memberRepo.findByAccountNumber( accountNumber );
-    }
-
 }

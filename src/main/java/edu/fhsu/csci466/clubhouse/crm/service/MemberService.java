@@ -2,6 +2,8 @@ package edu.fhsu.csci466.clubhouse.crm.service;
 
 import java.util.List;
 
+import edu.fhsu.csci466.clubhouse.crm.service.model.Member;
+
 /**
  * @author ss047890
  *
@@ -22,22 +24,5 @@ public interface MemberService
      * @param id
      * @return member
      */
-    public Member getMember( Long id );
-
-    /**
-     * @param id
-     */
-    public void delete( Long id );
-
-    /**
-     * @param name
-     * @return member
-     */
-    public Member getMembersByName( final String name );
-
-    /**
-     * @param accountNumber
-     * @return member
-     */
-    public Member getMembersByAccountNumber( final Long accountNumber );
+    public Member getMember( final Long id );
 }
