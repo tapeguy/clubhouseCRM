@@ -34,6 +34,7 @@ create table event (
 
 create table member (
 	id int not null auto_increment primary key,
+	name varchar(256),
 	email varchar(256),
 	credential_id int,
 	account_id int,
@@ -47,6 +48,7 @@ create table leader_type (
 
 create table leader (
 	id int not null auto_increment primary key,
+	name varchar(256),
 	leader_type_id int,
 	credential_id int,
 	email varchar(256)

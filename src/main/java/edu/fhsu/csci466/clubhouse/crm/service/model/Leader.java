@@ -31,6 +31,10 @@ public class Leader implements Serializable
     @Column( name = "id", unique = true )
     private Long              id;
 
+    private String            name;
+
+    private String            email;
+
     @OneToOne( fetch = FetchType.EAGER )
     @JoinColumn( name = "leader_type_id" )
     private LeaderType        leaderType;
@@ -38,8 +42,6 @@ public class Leader implements Serializable
     @OneToOne( fetch = FetchType.EAGER )
     @JoinColumn( name = "credential_id" )
     private Credential        credential;
-
-    private String            email;
 
     /**
      * @return the id
@@ -55,6 +57,22 @@ public class Leader implements Serializable
     public void setId( Long id )
     {
         this.id = id;
+    }
+
+    /**
+     * @return the name
+     */
+    public String getName()
+    {
+        return name;
+    }
+
+    /**
+     * @param name the name to set
+     */
+    public void setName( String name )
+    {
+        this.name = name;
     }
 
     /**
@@ -119,6 +137,7 @@ public class Leader implements Serializable
         result = prime * result + ((email == null) ? 0 : email.hashCode());
         result = prime * result + ((id == null) ? 0 : id.hashCode());
         result = prime * result + ((leaderType == null) ? 0 : leaderType.hashCode());
+        result = prime * result + ((name == null) ? 0 : name.hashCode());
         return result;
     }
 
@@ -165,6 +184,13 @@ public class Leader implements Serializable
         }
         else if ( !leaderType.equals( other.leaderType ) )
             return false;
+        if ( name == null )
+        {
+            if ( other.name != null )
+                return false;
+        }
+        else if ( !name.equals( other.name ) )
+            return false;
         return true;
     }
 
@@ -176,7 +202,7 @@ public class Leader implements Serializable
     @Override
     public String toString()
     {
-        return "Leader [id=" + id + ", leaderType=" + leaderType + ", credential=" + credential + ", email=" + email
-                        + "]";
+        return "Leader [id=" + id + ", name=" + name + ", email=" + email + ", leaderType=" + leaderType
+                        + ", credential=" + credential + "]";
     }
 }

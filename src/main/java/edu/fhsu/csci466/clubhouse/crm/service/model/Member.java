@@ -42,6 +42,8 @@ public class Member implements Serializable
     @Column( name = "id", unique = true )
     private Long                 id;
 
+    private String               name;
+
     private String               email;
 
     @OneToOne( fetch = FetchType.EAGER )
@@ -79,6 +81,22 @@ public class Member implements Serializable
     public void setId( Long id )
     {
         this.id = id;
+    }
+
+    /**
+     * @return the name
+     */
+    public String getName()
+    {
+        return name;
+    }
+
+    /**
+     * @param name the name to set
+     */
+    public void setName( String name )
+    {
+        this.name = name;
     }
 
     /**
@@ -210,6 +228,7 @@ public class Member implements Serializable
         result = prime * result + ((memberEventRels == null) ? 0 : memberEventRels.hashCode());
         result = prime * result + ((memberFamilyRels == null) ? 0 : memberFamilyRels.hashCode());
         result = prime * result + ((memberTeamRels == null) ? 0 : memberTeamRels.hashCode());
+        result = prime * result + ((name == null) ? 0 : name.hashCode());
         result = prime * result + ((paymentPlan == null) ? 0 : paymentPlan.hashCode());
         return result;
     }
@@ -278,6 +297,13 @@ public class Member implements Serializable
         }
         else if ( !memberTeamRels.equals( other.memberTeamRels ) )
             return false;
+        if ( name == null )
+        {
+            if ( other.name != null )
+                return false;
+        }
+        else if ( !name.equals( other.name ) )
+            return false;
         if ( paymentPlan == null )
         {
             if ( other.paymentPlan != null )
@@ -296,8 +322,8 @@ public class Member implements Serializable
     @Override
     public String toString()
     {
-        return "Member [id=" + id + ", email=" + email + ", credential=" + credential + ", account=" + account
-                        + ", paymentPlan=" + paymentPlan + ", memberFamilyRels=" + memberFamilyRels
+        return "Member [id=" + id + ", name=" + name + ", email=" + email + ", credential=" + credential + ", account="
+                        + account + ", paymentPlan=" + paymentPlan + ", memberFamilyRels=" + memberFamilyRels
                         + ", memberTeamRels=" + memberTeamRels + ", memberEventRels=" + memberEventRels + "]";
     }
 }
