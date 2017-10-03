@@ -43,7 +43,8 @@ create table member (
 );
 
 create table leader (
-	id int not null primary key
+	id int not null primary key,
+	admin boolean
 );
 alter table leader add constraint leader_member_fk foreign key ( id ) REFERENCES member ( id ) ;
 

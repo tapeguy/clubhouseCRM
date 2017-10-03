@@ -21,16 +21,22 @@ public class CrmAuthenticationProvider implements AuthenticationProvider
     @Override
     public Authentication authenticate( Authentication authentication ) throws AuthenticationException
     {
-        String name = authentication.getName();
-        String password = authentication.getCredentials().toString();
+        try {
+            String name = authentication.getName();
+            String password = authentication.getCredentials().toString();
 
-        Member member = memberService.getMemberByUserName( name );
-        if ( member != null &&
-             member.getCredential() != null &&
-             member.getCredential().getPassword() != null &&
-             member.getCredential().getPassword().equals( password ) )
+            Member member = memberService.getMemberByUserName( name );
+            if ( member != null &&
+                 member.getCredential() != null &&
+                 member.getCredential().getPassword() != null &&
+                 member.getCredential().getPassword().equals( password ) )
+            {
+                return new MemberToken( name, password, member );
+            }
+        }
+        catch ( Exception e )
         {
-            return new MemberToken( name, password, member );
+            // Ignore and throw below
         }
 
         throw new BadCredentialsException ( "User not found or password incorrect." );

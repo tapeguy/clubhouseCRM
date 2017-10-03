@@ -7,7 +7,8 @@ insert into credential (user_name, password) values
 ('user2', 'user2'),
 ('user3', 'user3'),
 ('user4', 'user4'),
-('user5', 'user5');
+('user5', 'user5'),
+('user6', 'user6');
 
 insert into member (name, member_type, email, credential_id, account_id, payment_plan_id) values
 ('Mr. Burns', 'PRESIDENT', 'burns@gmail.com', (select id from credential where user_name = 'president'), null, (select id from payment_plan where display = 'Free')),
@@ -16,9 +17,11 @@ insert into member (name, member_type, email, credential_id, account_id, payment
 ('Bart Simpson', 'MEMBER', 'eat_my_shorts@gmail.com', (select id from credential where user_name = 'user2'), null, (select id from payment_plan where display = 'Basic')),
 ('Lisa Simpson', 'MEMBER', 'coltrain@gmail.com', (select id from credential where user_name = 'user3'), null, (select id from payment_plan where display = 'Basic')),
 ('Marge Simpson', 'MEMBER', 'marge@gmail.com', (select id from credential where user_name = 'user4'), null, (select id from payment_plan where display = 'Basic')),
-('Homer Simpson', 'MEMBER', 'duff@gmail.com', (select id from credential where user_name = 'user5'), null, (select id from payment_plan where display = 'Basic'));
+('Homer Simpson', 'MEMBER', 'duff@gmail.com', (select id from credential where user_name = 'user5'), null, (select id from payment_plan where display = 'Basic')),
+('Han Solo', 'LEADER', 'wookie_lover@gmail.com', (select id from credential where user_name = 'user6'), null, (select id from payment_plan where display = 'Leader Discount'));
 
-insert into leader (id) values ( (select id from member where name = 'Mr. Burns') );
-insert into leader (id) values ( (select id from member where name = 'Mr. Smithers') );
+insert into leader (id, admin) values ( (select id from member where name = 'Mr. Burns'), TRUE );
+insert into leader (id, admin) values ( (select id from member where name = 'Mr. Smithers'), FALSE );
+insert into leader (id, admin) values ( (select id from member where name = 'Han Solo'), TRUE );
 
 insert into president (id) values ( (select id from member where name = 'Mr. Burns') );
