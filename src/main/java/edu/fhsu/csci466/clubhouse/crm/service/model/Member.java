@@ -4,18 +4,7 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-
+import javax.persistence.*;
 import edu.fhsu.csci466.clubhouse.crm.service.model.groups.MemberFamilyRel;
 import edu.fhsu.csci466.clubhouse.crm.service.model.groups.MemberTeamRel;
 import edu.fhsu.csci466.clubhouse.crm.service.model.services.Account;
@@ -29,11 +18,14 @@ import edu.fhsu.csci466.clubhouse.crm.service.model.services.PaymentPlan;
  *         Entity class representing a CRM member.
  */
 @Entity
+@Inheritance(strategy = InheritanceType.JOINED)
+@DiscriminatorColumn(name = "member_type")
+@DiscriminatorValue("MEMBER")
 public class Member implements Serializable
 {
 
     /**
-     * 
+     *
      */
     private static final long    serialVersionUID = 4926978862891959688L;
 
@@ -45,6 +37,10 @@ public class Member implements Serializable
     private String               name;
 
     private String               email;
+
+    @Column( name = "member_type" )
+    @Enumerated(EnumType.STRING)
+    private MemberType           type;
 
     @OneToOne( fetch = FetchType.EAGER )
     @JoinColumn( name = "credential_id" )
@@ -114,6 +110,33 @@ public class Member implements Serializable
     {
         this.email = email;
     }
+
+
+    /**
+     * @return the type
+     */
+    public MemberType getType()
+    {
+        return type;
+    }
+
+    /**
+     * @param type the type to set
+     */
+    public void setType( MemberType type )
+    {
+        this.type = type;
+    }
+
+    /**
+     * @return the type
+     */
+    @Transient                              // Not persisted in the database
+    public String getTypeString()
+    {
+        return this.getType().toString();
+    }
+
 
     /**
      * @return the credential
@@ -213,7 +236,7 @@ public class Member implements Serializable
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Object#hashCode()
      */
     @Override
@@ -235,7 +258,7 @@ public class Member implements Serializable
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Object#equals(java.lang.Object)
      */
     @Override
@@ -316,7 +339,7 @@ public class Member implements Serializable
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Object#toString()
      */
     @Override

@@ -32,9 +32,9 @@ public class CrmRestController
      * @return list of all member
      */
     @GetMapping( value = "/member", produces = MediaType.APPLICATION_JSON_VALUE )
-    public List<Member> getMembers()
+    public List<? extends Member> getMembers()
     {
-        List<Member> members = service.getMembers();
+        List<? extends Member> members = service.getMembers();
         return members;
     }
 

@@ -23,10 +23,8 @@ public class JPAMemberService implements MemberService
     MemberRepository memberRepo;
 
     @Override
-    public void addMember( final Member member )
-    {
+    public void addMember( final Member member ) {
         memberRepo.save( member );
-
     }
 
     @Override
@@ -40,5 +38,12 @@ public class JPAMemberService implements MemberService
     public Member getMember( final Long id )
     {
         return memberRepo.findOne( id );
+    }
+
+    @Override
+    public Member getMemberByUserName( final String userName )
+    {
+        Member member = memberRepo.findByCredentialUserName ( userName );
+        return member;
     }
 }

@@ -25,4 +25,10 @@ public interface MemberService
      * @return member
      */
     public Member getMember( final Long id );
+
+    /**
+     * @param userName
+     * @return member
+     */
+    public Member getMemberByUserName( final String userName );
 }

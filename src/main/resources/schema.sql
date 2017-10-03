@@ -34,6 +34,7 @@ create table event (
 
 create table member (
 	id int not null auto_increment primary key,
+	member_type varchar(32),
 	name varchar(256),
 	email varchar(256),
 	credential_id int,
@@ -41,18 +42,17 @@ create table member (
 	payment_plan_id varchar(256)
 );
 
-create table leader_type (
-	id int not null auto_increment primary key,
-	display varchar(256),
-);
-
 create table leader (
-	id int not null auto_increment primary key,
-	name varchar(256),
-	leader_type_id int,
-	credential_id int,
-	email varchar(256)
+	id int not null primary key
 );
+alter table leader add constraint leader_member_fk foreign key ( id ) REFERENCES member ( id ) ;
+
+create table president (
+    id int not null primary key
+);
+alter table leader add constraint president_leader_fk foreign key ( id ) REFERENCES leader ( id ) ;
+
+
 
 /* create club group tables */
 

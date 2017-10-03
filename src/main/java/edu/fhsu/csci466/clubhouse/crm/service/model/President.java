@@ -9,8 +9,8 @@ import javax.persistence.Entity;
  *
  */
 @Entity
-@DiscriminatorValue("LEADER")
-public class Leader extends Member
+@DiscriminatorValue("PRESIDENT")
+public class President extends Leader
 {
     /**
      *
@@ -25,6 +25,6 @@ public class Leader extends Member
     @Override
     public String toString()
     {
-        return "Leader [" + super.toString() + "]";
+        return "President [" + super.toString() + "]";
     }
 }
