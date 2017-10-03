@@ -8,6 +8,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  * @author ss047890
  *
@@ -16,14 +18,14 @@ import javax.persistence.Id;
 public class Credential implements Serializable
 {
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = -3138934565369842486L;
 
     @Id
     @GeneratedValue( strategy = GenerationType.AUTO )
     @Column( name = "id", unique = true )
-    private Long              id;
+    private Long              credentialId;
 
     private String            userName;
 
@@ -43,7 +45,7 @@ public class Credential implements Serializable
      */
     public Credential ( Long id, String userName, String password )
     {
-        this.id = id;
+        this.credentialId = id;
         this.userName = userName;
         this.password = password;
     }
@@ -51,17 +53,17 @@ public class Credential implements Serializable
     /**
      * @return the id
      */
-    public Long getId()
+    public Long getCredentialId()
     {
-        return id;
+        return credentialId;
     }
 
     /**
      * @param id the id to set
      */
-    public void setId( Long id )
+    public void setCredentialId( Long id )
     {
-        this.id = id;
+        this.credentialId = id;
     }
 
     /**
@@ -83,6 +85,7 @@ public class Credential implements Serializable
     /**
      * @return the password
      */
+    @JsonIgnore     // For security
     public String getPassword()
     {
         return password;
@@ -98,7 +101,7 @@ public class Credential implements Serializable
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Object#hashCode()
      */
     @Override
@@ -106,7 +109,7 @@ public class Credential implements Serializable
     {
         final int prime = 19890919;
         int result = 1;
-        result = prime * result + ((id == null) ? 0 : id.hashCode());
+        result = prime * result + ((credentialId == null) ? 0 : credentialId.hashCode());
         result = prime * result + ((password == null) ? 0 : password.hashCode());
         result = prime * result + ((userName == null) ? 0 : userName.hashCode());
         return result;
@@ -114,7 +117,7 @@ public class Credential implements Serializable
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Object#equals(java.lang.Object)
      */
     @Override
@@ -127,12 +130,12 @@ public class Credential implements Serializable
         if ( getClass() != obj.getClass() )
             return false;
         Credential other = (Credential) obj;
-        if ( id == null )
+        if ( credentialId == null )
         {
-            if ( other.id != null )
+            if ( other.credentialId != null )
                 return false;
         }
-        else if ( !id.equals( other.id ) )
+        else if ( !credentialId.equals( other.credentialId ) )
             return false;
         if ( password == null )
         {
@@ -153,12 +156,12 @@ public class Credential implements Serializable
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Object#toString()
      */
     @Override
     public String toString()
     {
-        return "Credential [id=" + id + ", userName=" + userName + ", password=" + password + "]";
+        return "Credential [id=" + credentialId + ", userName=" + userName /* + ", password=" + password */ + "]";
     }
 }

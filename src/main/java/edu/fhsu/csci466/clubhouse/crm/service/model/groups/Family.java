@@ -8,40 +8,42 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import org.springframework.hateoas.ResourceSupport;
+
 /**
  * @author ss047890
  *
  *         Entity class representing a CRM member.
  */
 @Entity
-public class Family implements Serializable
+public class Family extends ResourceSupport implements Serializable
 {
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = 9211437925695051298L;
 
     @Id
     @GeneratedValue( strategy = GenerationType.AUTO )
     @Column( name = "id", unique = true )
-    private Long              id;
+    private Long              familyId;
 
     private String            familyName;
 
     /**
      * @return the id
      */
-    public Long getId()
+    public Long getFamilyId()
     {
-        return id;
+        return familyId;
     }
 
     /**
      * @param id the id to set
      */
-    public void setId( Long id )
+    public void setFamilyId( Long id )
     {
-        this.id = id;
+        this.familyId = id;
     }
 
     /**
@@ -62,7 +64,7 @@ public class Family implements Serializable
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Object#hashCode()
      */
     @Override
@@ -71,13 +73,13 @@ public class Family implements Serializable
         final int prime = 19890919;
         int result = 1;
         result = prime * result + ((familyName == null) ? 0 : familyName.hashCode());
-        result = prime * result + ((id == null) ? 0 : id.hashCode());
+        result = prime * result + ((familyId == null) ? 0 : familyId.hashCode());
         return result;
     }
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Object#equals(java.lang.Object)
      */
     @Override
@@ -97,24 +99,24 @@ public class Family implements Serializable
         }
         else if ( !familyName.equals( other.familyName ) )
             return false;
-        if ( id == null )
+        if ( familyId == null )
         {
-            if ( other.id != null )
+            if ( other.familyId != null )
                 return false;
         }
-        else if ( !id.equals( other.id ) )
+        else if ( !familyId.equals( other.familyId ) )
             return false;
         return true;
     }
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Object#toString()
      */
     @Override
     public String toString()
     {
-        return "Family [id=" + id + ", familyName=" + familyName + "]";
+        return "Family [id=" + familyId + ", familyName=" + familyName + "]";
     }
 }

@@ -23,7 +23,8 @@ public class JPAMemberService implements MemberService
     MemberRepository memberRepo;
 
     @Override
-    public void addMember( final Member member ) {
+    public void addMember( final Member member )
+    {
         memberRepo.save( member );
     }
 

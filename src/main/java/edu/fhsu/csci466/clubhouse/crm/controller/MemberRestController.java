@@ -2,7 +2,10 @@ package edu.fhsu.csci466.clubhouse.crm.controller;
 
 import java.util.List;
 
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.*;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +25,7 @@ import edu.fhsu.csci466.clubhouse.crm.service.model.Member;
  */
 @RestController
 @RequestMapping( "/crm" )
-public class CrmRestController
+public class MemberRestController
 {
     @Autowired
     MemberService service;
@@ -35,6 +38,10 @@ public class CrmRestController
     public List<? extends Member> getMembers()
     {
         List<? extends Member> members = service.getMembers();
+        for ( Member member : members )
+        {
+            member.add( linkTo(methodOn(MemberRestController.class).getMember(member.getMemberId())).withSelfRel() );
+        }
         return members;
     }
 
@@ -54,8 +61,14 @@ public class CrmRestController
      * @return member
      */
     @GetMapping( value = "/member/{id}", produces = MediaType.APPLICATION_JSON_VALUE )
-    public Member getMember( @PathVariable Long id )
+    public HttpEntity<Member> getMember( @PathVariable Long id )
     {
-        return service.getMember( id );
+        Member member = service.getMember( id );
+
+        member.add( linkTo(methodOn(MemberRestController.class).getMembers()).withRel("members") );
+        member.add( linkTo(methodOn(MemberRestController.class).addMember(null)).withRel("add") );
+        member.add( linkTo(methodOn(MemberRestController.class).getMember(id)).withSelfRel() );
+
+        return new ResponseEntity<>( member, HttpStatus.OK );
     }
 }

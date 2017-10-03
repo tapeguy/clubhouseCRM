@@ -12,6 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import org.springframework.hateoas.ResourceSupport;
+
 import edu.fhsu.csci466.clubhouse.crm.service.model.Leader;
 
 /**
@@ -19,17 +21,17 @@ import edu.fhsu.csci466.clubhouse.crm.service.model.Leader;
  *
  */
 @Entity
-public class Event implements Serializable
+public class Event extends ResourceSupport implements Serializable
 {
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = 1640027737818053147L;
 
     @Id
     @GeneratedValue( strategy = GenerationType.AUTO )
     @Column( name = "id", unique = true )
-    private Long              id;
+    private Long              eventId;
 
     private Timestamp         eventDateTime;
 
@@ -48,17 +50,17 @@ public class Event implements Serializable
     /**
      * @return the id
      */
-    public Long getId()
+    public Long getEventId()
     {
-        return id;
+        return eventId;
     }
 
     /**
      * @param id the id to set
      */
-    public void setId( Long id )
+    public void setEventId( Long id )
     {
-        this.id = id;
+        this.eventId = id;
     }
 
     /**
@@ -181,7 +183,7 @@ public class Event implements Serializable
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Object#hashCode()
      */
     @Override
@@ -193,7 +195,7 @@ public class Event implements Serializable
         result = prime * result + ((display == null) ? 0 : display.hashCode());
         result = prime * result + ((eventLocation == null) ? 0 : eventLocation.hashCode());
         result = prime * result + ((leader == null) ? 0 : leader.hashCode());
-        result = prime * result + ((id == null) ? 0 : id.hashCode());
+        result = prime * result + ((eventId == null) ? 0 : eventId.hashCode());
         result = prime * result + (isFull() ? 1231 : 1237);
         result = prime * result + ((maxEventSeats == null) ? 0 : maxEventSeats.hashCode());
         result = prime * result + ((reservedSeats == null) ? 0 : reservedSeats.hashCode());
@@ -202,7 +204,7 @@ public class Event implements Serializable
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Object#equals(java.lang.Object)
      */
     @Override
@@ -243,12 +245,12 @@ public class Event implements Serializable
         }
         else if ( !leader.equals( other.leader ) )
             return false;
-        if ( id == null )
+        if ( eventId == null )
         {
-            if ( other.id != null )
+            if ( other.eventId != null )
                 return false;
         }
-        else if ( !id.equals( other.id ) )
+        else if ( !eventId.equals( other.eventId ) )
             return false;
         if ( isFull() != other.isFull() )
             return false;
@@ -271,13 +273,13 @@ public class Event implements Serializable
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Object#toString()
      */
     @Override
     public String toString()
     {
-        return "Event [id=" + id + ", eventDate=" + eventDateTime + ", eventDisplay=" + display + ", eventLocation="
+        return "Event [id=" + eventId + ", eventDate=" + eventDateTime + ", eventDisplay=" + display + ", eventLocation="
                         + eventLocation + ", leader=" + leader + ", maxEventSeats=" + maxEventSeats + ", reservedSeats="
                         + reservedSeats + ", isFull=" + isFull() + "]";
     }

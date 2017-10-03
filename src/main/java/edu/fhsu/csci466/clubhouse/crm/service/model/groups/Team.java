@@ -11,6 +11,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
+import org.springframework.hateoas.ResourceSupport;
+
 import edu.fhsu.csci466.clubhouse.crm.service.model.Leader;
 
 /**
@@ -19,17 +21,17 @@ import edu.fhsu.csci466.clubhouse.crm.service.model.Leader;
  *         Entity class representing a CRM member.
  */
 @Entity
-public class Team implements Serializable
+public class Team extends ResourceSupport implements Serializable
 {
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = 6649415180672374125L;
 
     @Id
     @GeneratedValue( strategy = GenerationType.AUTO )
     @Column( name = "id", unique = true )
-    private Long              id;
+    private Long              teamId;
 
     private String            teamName;
 
@@ -40,17 +42,17 @@ public class Team implements Serializable
     /**
      * @return the id
      */
-    public Long getId()
+    public Long getTeamId()
     {
-        return id;
+        return teamId;
     }
 
     /**
      * @param id the id to set
      */
-    public void setId( Long id )
+    public void setTeamId( Long id )
     {
-        this.id = id;
+        this.teamId = id;
     }
 
     /**
@@ -87,7 +89,7 @@ public class Team implements Serializable
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Object#hashCode()
      */
     @Override
@@ -95,7 +97,7 @@ public class Team implements Serializable
     {
         final int prime = 19890919;
         int result = 1;
-        result = prime * result + ((id == null) ? 0 : id.hashCode());
+        result = prime * result + ((teamId == null) ? 0 : teamId.hashCode());
         result = prime * result + ((leader == null) ? 0 : leader.hashCode());
         result = prime * result + ((teamName == null) ? 0 : teamName.hashCode());
         return result;
@@ -103,7 +105,7 @@ public class Team implements Serializable
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Object#equals(java.lang.Object)
      */
     @Override
@@ -116,12 +118,12 @@ public class Team implements Serializable
         if ( getClass() != obj.getClass() )
             return false;
         Team other = (Team) obj;
-        if ( id == null )
+        if ( teamId == null )
         {
-            if ( other.id != null )
+            if ( other.teamId != null )
                 return false;
         }
-        else if ( !id.equals( other.id ) )
+        else if ( !teamId.equals( other.teamId ) )
             return false;
         if ( leader == null )
         {
@@ -142,12 +144,12 @@ public class Team implements Serializable
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Object#toString()
      */
     @Override
     public String toString()
     {
-        return "Team [id=" + id + ", teamName=" + teamName + ", leader=" + leader + "]";
+        return "Team [id=" + teamId + ", teamName=" + teamName + ", leader=" + leader + "]";
     }
 }

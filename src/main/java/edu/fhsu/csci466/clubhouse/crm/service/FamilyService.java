@@ -18,7 +18,7 @@ public interface FamilyService
     /**
      * @return family
      */
-    public List<Family> getFamilys();
+    public List<Family> getFamilies();
 
     /**
      * @param id

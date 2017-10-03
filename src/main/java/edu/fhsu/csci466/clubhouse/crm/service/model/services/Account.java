@@ -11,6 +11,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
+import org.springframework.hateoas.ResourceSupport;
+
 import edu.fhsu.csci466.clubhouse.crm.service.model.Member;
 
 /**
@@ -18,17 +20,17 @@ import edu.fhsu.csci466.clubhouse.crm.service.model.Member;
  *
  */
 @Entity
-public class Account implements Serializable
+public class Account extends ResourceSupport implements Serializable
 {
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = 4145295082558370786L;
 
     @Id
     @GeneratedValue( strategy = GenerationType.AUTO )
     @Column( name = "id", unique = true )
-    private Long              id;
+    private Long              accountId;
 
     @OneToOne( fetch = FetchType.EAGER )
     @JoinColumn( name = "member_id" )
@@ -53,7 +55,7 @@ public class Account implements Serializable
      */
     public Account ( Long id, Member member, Double balance, Double annualClubDues )
     {
-        this.id = id;
+        this.accountId = id;
         this.member = member;
         this.balance = balance;
         this.annualClubDues = annualClubDues;
@@ -62,17 +64,17 @@ public class Account implements Serializable
     /**
      * @return the id
      */
-    public Long getId()
+    public Long getAccountId()
     {
-        return id;
+        return accountId;
     }
 
     /**
      * @param id the id to set
      */
-    public void setId( Long id )
+    public void setAccountId( Long id )
     {
-        this.id = id;
+        this.accountId = id;
     }
 
     /**
@@ -125,7 +127,7 @@ public class Account implements Serializable
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Object#hashCode()
      */
     @Override
@@ -135,14 +137,14 @@ public class Account implements Serializable
         int result = 1;
         result = prime * result + ((annualClubDues == null) ? 0 : annualClubDues.hashCode());
         result = prime * result + ((balance == null) ? 0 : balance.hashCode());
-        result = prime * result + ((id == null) ? 0 : id.hashCode());
+        result = prime * result + ((accountId == null) ? 0 : accountId.hashCode());
         result = prime * result + ((member == null) ? 0 : member.hashCode());
         return result;
     }
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Object#equals(java.lang.Object)
      */
     @Override
@@ -169,12 +171,12 @@ public class Account implements Serializable
         }
         else if ( !balance.equals( other.balance ) )
             return false;
-        if ( id == null )
+        if ( accountId == null )
         {
-            if ( other.id != null )
+            if ( other.accountId != null )
                 return false;
         }
-        else if ( !id.equals( other.id ) )
+        else if ( !accountId.equals( other.accountId ) )
             return false;
         if ( member == null )
         {
@@ -188,13 +190,13 @@ public class Account implements Serializable
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Object#toString()
      */
     @Override
     public String toString()
     {
-        return "Account [id=" + id + ", member=" + member + ", balance=" + balance + ", annualClubDues="
+        return "Account [id=" + accountId + ", member=" + member + ", balance=" + balance + ", annualClubDues="
                         + annualClubDues + "]";
     }
 }

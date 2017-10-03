@@ -5,6 +5,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.*;
+
+import org.springframework.hateoas.ResourceSupport;
+
 import edu.fhsu.csci466.clubhouse.crm.service.model.groups.MemberFamilyRel;
 import edu.fhsu.csci466.clubhouse.crm.service.model.groups.MemberTeamRel;
 import edu.fhsu.csci466.clubhouse.crm.service.model.services.Account;
@@ -21,7 +24,7 @@ import edu.fhsu.csci466.clubhouse.crm.service.model.services.PaymentPlan;
 @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn(name = "member_type")
 @DiscriminatorValue("MEMBER")
-public class Member implements Serializable
+public class Member extends ResourceSupport implements Serializable
 {
 
     /**
@@ -32,7 +35,7 @@ public class Member implements Serializable
     @Id
     @GeneratedValue( strategy = GenerationType.AUTO )
     @Column( name = "id", unique = true )
-    private Long                 id;
+    private Long                 memberId;
 
     private String               name;
 
@@ -66,17 +69,17 @@ public class Member implements Serializable
     /**
      * @return the id
      */
-    public Long getId()
+    public Long getMemberId()
     {
-        return id;
+        return memberId;
     }
 
     /**
      * @param id the id to set
      */
-    public void setId( Long id )
+    public void setMemberId( Long id )
     {
-        this.id = id;
+        this.memberId = id;
     }
 
     /**
@@ -247,7 +250,7 @@ public class Member implements Serializable
         result = prime * result + ((account == null) ? 0 : account.hashCode());
         result = prime * result + ((credential == null) ? 0 : credential.hashCode());
         result = prime * result + ((email == null) ? 0 : email.hashCode());
-        result = prime * result + ((id == null) ? 0 : id.hashCode());
+        result = prime * result + ((memberId == null) ? 0 : memberId.hashCode());
         result = prime * result + ((memberEventRels == null) ? 0 : memberEventRels.hashCode());
         result = prime * result + ((memberFamilyRels == null) ? 0 : memberFamilyRels.hashCode());
         result = prime * result + ((memberTeamRels == null) ? 0 : memberTeamRels.hashCode());
@@ -292,12 +295,12 @@ public class Member implements Serializable
         }
         else if ( !email.equals( other.email ) )
             return false;
-        if ( id == null )
+        if ( memberId == null )
         {
-            if ( other.id != null )
+            if ( other.memberId != null )
                 return false;
         }
-        else if ( !id.equals( other.id ) )
+        else if ( !memberId.equals( other.memberId ) )
             return false;
         if ( memberEventRels == null )
         {
@@ -345,7 +348,7 @@ public class Member implements Serializable
     @Override
     public String toString()
     {
-        return "Member [id=" + id + ", name=" + name + ", email=" + email + ", credential=" + credential + ", account="
+        return "Member [id=" + memberId + ", name=" + name + ", email=" + email + ", credential=" + credential + ", account="
                         + account + ", paymentPlan=" + paymentPlan + ", memberFamilyRels=" + memberFamilyRels
                         + ", memberTeamRels=" + memberTeamRels + ", memberEventRels=" + memberEventRels + "]";
     }

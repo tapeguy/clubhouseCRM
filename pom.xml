@@ -52,6 +52,11 @@
 			<artifactId>spring-cloud-services-starter-circuit-breaker</artifactId>
 		</dependency>
 
+		<!-- Add HATEOAS links to RESTful services -->
+		<dependency>
+			<groupId>org.springframework.hateoas</groupId>
+			<artifactId>spring-hateoas</artifactId>
+		</dependency>
 
 		<!-- JSP/JSTL -->
 		<dependency>

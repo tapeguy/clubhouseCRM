@@ -16,14 +16,14 @@ import javax.persistence.Id;
 public class PaymentPlan implements Serializable
 {
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = 8682725344697726728L;
 
     @Id
     @GeneratedValue( strategy = GenerationType.AUTO )
     @Column( name = "id", unique = true )
-    private Long              id;
+    private Long              paymentPlanId;
 
     private String            display;
 
@@ -34,17 +34,17 @@ public class PaymentPlan implements Serializable
     /**
      * @return the id
      */
-    public Long getId()
+    public Long getPaymentPlanId()
     {
-        return id;
+        return paymentPlanId;
     }
 
     /**
      * @param id the id to set
      */
-    public void setId( Long id )
+    public void setPaymentPlanId( Long id )
     {
-        this.id = id;
+        this.paymentPlanId = id;
     }
 
     /**
@@ -97,7 +97,7 @@ public class PaymentPlan implements Serializable
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Object#hashCode()
      */
     @Override
@@ -108,13 +108,13 @@ public class PaymentPlan implements Serializable
         result = prime * result + ((billingCycleInWeeks == null) ? 0 : billingCycleInWeeks.hashCode());
         result = prime * result + ((display == null) ? 0 : display.hashCode());
         result = prime * result + ((fee == null) ? 0 : fee.hashCode());
-        result = prime * result + ((id == null) ? 0 : id.hashCode());
+        result = prime * result + ((paymentPlanId == null) ? 0 : paymentPlanId.hashCode());
         return result;
     }
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Object#equals(java.lang.Object)
      */
     @Override
@@ -148,25 +148,25 @@ public class PaymentPlan implements Serializable
         }
         else if ( !fee.equals( other.fee ) )
             return false;
-        if ( id == null )
+        if ( paymentPlanId == null )
         {
-            if ( other.id != null )
+            if ( other.paymentPlanId != null )
                 return false;
         }
-        else if ( !id.equals( other.id ) )
+        else if ( !paymentPlanId.equals( other.paymentPlanId ) )
             return false;
         return true;
     }
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Object#toString()
      */
     @Override
     public String toString()
     {
-        return "PaymentPlan [id=" + id + ", display=" + display + ", billingCycleInWeeks=" + billingCycleInWeeks
+        return "PaymentPlan [id=" + paymentPlanId + ", display=" + display + ", billingCycleInWeeks=" + billingCycleInWeeks
                         + ", fee=" + fee + "]";
     }
 }
