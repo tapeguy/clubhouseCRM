@@ -12,7 +12,7 @@ $(function() {
     restful.callMethod(restMethod, null, displayMembers);
 
     function displayMembers(msg) {
-        $.each(msg, function() {
+        $.each(msg.entities, function() {
             var tr = $('<tr>');
             $.each(this, function() {
                 tr.append('<td>').append(this);

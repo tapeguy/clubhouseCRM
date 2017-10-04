@@ -12,7 +12,7 @@ $(function() {
     restful.callMethod(restMethod, null, displayMembers);
 
     function displayMembers(msg) {
-        $.each(msg, function() {
+        $.each(msg.entities, function() {
             var tr = $('<tr>');
             $.each(this, function() {
                 tr.append('<td>').append(this);
@@ -26,8 +26,6 @@ $(function() {
 
 <jsp:attribute name="sidebar_content">
 <div class="sidebar_header">Operations</div>
-<input type="button" class="sidebar_button" id="add_member" value="Add Member" />
-<input type="button" class="sidebar_button" id="remove_member" value="Remove Member" />
 </jsp:attribute>
 
 <jsp:body>

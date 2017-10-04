@@ -9,6 +9,10 @@ spring:
     store-type: jdbc
   jackson:
     serialization.INDENT_OUTPUT: true
+  h2:
+    console:
+      enabled: true
+      path: /console
   jpa:
     properties:
       hibernate:
