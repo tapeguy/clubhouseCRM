@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import edu.fhsu.csci466.clubhouse.crm.service.MemberService;
+import edu.fhsu.csci466.clubhouse.crm.service.model.EntityList;
 import edu.fhsu.csci466.clubhouse.crm.service.model.Member;
 
 /**
@@ -33,14 +34,14 @@ public class MemberRestController
      * @return list of all member
      */
     @GetMapping( value = "/member", produces = MediaType.APPLICATION_JSON_VALUE )
-    public HttpEntity<MemberList> getMembers()
+    public HttpEntity<EntityList<Member>> getMembers()
     {
-        MemberList list = new MemberList ( service.getMembers() );
-        for ( Member member : list.getMembers() )
+        EntityList<Member> list = new EntityList<> ( service.getMembers() );
+        for ( Member member : list.getEntities() )
         {
             member.add( linkTo(methodOn(MemberRestController.class).getMember(member.getMemberId())).withSelfRel() );
         }
-        list.add( linkTo(methodOn(MemberRestController.class).getMembers()).withRel("members") );
+        list.add( linkTo(methodOn(MemberRestController.class).getMembers()).withRel("list") );
         list.add( linkTo(methodOn(MemberRestController.class).addMember(null)).withRel("add") );
         return new ResponseEntity<>( list, HttpStatus.OK );
     }

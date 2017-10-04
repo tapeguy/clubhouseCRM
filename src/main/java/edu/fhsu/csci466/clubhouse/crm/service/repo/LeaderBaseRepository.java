@@ -8,6 +8,6 @@ import edu.fhsu.csci466.clubhouse.crm.service.model.Leader;
  *         A Spring Data JPA leader repository. An implementation of this interface gets
  *         auto-generated--no need to implement it by hand.
  */
-public interface LeaderRepository extends LeaderBaseRepository<Leader>
+public interface LeaderBaseRepository<T extends Leader> extends MemberBaseRepository<Leader>
 {
 }

@@ -37,6 +37,7 @@ create table member (
 	member_type varchar(32),
 	name varchar(256),
 	email varchar(256),
+	family_id int,
 	credential_id int,
 	account_id int,
 	payment_plan_id varchar(256)
@@ -46,14 +47,10 @@ create table leader (
 	id int not null primary key,
 	admin boolean
 );
-alter table leader add constraint leader_member_fk foreign key ( id ) REFERENCES member ( id ) ;
 
 create table president (
     id int not null primary key
 );
-alter table leader add constraint president_leader_fk foreign key ( id ) REFERENCES leader ( id ) ;
-
-
 
 /* create club group tables */
 
@@ -68,16 +65,29 @@ create table team (
 	leader_id int
 );
 
-/* create club relationship tables */ 
 
-create table member_family_rel (
-	id int not null auto_increment primary key,
-	member_id int,
-	family_id int
-);
+/* create club relationship tables */ 
 
 create table member_team_rel (
 	id int not null auto_increment primary key,
 	member_id int,
 	team_id int
 );
+
+alter table account add constraint account_member_fk foreign key ( member_id ) REFERENCES member ( id ) ;
+
+alter table event add constraint event_leader_fk foreign key ( leader_id ) REFERENCES leader ( id ) ;
+
+alter table member add constraint member_family_fk foreign key ( family_id ) REFERENCES family ( id ) ;
+alter table member add constraint member_credential_fk foreign key ( credential_id ) REFERENCES credential ( id ) ;
+alter table member add constraint member_account_fk foreign key ( account_id ) REFERENCES account ( id ) ;
+
+alter table leader add constraint leader_member_fk foreign key ( id ) REFERENCES member ( id ) ;
+
+alter table president add constraint president_leader_fk foreign key ( id ) REFERENCES leader ( id ) ;
+
+alter table team add constraint team_leader_fk foreign key ( leader_id ) REFERENCES leader ( id ) ;
+
+alter table member_team_rel add constraint member_team_rel_member_fk foreign key ( member_id ) REFERENCES member ( id ) ;
+alter table member_team_rel add constraint member_team_rel_team_fk foreign key ( team_id ) REFERENCES team ( id ) ;
+

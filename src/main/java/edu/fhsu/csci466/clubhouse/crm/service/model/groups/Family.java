@@ -1,14 +1,21 @@
 package edu.fhsu.csci466.clubhouse.crm.service.model.groups;
 
 import java.io.Serializable;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 
 import org.springframework.hateoas.ResourceSupport;
+
+import edu.fhsu.csci466.clubhouse.crm.service.model.Member;
 
 /**
  * @author ss047890
@@ -29,6 +36,10 @@ public class Family extends ResourceSupport implements Serializable
     private Long              familyId;
 
     private String            familyName;
+
+    @OneToMany( cascade = CascadeType.ALL, fetch = FetchType.LAZY )
+    @JoinColumn( name = "family_id" )
+    private Set<Member>       familyMembers;
 
     /**
      * @return the id
@@ -60,6 +71,22 @@ public class Family extends ResourceSupport implements Serializable
     public void setFamilyName( String familyName )
     {
         this.familyName = familyName;
+    }
+
+    /**
+     * @return the familyMembers
+     */
+    public Set<Member> getFamilyMembers()
+    {
+        return familyMembers;
+    }
+
+    /**
+     * @param familyMembers the familyMembers to set
+     */
+    public void setFamilyMembers( Set<Member> familyMembers )
+    {
+        this.familyMembers = familyMembers;
     }
 
     /*
