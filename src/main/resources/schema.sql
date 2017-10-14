@@ -27,17 +27,16 @@ create table event (
 	leader_id int,
 	event_location varchar(256),
 	max_event_seats int,
-	reserved_event_seats int
+	reserved_seats int
 );
 
 create table payment_transaction (
 	id int not null auto_increment primary key,
-	payment_date_time timestamp,
+	payment_transaction_date_time timestamp,
 	display varchar(256),
 	member_id int,
 	payment_amount double(20), --accept rounding error for now. TODO discuss strategy w/ team
-	payment_type varchar(256),
-	
+	payment_type varchar(256)
 );
 
 /* create club role tables */
@@ -84,6 +83,12 @@ create table member_team_rel (
 	team_id int
 );
 
+create table member_event_rel (
+	id int not null auto_increment primary key,
+	member_id int,
+	event_id int
+);
+
 alter table account add constraint account_member_fk foreign key ( member_id ) REFERENCES member ( id ) ;
 
 alter table event add constraint event_leader_fk foreign key ( leader_id ) REFERENCES leader ( id ) ;
@@ -103,3 +108,5 @@ alter table team add constraint team_leader_fk foreign key ( leader_id ) REFEREN
 alter table member_team_rel add constraint member_team_rel_member_fk foreign key ( member_id ) REFERENCES member ( id ) ;
 alter table member_team_rel add constraint member_team_rel_team_fk foreign key ( team_id ) REFERENCES team ( id ) ;
 
+alter table member_event_rel add constraint member_event_rel_member_fk foreign key ( member_id ) REFERENCES member ( id ) ;
+alter table member_event_rel add constraint member_event_rel_event_fk foreign key ( event_id ) REFERENCES event ( id ) ;
