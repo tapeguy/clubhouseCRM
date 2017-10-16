@@ -31,3 +31,24 @@ insert into leader (id, admin) values ( (select id from member where name = 'Mr.
 insert into leader (id, admin) values ( (select id from member where name = 'Han Solo'), TRUE );
 
 insert into president (id) values ( (select id from member where name = 'Mr. Burns') );
+
+insert into team ( team_name, leader_id) values ( 'White Belts', (select id from member where name = 'Mr. Burns') );
+insert into team ( team_name, leader_id) values ( 'Civil War Re-enactors', (select id from member where name = 'Mr. Smithers') );
+insert into team ( team_name, leader_id) values ( 'Star Wars Fan Club', (select id from member where name = 'Han Solo') );
+
+insert into event ( event_date_time, display, leader_id, event_location, max_event_seats, reserved_seats ) values
+(null, 'Xmas Party', (select id from member where name = 'Han Solo' ), 'Power Plant', 500, 371 ),
+(null, 'Belt Ceremony', (select id from member where name = 'Mr. Smithers' ), 'Main Street Dojo', 50, 21 ),
+(null, 'Beginners Class', null, 'Yoga Studio A', 20, 14 );
+
+insert into account ( member_id, annual_club_dues, balance) values
+( (select id from member where name = 'Homer Simpson'), 15.99, 0),
+( (select id from member where name = 'Marge Simpson'), 15.99, 0),
+( (select id from member where name = 'Mr. Burns'), 19.99, 19.99),
+( (select id from member where name = 'Han Solo'), 19.99, 39.98);
+
+insert into payment_transaction (payment_transaction_date_time, display, member_id, payment_amount, payment_type ) values
+(null, 'Monthly Membership', 7, 99.99, 'Pay Pal'),
+(null, 'Event', 3, 15.00, 'Amex'),
+(null, 'Annual Membership', 5, 199.99, 'Discover'),
+(null, 'Late Fee', 4, 10.00, 'Pay Pal');
