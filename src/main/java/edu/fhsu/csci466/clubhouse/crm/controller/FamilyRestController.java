@@ -1,6 +1,7 @@
 package edu.fhsu.csci466.clubhouse.crm.controller;
 
-import static org.springframework.hateoas.mvc.ControllerLinkBuilder.*;
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
@@ -26,8 +27,16 @@ import edu.fhsu.csci466.clubhouse.crm.service.model.groups.Family;
 @RequestMapping( "/crm" )
 public class FamilyRestController
 {
+    private final FamilyService service;
+
+    /**
+     * @param service
+     */
     @Autowired
-    FamilyService service;
+    public FamilyRestController ( FamilyService service )
+    {
+        this.service = service;
+    }
 
     /**
      * @param lastName
@@ -36,18 +45,19 @@ public class FamilyRestController
     @GetMapping( value = "/family", produces = MediaType.APPLICATION_JSON_VALUE )
     public HttpEntity<EntityList<Family>> getFamilies()
     {
-        EntityList<Family> list = new EntityList<> ( service.getFamilies() );
+        EntityList<Family> list = new EntityList<>( service.getFamilies() );
         for ( Family family : list.getEntities() )
         {
-            family.add( linkTo(methodOn(FamilyRestController.class).getFamily(family.getFamilyId())).withSelfRel() );
+            family.add( linkTo( methodOn( FamilyRestController.class ).getFamily( family.getFamilyId() ) )
+                            .withSelfRel() );
         }
-        list.add( linkTo(methodOn(FamilyRestController.class).getFamilies()).withRel("list") );
-        list.add( linkTo(methodOn(FamilyRestController.class).addFamily(null)).withRel("add") );
+        list.add( linkTo( methodOn( FamilyRestController.class ).getFamilies() ).withRel( "list" ) );
+        list.add( linkTo( methodOn( FamilyRestController.class ).addFamily( null ) ).withRel( "add" ) );
         return new ResponseEntity<>( list, HttpStatus.OK );
     }
 
     /**
-     * @param Family
+     * @param family
      * @return response entity the status to return
      */
     @PostMapping( value = "/family/add", produces = MediaType.APPLICATION_JSON_VALUE )
@@ -65,7 +75,7 @@ public class FamilyRestController
     public HttpEntity<Family> getFamily( @PathVariable Long id )
     {
         Family family = service.getFamily( id );
-        family.add( linkTo(methodOn(FamilyRestController.class).getFamily(id)).withSelfRel() );
+        family.add( linkTo( methodOn( FamilyRestController.class ).getFamily( id ) ).withSelfRel() );
         return new ResponseEntity<>( family, HttpStatus.OK );
     }
 }

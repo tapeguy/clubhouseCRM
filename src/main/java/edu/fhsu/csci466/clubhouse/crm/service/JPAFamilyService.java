@@ -19,8 +19,16 @@ import edu.fhsu.csci466.clubhouse.crm.service.repo.FamilyRepository;
 @EntityScan
 public class JPAFamilyService implements FamilyService
 {
+    private final FamilyRepository familyRepo;
+
+    /**
+     * @param familyRepo
+     */
     @Autowired
-    FamilyRepository familyRepo;
+    public JPAFamilyService ( FamilyRepository familyRepo )
+    {
+        this.familyRepo = familyRepo;
+    }
 
     @Override
     public void addFamily( final Family family )
