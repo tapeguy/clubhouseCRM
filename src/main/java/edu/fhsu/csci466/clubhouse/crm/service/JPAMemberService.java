@@ -19,8 +19,17 @@ import edu.fhsu.csci466.clubhouse.crm.service.repo.MemberRepository;
 @EntityScan
 public class JPAMemberService implements MemberService
 {
+
+    private final MemberRepository memberRepo;
+
+    /**
+     * @param memberRepo
+     */
     @Autowired
-    MemberRepository memberRepo;
+    public JPAMemberService ( MemberRepository memberRepo )
+    {
+        this.memberRepo = memberRepo;
+    }
 
     @Override
     public void addMember( final Member member )
@@ -44,7 +53,7 @@ public class JPAMemberService implements MemberService
     @Override
     public Member getMemberByUserName( final String userName )
     {
-        Member member = memberRepo.findByCredentialUserName ( userName );
+        Member member = memberRepo.findByCredentialUserName( userName );
         return member;
     }
 }

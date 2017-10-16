@@ -17,8 +17,16 @@ import edu.fhsu.csci466.clubhouse.crm.service.repo.LeaderRepository;
 @EntityScan
 public class JPALeaderService implements LeaderService
 {
+    private final LeaderRepository leaderRepo;
+
+    /**
+     * @param leaderRepo
+     */
     @Autowired
-    LeaderRepository leaderRepo;
+    public JPALeaderService ( LeaderRepository leaderRepo )
+    {
+        this.leaderRepo = leaderRepo;
+    }
 
     @Override
     public void addLeader( final Leader event )

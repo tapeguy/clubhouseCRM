@@ -1,6 +1,7 @@
 package edu.fhsu.csci466.clubhouse.crm.controller;
 
-import static org.springframework.hateoas.mvc.ControllerLinkBuilder.*;
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
@@ -26,8 +27,16 @@ import edu.fhsu.csci466.clubhouse.crm.service.model.Member;
 @RequestMapping( "/crm" )
 public class MemberRestController
 {
+    private final MemberService service;
+
+    /**
+     * @param service
+     */
     @Autowired
-    MemberService service;
+    public MemberRestController ( MemberService service )
+    {
+        this.service = service;
+    }
 
     /**
      * @param lastName
@@ -36,13 +45,14 @@ public class MemberRestController
     @GetMapping( value = "/member", produces = MediaType.APPLICATION_JSON_VALUE )
     public HttpEntity<EntityList<Member>> getMembers()
     {
-        EntityList<Member> list = new EntityList<> ( service.getMembers() );
+        EntityList<Member> list = new EntityList<>( service.getMembers() );
         for ( Member member : list.getEntities() )
         {
-            member.add( linkTo(methodOn(MemberRestController.class).getMember(member.getMemberId())).withSelfRel() );
+            member.add( linkTo( methodOn( MemberRestController.class ).getMember( member.getMemberId() ) )
+                            .withSelfRel() );
         }
-        list.add( linkTo(methodOn(MemberRestController.class).getMembers()).withRel("list") );
-        list.add( linkTo(methodOn(MemberRestController.class).addMember(null)).withRel("add") );
+        list.add( linkTo( methodOn( MemberRestController.class ).getMembers() ).withRel( "list" ) );
+        list.add( linkTo( methodOn( MemberRestController.class ).addMember( null ) ).withRel( "add" ) );
         return new ResponseEntity<>( list, HttpStatus.OK );
     }
 
@@ -65,7 +75,7 @@ public class MemberRestController
     public HttpEntity<Member> getMember( @PathVariable Long id )
     {
         Member member = service.getMember( id );
-        member.add( linkTo(methodOn(MemberRestController.class).getMember(id)).withSelfRel() );
+        member.add( linkTo( methodOn( MemberRestController.class ).getMember( id ) ).withSelfRel() );
         return new ResponseEntity<>( member, HttpStatus.OK );
     }
 }

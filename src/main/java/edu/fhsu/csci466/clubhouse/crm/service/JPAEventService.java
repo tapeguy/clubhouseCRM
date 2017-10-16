@@ -19,8 +19,16 @@ import edu.fhsu.csci466.clubhouse.crm.service.repo.EventRepository;
 @EntityScan
 public class JPAEventService implements EventService
 {
+    private final EventRepository eventRepo;
+
+    /**
+     * @param eventRepo
+     */
     @Autowired
-    EventRepository eventRepo;
+    public JPAEventService ( EventRepository eventRepo )
+    {
+        this.eventRepo = eventRepo;
+    }
 
     @Override
     public void addEvent( final Event event )

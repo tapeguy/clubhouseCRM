@@ -21,11 +21,19 @@ import edu.fhsu.csci466.clubhouse.crm.service.model.Leader;
 @RequestMapping( "/crm" )
 public class LeaderRestController
 {
-    @Autowired
-    LeaderService service;
+    private final LeaderService service;
 
     /**
-     * @param Leader
+     * @param service
+     */
+    @Autowired
+    public LeaderRestController ( LeaderService service )
+    {
+        this.service = service;
+    }
+
+    /**
+     * @param leader
      * @return response entity the status to return
      */
     @PostMapping( value = "/leader/add", produces = MediaType.APPLICATION_JSON_VALUE )

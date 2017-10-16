@@ -19,8 +19,16 @@ import edu.fhsu.csci466.clubhouse.crm.service.repo.TeamRepository;
 @EntityScan
 public class JPATeamService implements TeamService
 {
+    private final TeamRepository teamRepo;
+
+    /**
+     * @param teamRepo
+     */
     @Autowired
-    TeamRepository teamRepo;
+    public JPATeamService ( TeamRepository teamRepo )
+    {
+        this.teamRepo = teamRepo;
+    }
 
     @Override
     public void addTeam( final Team team )

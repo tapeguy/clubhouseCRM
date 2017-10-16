@@ -1,6 +1,7 @@
 package edu.fhsu.csci466.clubhouse.crm.controller;
 
-import static org.springframework.hateoas.mvc.ControllerLinkBuilder.*;
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
@@ -26,8 +27,16 @@ import edu.fhsu.csci466.clubhouse.crm.service.model.services.Event;
 @RequestMapping( "/crm" )
 public class EventRestController
 {
+    private final EventService service;
+
+    /**
+     * @param service
+     */
     @Autowired
-    EventService service;
+    public EventRestController ( EventService service )
+    {
+        this.service = service;
+    }
 
     /**
      * @param lastName
@@ -36,18 +45,18 @@ public class EventRestController
     @GetMapping( value = "/event", produces = MediaType.APPLICATION_JSON_VALUE )
     public HttpEntity<EntityList<Event>> getEvents()
     {
-        EntityList<Event> list = new EntityList<> ( service.getEvents() );
+        EntityList<Event> list = new EntityList<>( service.getEvents() );
         for ( Event event : list.getEntities() )
         {
-            event.add( linkTo(methodOn(EventRestController.class).getEvent(event.getEventId())).withSelfRel() );
+            event.add( linkTo( methodOn( EventRestController.class ).getEvent( event.getEventId() ) ).withSelfRel() );
         }
-        list.add( linkTo(methodOn(EventRestController.class).getEvents()).withRel("list") );
-        list.add( linkTo(methodOn(EventRestController.class).addEvent(null)).withRel("add") );
+        list.add( linkTo( methodOn( EventRestController.class ).getEvents() ).withRel( "list" ) );
+        list.add( linkTo( methodOn( EventRestController.class ).addEvent( null ) ).withRel( "add" ) );
         return new ResponseEntity<>( list, HttpStatus.OK );
     }
 
     /**
-     * @param Event
+     * @param event
      * @return response entity the status to return
      */
     @PostMapping( value = "/event/add", produces = MediaType.APPLICATION_JSON_VALUE )
@@ -65,7 +74,7 @@ public class EventRestController
     public HttpEntity<Event> getEvent( @PathVariable Long id )
     {
         Event Event = service.getEvent( id );
-        Event.add( linkTo(methodOn(EventRestController.class).getEvent(id)).withSelfRel() );
+        Event.add( linkTo( methodOn( EventRestController.class ).getEvent( id ) ).withSelfRel() );
         return new ResponseEntity<>( Event, HttpStatus.OK );
     }
 }
