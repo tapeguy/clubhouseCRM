@@ -19,13 +19,21 @@ import edu.fhsu.csci466.clubhouse.crm.service.repo.PaymentTransactionRepository;
 @EntityScan
 public class JPAPaymentTransactionService implements PaymentTransactionService
 {
+    private final PaymentTransactionRepository paymentTransactionRepo;
+
+    /**
+     * @param paymentTransactionRepo
+     */
     @Autowired
-    PaymentTransactionRepository paymentTransactionRepo;
+    public JPAPaymentTransactionService ( PaymentTransactionRepository paymentTransactionRepo )
+    {
+        this.paymentTransactionRepo = paymentTransactionRepo;
+    }
 
     @Override
     public void addPaymentTransaction( final PaymentTransaction paymentTransaction )
     {
-    	paymentTransactionRepo.save( paymentTransaction );
+        paymentTransactionRepo.save( paymentTransaction );
     }
 
     @Override

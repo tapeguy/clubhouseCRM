@@ -1,6 +1,7 @@
 package edu.fhsu.csci466.clubhouse.crm.controller;
 
-import static org.springframework.hateoas.mvc.ControllerLinkBuilder.*;
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
@@ -26,8 +27,16 @@ import edu.fhsu.csci466.clubhouse.crm.service.model.services.PaymentTransaction;
 @RequestMapping( "/crm" )
 public class PaymentTransactionRestController
 {
+    private final PaymentTransactionService service;
+
+    /**
+     * @param service
+     */
     @Autowired
-    PaymentTransactionService service;
+    public PaymentTransactionRestController ( PaymentTransactionService service )
+    {
+        this.service = service;
+    }
 
     /**
      * @param lastName
@@ -36,13 +45,16 @@ public class PaymentTransactionRestController
     @GetMapping( value = "/paymentTransaction", produces = MediaType.APPLICATION_JSON_VALUE )
     public HttpEntity<EntityList<PaymentTransaction>> getPaymentTransactions()
     {
-        EntityList<PaymentTransaction> list = new EntityList<> ( service.getPaymentTransactions() );
+        EntityList<PaymentTransaction> list = new EntityList<>( service.getPaymentTransactions() );
         for ( PaymentTransaction paymentTransaction : list.getEntities() )
         {
-        	paymentTransaction.add( linkTo(methodOn(PaymentTransactionRestController.class).getPaymentTransaction(paymentTransaction.getPaymentTransactionId())).withSelfRel() );
+            paymentTransaction.add( linkTo( methodOn( PaymentTransactionRestController.class )
+                            .getPaymentTransaction( paymentTransaction.getPaymentTransactionId() ) ).withSelfRel() );
         }
-        list.add( linkTo(methodOn(PaymentTransactionRestController.class).getPaymentTransactions()).withRel("list") );
-        list.add( linkTo(methodOn(PaymentTransactionRestController.class).addPaymentTransaction(null)).withRel("add") );
+        list.add( linkTo( methodOn( PaymentTransactionRestController.class ).getPaymentTransactions() )
+                        .withRel( "list" ) );
+        list.add( linkTo( methodOn( PaymentTransactionRestController.class ).addPaymentTransaction( null ) )
+                        .withRel( "add" ) );
         return new ResponseEntity<>( list, HttpStatus.OK );
     }
 
@@ -64,8 +76,8 @@ public class PaymentTransactionRestController
     @GetMapping( value = "/paymentTransaction/{id}", produces = MediaType.APPLICATION_JSON_VALUE )
     public HttpEntity<PaymentTransaction> getPaymentTransaction( @PathVariable Long id )
     {
-    	PaymentTransaction PaymentTransaction = service.getPaymentTransaction( id );
-    	PaymentTransaction.add( linkTo(methodOn(EventRestController.class).getEvent(id)).withSelfRel() );
+        PaymentTransaction PaymentTransaction = service.getPaymentTransaction( id );
+        PaymentTransaction.add( linkTo( methodOn( EventRestController.class ).getEvent( id ) ).withSelfRel() );
         return new ResponseEntity<>( PaymentTransaction, HttpStatus.OK );
     }
 }
