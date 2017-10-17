@@ -1,5 +1,6 @@
 package edu.fhsu.csci466.clubhouse.crm.service.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.hateoas.ResourceSupport;
@@ -10,6 +11,11 @@ import org.springframework.hateoas.ResourceSupport;
 public class EntityList<T> extends ResourceSupport
 {
     private List<? extends T> entities;
+
+    public EntityList( )
+    {
+        this.entities = new ArrayList<> ( );
+    }
 
     public EntityList( List<? extends T> entities )
     {

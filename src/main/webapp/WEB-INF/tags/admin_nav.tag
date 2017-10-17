@@ -7,6 +7,7 @@
         <li><a href="#" id="admin_members">Members</a></li>
         <li><a href="#" id="admin_financials">Financial</a></li>
         <li><a href="#" id="admin_events">Events</a></li>
+        <li><a href="/about">About</a></li>
     </ul>
 </nav>
 

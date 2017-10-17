@@ -56,6 +56,18 @@ public class TeamRestController
     }
 
     /**
+     * @param lastName
+     * @return list of Teams
+     */
+    @GetMapping( value = "/team/leader/{leaderId}", produces = MediaType.APPLICATION_JSON_VALUE )
+    public HttpEntity<EntityList<Team>> getTeamsByLeader(Long leaderId)
+    {
+        // TODO: Implement this!!
+        EntityList<Team> list = new EntityList<>( );
+        return new ResponseEntity<>( list, HttpStatus.OK );
+    }
+
+    /**
      * @param team
      * @return response entity the status to return
      */

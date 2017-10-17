@@ -56,6 +56,30 @@ public class EventRestController
     }
 
     /**
+     * @param memberId
+     * @return List of Event
+     */
+    @GetMapping( value = "/event/available/{memberId}", produces = MediaType.APPLICATION_JSON_VALUE )
+    public HttpEntity<EntityList<Event>> getAvailableEventsForMember( @PathVariable Long memberId )
+    {
+        // TODO: Implement this!!
+        EntityList<Event> list = new EntityList<>( );
+        return new ResponseEntity<>( list, HttpStatus.OK );
+    }
+
+    /**
+     * @param memberId
+     * @return List of Event
+     */
+    @GetMapping( value = "/event/enrolled/{memberId}", produces = MediaType.APPLICATION_JSON_VALUE )
+    public HttpEntity<EntityList<Event>> getEnrolledEventsForMember( @PathVariable Long memberId )
+    {
+        // TODO: Implement this!!
+        EntityList<Event> list = new EntityList<>( );
+        return new ResponseEntity<>( list, HttpStatus.OK );
+    }
+
+    /**
      * @param event
      * @return response entity the status to return
      */

@@ -32,13 +32,18 @@ insert into leader (id, admin) values ( (select id from member where name = 'Han
 
 insert into president (id) values ( (select id from member where name = 'Mr. Burns') );
 
-insert into team ( team_name, leader_id) values ( 'White Belts', (select id from member where name = 'Mr. Burns') );
-insert into team ( team_name, leader_id) values ( 'Civil War Re-enactors', (select id from member where name = 'Mr. Smithers') );
-insert into team ( team_name, leader_id) values ( 'Star Wars Fan Club', (select id from member where name = 'Han Solo') );
+insert into team (team_name, leader_id) values ( 'White Belts', (select id from member where name = 'Mr. Burns') );
+insert into team (team_name, leader_id) values ( 'Civil War Re-enactors', (select id from member where name = 'Mr. Smithers') );
+insert into team (team_name, leader_id) values ( 'Star Wars Fan Club', (select id from member where name = 'Han Solo') );
+
+insert into member_team_rel (member_id, team_id) values
+((select id from member where name = 'Maggie Simpson'), (select id from team where team_name = 'White Belts')),
+((select id from member where name = 'Lisa Simpson'), (select id from team where team_name = 'White Belts')),
+((select id from member where name = 'Mr. Burns'), (select id from team where team_name = 'Star Wars Fan Club'));
 
 insert into event ( event_date_time, display, leader_id, event_location, max_event_seats, reserved_seats ) values
-(null, 'Xmas Party', (select id from member where name = 'Han Solo' ), 'Power Plant', 500, 371 ),
-(null, 'Belt Ceremony', (select id from member where name = 'Mr. Smithers' ), 'Main Street Dojo', 50, 21 ),
+(null, 'Xmas Party', (select id from member where name = 'Han Solo'), 'Power Plant', 500, 371 ),
+(null, 'Belt Ceremony', (select id from member where name = 'Mr. Smithers'), 'Main Street Dojo', 50, 21 ),
 (null, 'Beginners Class', null, 'Yoga Studio A', 20, 14 );
 
 insert into account ( member_id, annual_club_dues, balance) values

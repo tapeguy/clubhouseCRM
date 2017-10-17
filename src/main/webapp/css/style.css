@@ -154,7 +154,25 @@ img {
     width: 600px;
     height: 280px;
     margin: auto;
-    display: flex
+    display: flex;
 }
 
+.panel {
+    border: 1px solid #bce8f1;
+    border-radius: 6px;
+}
+
+.panel > .panel-heading {
+    background-color: #d9edf7;
+    color: #31708f;
+    padding: 10px 15px;
+}
+
+.panel-title {
+    font-size: 16px;
+}
+
+.panel td {
+    border-top: 1px solid rgb(221, 221, 221);
+    padding: 8px;
 }

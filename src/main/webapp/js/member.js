@@ -6,13 +6,14 @@ var member = function() {
 
     return {
 
-        fetchMember : function(member_id) {
+        fetchMember : function(member_id, callback) {
             $.ajax({
                 type: "GET",
                 dataType: "json",
                 url: "/crm/member/" + member_id,
-                success: function(msg){
+                success: function(msg) {
                     member.setMember(msg);
+                    callback();
                 }
            });
         },
@@ -27,15 +28,6 @@ var member = function() {
 
         getLinks : function() {
             return member.getMember()._links;
-        },
-
-        displayEvents : function() {
-        },
-
-        displayTeams : function() {
-        },
-
-        displayPayments : function() {
         }
     };
 }();

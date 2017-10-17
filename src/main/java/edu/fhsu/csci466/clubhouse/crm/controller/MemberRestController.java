@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -65,6 +66,27 @@ public class MemberRestController
     {
         service.addMember( member );
         return new ResponseEntity<>( member, HttpStatus.OK );
+    }
+
+    /**
+     * @param member
+     * @return response entity the status to return
+     */
+    @PutMapping( value = "/member/update", produces = MediaType.APPLICATION_JSON_VALUE )
+    public HttpEntity<Member> updateMember( @RequestBody Member member )
+    {
+        // TODO!!
+        return new ResponseEntity<>( member, HttpStatus.OK );
+    }
+
+    /**
+     * @param newPassword
+     */
+    // This is so bad.  Big security hole...  Should use hashes or something
+    @PutMapping( value = "/member/password/{newPassword}", produces = MediaType.APPLICATION_JSON_VALUE )
+    public void updateMemberPassword( String newPassword )
+    {
+        // TODO: Update credential!!
     }
 
     /**

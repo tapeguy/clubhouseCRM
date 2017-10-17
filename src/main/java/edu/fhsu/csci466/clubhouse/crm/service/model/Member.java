@@ -2,6 +2,7 @@ package edu.fhsu.csci466.clubhouse.crm.service.model;
 
 import java.io.Serializable;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.*;
@@ -11,10 +12,10 @@ import org.springframework.hateoas.ResourceSupport;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import edu.fhsu.csci466.clubhouse.crm.service.model.groups.Family;
-import edu.fhsu.csci466.clubhouse.crm.service.model.groups.MemberTeamRel;
+import edu.fhsu.csci466.clubhouse.crm.service.model.groups.Team;
 import edu.fhsu.csci466.clubhouse.crm.service.model.services.Account;
 import edu.fhsu.csci466.clubhouse.crm.service.model.services.Credential;
-import edu.fhsu.csci466.clubhouse.crm.service.model.services.MemberEventRel;
+import edu.fhsu.csci466.clubhouse.crm.service.model.services.Event;
 import edu.fhsu.csci466.clubhouse.crm.service.model.services.PaymentPlan;
 
 /**
@@ -63,11 +64,17 @@ public class Member extends ResourceSupport implements Serializable
     @JoinColumn( name = "family_id" )
     private Family               family;
 
-    @OneToMany( fetch = FetchType.LAZY, mappedBy = "member", cascade = CascadeType.REMOVE )
-    private Set<MemberTeamRel>   memberTeamRels   = new HashSet<>();
+    @ManyToMany( cascade = CascadeType.ALL )
+    @JoinTable( name = "member_team_rel",
+                joinColumns = @JoinColumn( name = "member_id" ),
+                inverseJoinColumns = @JoinColumn( name = "team_id" ) )
+    private List<Team>           memberTeams;
 
-    @OneToMany( fetch = FetchType.LAZY, mappedBy = "member", cascade = CascadeType.REMOVE )
-    private Set<MemberEventRel>  memberEventRels  = new HashSet<>();
+    @ManyToMany( cascade = CascadeType.ALL )
+    @JoinTable( name = "member_event_rel",
+                joinColumns = @JoinColumn( name = "member_id" ),
+                inverseJoinColumns = @JoinColumn( name = "event_id" ) )
+    private List<Event>          memberEvents;
 
     /**
      * @return the id
@@ -208,35 +215,31 @@ public class Member extends ResourceSupport implements Serializable
     }
 
     /**
-     * @return the memberTeamRels
+     * @return the memberTeams
      */
-    public Set<MemberTeamRel> getMemberTeamRels()
-    {
-        return memberTeamRels;
+    public List<Team> getMemberTeams() {
+        return memberTeams;
     }
 
     /**
-     * @param memberTeamRels the memberTeamRels to set
+     * @param memberTeams the memberTeams to set
      */
-    public void setMemberTeamRels( Set<MemberTeamRel> memberTeamRels )
-    {
-        this.memberTeamRels = memberTeamRels;
+    public void setMemberTeams(List<Team> memberTeams) {
+        this.memberTeams = memberTeams;
     }
 
     /**
-     * @return the memberEventRels
+     * @return the memberEvents
      */
-    public Set<MemberEventRel> getMemberEventRels()
-    {
-        return memberEventRels;
+    public List<Event> getMemberEvents() {
+        return memberEvents;
     }
 
     /**
-     * @param memberEventRels the memberEventRels to set
+     * @param memberEvents the memberEvents to set
      */
-    public void setMemberEventRels( Set<MemberEventRel> memberEventRels )
-    {
-        this.memberEventRels = memberEventRels;
+    public void setMemberEvents(List<Event> memberEvents) {
+        this.memberEvents = memberEvents;
     }
 
     /*
@@ -253,9 +256,7 @@ public class Member extends ResourceSupport implements Serializable
         result = prime * result + ((credential == null) ? 0 : credential.hashCode());
         result = prime * result + ((email == null) ? 0 : email.hashCode());
         result = prime * result + ((memberId == null) ? 0 : memberId.hashCode());
-        result = prime * result + ((memberEventRels == null) ? 0 : memberEventRels.hashCode());
         result = prime * result + ((family == null) ? 0 : family.hashCode());
-        result = prime * result + ((memberTeamRels == null) ? 0 : memberTeamRels.hashCode());
         result = prime * result + ((name == null) ? 0 : name.hashCode());
         result = prime * result + ((paymentPlan == null) ? 0 : paymentPlan.hashCode());
         return result;
@@ -304,12 +305,12 @@ public class Member extends ResourceSupport implements Serializable
         }
         else if ( !memberId.equals( other.memberId ) )
             return false;
-        if ( memberEventRels == null )
+        if ( memberEvents == null )
         {
-            if ( other.memberEventRels != null )
+            if ( other.memberEvents != null )
                 return false;
         }
-        else if ( !memberEventRels.equals( other.memberEventRels ) )
+        else if ( !memberEvents.equals( other.memberEvents ) )
             return false;
         if ( family == null )
         {
@@ -318,12 +319,12 @@ public class Member extends ResourceSupport implements Serializable
         }
         else if ( !family.equals( other.family ) )
             return false;
-        if ( memberTeamRels == null )
+        if ( memberTeams == null )
         {
-            if ( other.memberTeamRels != null )
+            if ( other.memberTeams != null )
                 return false;
         }
-        else if ( !memberTeamRels.equals( other.memberTeamRels ) )
+        else if ( !memberTeams.equals( other.memberTeams ) )
             return false;
         if ( name == null )
         {
@@ -352,6 +353,6 @@ public class Member extends ResourceSupport implements Serializable
     {
         return "Member [id=" + memberId + ", name=" + name + ", email=" + email + ", credential=" + credential + ", account="
                         + account + ", paymentPlan=" + paymentPlan + ", family=" + family
-                        + ", memberTeamRels=" + memberTeamRels + ", memberEventRels=" + memberEventRels + "]";
+                        + ", memberTeams=" + memberTeams + ", memberEvents=" + memberEvents + "]";
     }
 }
