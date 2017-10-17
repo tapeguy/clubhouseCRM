@@ -141,3 +141,20 @@ img {
 #debug_output td {
     border: 1px solid black;
 }
+
+#login_page {
+    background-color: #75a2ea;
+    height: 98vh;
+    width: 100vw;
+    display: table-cell;
+    vertical-align: middle;
+}
+
+#login_box {
+    width: 600px;
+    height: 280px;
+    margin: auto;
+    display: flex
+}
+
+}

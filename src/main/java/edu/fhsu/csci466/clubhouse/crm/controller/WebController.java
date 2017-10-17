@@ -13,21 +13,42 @@ import edu.fhsu.csci466.clubhouse.crm.service.model.Member;
 @Controller
 public class WebController {
 
-    @RequestMapping("/")
-    public String index( @AuthenticationPrincipal MemberToken token, Map<String, Object> model )
+    @RequestMapping( value= { "/", "/member_info" } )
+    public String memberInfo( @AuthenticationPrincipal MemberToken token, Map<String, Object> model )
     {
-        model.put("name", token.getMember().getName());
-        return "index";
+        model.put("member_id", token.getMember().getMemberId());
+        return "member_info";
     }
 
-    @RequestMapping("/about")
+    @RequestMapping( value= "/member_events" )
+    public String memberEvents( @AuthenticationPrincipal MemberToken token, Map<String, Object> model )
+    {
+        model.put("member_id", token.getMember().getMemberId());
+        return "member_events";
+    }
+
+    @RequestMapping( value= "/member_teams" )
+    public String memberTeams( @AuthenticationPrincipal MemberToken token, Map<String, Object> model )
+    {
+        model.put("member_id", token.getMember().getMemberId());
+        return "member_teams";
+    }
+
+    @RequestMapping( value= "/member_payments" )
+    public String memberPayments( @AuthenticationPrincipal MemberToken token, Map<String, Object> model )
+    {
+        model.put("member_id", token.getMember().getMemberId());
+        return "member_payments";
+    }
+
+    @RequestMapping( value = "/about" )
     public String about( Map<String, Object> model )
     {
         model.put("version", "1.0");
         return "about";
     }
 
-    @RequestMapping("/admin")
+    @RequestMapping( value = "/admin" )
     public String admin( @AuthenticationPrincipal MemberToken token, Map<String, Object> model )
     {
         Member member = token.getMember();

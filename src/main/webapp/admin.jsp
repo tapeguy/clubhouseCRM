@@ -1,25 +1,10 @@
 <%@ include file="/taglibs.jsp" %>
-<t:page title="clubhouseCRM Admin">
+<t:page title="clubhouseCRM Admin" nav="admin_nav">
 
 <jsp:attribute name="page_meta_tags">
 <script type="text/javascript" src="/js/restful.js"></script>
 <script type="text/javascript">
 $(function() {
-    var restMethod = {
-            href: "/crm/member",
-            type: "GET"
-        };
-    restful.callMethod(restMethod, null, displayMembers);
-
-    function displayMembers(msg) {
-        $.each(msg.entities, function() {
-            var tr = $('<tr>');
-            $.each(this, function() {
-                tr.append('<td>').append(this);
-            });
-            $('#members').append(tr);
-        });
-    }
 });
 </script>
 </jsp:attribute>
