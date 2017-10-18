@@ -1,10 +1,7 @@
 package edu.fhsu.csci466.clubhouse.crm.service.model;
 
 import java.io.Serializable;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
-
 import javax.persistence.*;
 
 import org.springframework.hateoas.ResourceSupport;
@@ -75,6 +72,16 @@ public class Member extends ResourceSupport implements Serializable
                 joinColumns = @JoinColumn( name = "member_id" ),
                 inverseJoinColumns = @JoinColumn( name = "event_id" ) )
     private List<Event>          memberEvents;
+
+    public boolean isLeaderAdmin()
+    {
+        if ( this instanceof Leader )
+        {
+            Leader leader = (Leader) this;
+            return leader.isAdmin();
+        }
+        return false;
+    }
 
     /**
      * @return the id
