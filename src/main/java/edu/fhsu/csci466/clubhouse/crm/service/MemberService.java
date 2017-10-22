@@ -11,14 +11,15 @@ import edu.fhsu.csci466.clubhouse.crm.service.model.Member;
 public interface MemberService
 {
     /**
-     * @param member
-     */
-    public void addMember( final Member member );
-
-    /**
      * @return member
      */
     public List<Member> getMembers();
+
+    /**
+     * @param member
+     * @return whether the create member was successful
+     */
+    public boolean addMember( Member member );
 
     /**
      * @param id
@@ -27,8 +28,27 @@ public interface MemberService
     public Member getMember( final Long id );
 
     /**
-     * @param userName
+     * @param name
      * @return member
      */
-    public Member getMemberByUserName( final String userName );
+    public Member getMemberByName( final String name );
+
+    /**
+     * @param member
+     * @return whether the update was successful
+     */
+    public boolean updateMember( Member member );
+
+    /**
+     * @param id
+     * @param password
+     * @return whether the update of the member password was successful
+     */
+    public boolean updateMemberPassword( final Long id, final String password );
+
+    /**
+     * @param member
+     * @return whether the delete was successful
+     */
+    public boolean deleteMember( Member member );
 }

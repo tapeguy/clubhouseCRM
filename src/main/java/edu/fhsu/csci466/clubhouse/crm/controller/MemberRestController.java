@@ -8,6 +8,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -64,29 +65,8 @@ public class MemberRestController
     @PostMapping( value = "/member/add", produces = MediaType.APPLICATION_JSON_VALUE )
     public HttpEntity<Member> addMember( @RequestBody Member member )
     {
-        service.addMember( member );
-        return new ResponseEntity<>( member, HttpStatus.OK );
-    }
-
-    /**
-     * @param member
-     * @return response entity the status to return
-     */
-    @PutMapping( value = "/member/update", produces = MediaType.APPLICATION_JSON_VALUE )
-    public HttpEntity<Member> updateMember( @RequestBody Member member )
-    {
-        // TODO!!
-        return new ResponseEntity<>( member, HttpStatus.OK );
-    }
-
-    /**
-     * @param newPassword
-     */
-    // This is so bad.  Big security hole...  Should use hashes or something
-    @PutMapping( value = "/member/password/{newPassword}", produces = MediaType.APPLICATION_JSON_VALUE )
-    public void updateMemberPassword( String newPassword )
-    {
-        // TODO: Update credential!!
+        HttpStatus status = service.addMember( member ) ? HttpStatus.OK : HttpStatus.I_AM_A_TEAPOT;
+        return new ResponseEntity<>( member, status );
     }
 
     /**
@@ -97,7 +77,54 @@ public class MemberRestController
     public HttpEntity<Member> getMember( @PathVariable Long id )
     {
         Member member = service.getMember( id );
+        HttpStatus status = (member != null) ? HttpStatus.OK : HttpStatus.NOT_FOUND;
         member.add( linkTo( methodOn( MemberRestController.class ).getMember( id ) ).withSelfRel() );
-        return new ResponseEntity<>( member, HttpStatus.OK );
+        return new ResponseEntity<>( member, status );
+    }
+
+    /**
+     * @param member
+     * @return response entity the status to return
+     */
+    @PutMapping( value = "/member/update", produces = MediaType.APPLICATION_JSON_VALUE )
+    public HttpEntity<Member> updateMember( @RequestBody Member member )
+    {
+        HttpStatus status = service.updateMember( member ) ? HttpStatus.OK : HttpStatus.NOT_FOUND;
+        member.add( linkTo( methodOn( MemberRestController.class ).getMember( member.getMemberId() ) ).withSelfRel() );
+        return new ResponseEntity<>( member, status );
+    }
+
+    /**
+     * @param id
+     * @param newPassword
+     * @return HttpStatus
+     * 
+     *         TODO investigate spring security encryption
+     */
+    // This is so bad. Big security hole... Should use hashes or something
+    @PutMapping( value = "/member/password/{newPassword}", produces = MediaType.APPLICATION_JSON_VALUE )
+    public HttpEntity<Member> updateMemberPassword( @PathVariable Long id, @PathVariable String newPassword )
+    {
+        // set HttpStatus based on success of update
+        HttpStatus status = service.updateMemberPassword( id, newPassword ) ? HttpStatus.OK : HttpStatus.NOT_FOUND;
+
+        // fetch updated member from db and add link
+        Member member = service.getMember( id );
+        member.add( linkTo( methodOn( MemberRestController.class ).getMember( member.getMemberId() ) ).withSelfRel() );
+
+        return new ResponseEntity<>( member, status );
+    }
+
+    /**
+     * @param id
+     * @return response entity the status to return
+     */
+    @DeleteMapping
+    public HttpEntity<Member> deleteMember( Long id )
+    {
+        Member member = service.getMember( id );
+        HttpStatus status = service.deleteMember( member ) ? HttpStatus.OK : HttpStatus.NOT_FOUND;
+
+        return new ResponseEntity<>( member, status );
     }
 }
