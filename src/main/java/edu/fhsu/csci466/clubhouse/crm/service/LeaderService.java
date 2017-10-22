@@ -40,8 +40,8 @@ public interface LeaderService
     public boolean updateLeader( Leader leader );
 
     /**
-     * @param leader
+     * @param id
      * @return whether the delete was successful
      */
-    public boolean deleteLeader( Leader leader );
+    public boolean deleteLeader( Long id );
 }

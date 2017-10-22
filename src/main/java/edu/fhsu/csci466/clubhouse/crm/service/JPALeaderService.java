@@ -71,11 +71,11 @@ public class JPALeaderService implements LeaderService
     }
 
     @Override
-    public boolean deleteLeader( Leader leader )
+    public boolean deleteLeader( Long id )
     {
-        if ( leader != null )
+        if ( id != null )
         {
-            leaderRepo.delete( leader );
+            leaderRepo.delete( id );
             return true;
         }
         return false;

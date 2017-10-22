@@ -119,8 +119,8 @@ public class MemberRestController
      * @param id
      * @return response entity the status to return
      */
-    @DeleteMapping
-    public HttpEntity<Member> deleteMember( Long id )
+    @DeleteMapping( value = "member/delete/{id}" )
+    public HttpEntity<Member> deleteMember( @PathVariable Long id )
     {
         Member member = service.getMember( id );
         HttpStatus status = service.deleteMember( member ) ? HttpStatus.OK : HttpStatus.NOT_FOUND;

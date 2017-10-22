@@ -98,11 +98,11 @@ public class LeaderRestController
      * @param id
      * @return response entity the status to return
      */
-    @DeleteMapping
-    public HttpEntity<Leader> deleteLeader( Long id )
+    @DeleteMapping( value = "leader/delete/{id}" )
+    public HttpEntity<Leader> deleteLeader( @PathVariable Long id )
     {
         Leader leader = service.getLeader( id );
-        HttpStatus status = service.deleteLeader( leader ) ? HttpStatus.OK : HttpStatus.NOT_FOUND;
+        HttpStatus status = service.deleteLeader( id ) ? HttpStatus.OK : HttpStatus.NOT_FOUND;
 
         return new ResponseEntity<>( leader, status );
     }
