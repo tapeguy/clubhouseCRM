@@ -1,5 +1,7 @@
 package edu.fhsu.csci466.clubhouse.crm.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
@@ -29,9 +31,53 @@ public class JPALeaderService implements LeaderService
     }
 
     @Override
-    public void addLeader( final Leader event )
+    public List<Leader> getLeaders()
     {
-        leaderRepo.save( event );
+        return leaderRepo.findAll();
     }
 
+    @Override
+    public boolean addLeader( final Leader leader )
+    {
+        if ( leader != null )
+        {
+            leaderRepo.save( leader );
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public Leader getLeader( Long id )
+    {
+        return leaderRepo.findOne( id );
+    }
+
+    @Override
+    public Leader getLeaderByName( String name )
+    {
+        return (Leader) leaderRepo.findByCredentialUserName( name );
+    }
+
+    @Override
+    public boolean updateLeader( Leader leader )
+    {
+        if ( leader != null )
+        {
+            leaderRepo.save( leader );
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean deleteLeader( Long id )
+    {
+        if ( id != null )
+        {
+            leaderRepo.delete( id );
+            return true;
+        }
+        return false;
+    }
 }
