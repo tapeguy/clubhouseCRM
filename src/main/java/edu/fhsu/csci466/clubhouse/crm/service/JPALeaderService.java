@@ -62,7 +62,7 @@ public class JPALeaderService implements LeaderService
     @Override
     public boolean updateLeader( Leader leader )
     {
-        if ( leader != null )
+        if ( leader != null && leaderRepo.exists( leader.getMemberId() ) )
         {
             leaderRepo.save( leader );
             return true;
@@ -73,7 +73,7 @@ public class JPALeaderService implements LeaderService
     @Override
     public boolean deleteLeader( Long id )
     {
-        if ( id != null )
+        if ( id != null && leaderRepo.exists( id ) )
         {
             leaderRepo.delete( id );
             return true;

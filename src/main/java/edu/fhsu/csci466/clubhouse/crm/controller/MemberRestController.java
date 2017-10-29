@@ -66,6 +66,7 @@ public class MemberRestController
     public HttpEntity<Member> addMember( @RequestBody Member member )
     {
         HttpStatus status = service.addMember( member ) ? HttpStatus.OK : HttpStatus.I_AM_A_TEAPOT;
+        member.add( linkTo( methodOn( MemberRestController.class ).getMember( member.getMemberId() ) ).withSelfRel() );
         return new ResponseEntity<>( member, status );
     }
 
@@ -124,7 +125,6 @@ public class MemberRestController
     {
         Member member = service.getMember( id );
         HttpStatus status = service.deleteMember( member ) ? HttpStatus.OK : HttpStatus.NOT_FOUND;
-
-        return new ResponseEntity<>( member, status );
+        return new ResponseEntity<>( status );
     }
 }
