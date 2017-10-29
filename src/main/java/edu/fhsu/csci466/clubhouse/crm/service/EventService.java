@@ -12,8 +12,9 @@ public interface EventService
 {
     /**
      * @param event
+     * @return whether event creation was successful
      */
-    public void addEvent( final Event event );
+    public boolean addEvent( Event event );
 
     /**
      * @return event
@@ -21,8 +22,20 @@ public interface EventService
     public List<Event> getEvents();
 
     /**
-     * @param id
+     * @param id the id of the event to get
      * @return event
      */
     public Event getEvent( final Long id );
+
+    /**
+     * @param event
+     * @return whether event update was successful
+     */
+    public boolean updateEvent( Event event );
+
+    /**
+     * @param id the id of the event to delete
+     * @return whether event deletion was successful
+     */
+    public boolean deleteEvent( final Long id );
 }

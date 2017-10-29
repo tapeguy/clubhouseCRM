@@ -31,9 +31,14 @@ public class JPAEventService implements EventService
     }
 
     @Override
-    public void addEvent( final Event event )
+    public boolean addEvent( Event event )
     {
-        eventRepo.save( event );
+        if ( event != null )
+        {
+            eventRepo.save( event );
+            return true;
+        }
+        return false;
     }
 
     @Override
@@ -47,5 +52,28 @@ public class JPAEventService implements EventService
     public Event getEvent( final Long id )
     {
         return eventRepo.findOne( id );
+    }
+
+    @Override
+    public boolean updateEvent( Event event )
+    {
+        // ensure event already exists before trying to update
+        if ( event != null && eventRepo.exists( event.getEventId() ) )
+        {
+            eventRepo.save( event );
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean deleteEvent( final Long id )
+    {
+        if ( id != null && eventRepo.exists( id ) )
+        {
+            eventRepo.delete( id );
+            return true;
+        }
+        return false;
     }
 }

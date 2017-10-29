@@ -70,7 +70,7 @@ public class JPAMemberService implements MemberService
     @Override
     public boolean updateMember( Member member )
     {
-        if ( member != null )
+        if ( member != null && memberRepo.exists( member.getMemberId() ) )
         {
             memberRepo.save( member );
             return true;
@@ -85,12 +85,15 @@ public class JPAMemberService implements MemberService
         if ( member != null )
         {
             Credential credential = member.getCredential();
-            credential.setPassword( password );
-            member.setCredential( credential );
+            if ( credential != null )
+            {
+                credential.setPassword( password );
+                credentialRepo.save( credential );
 
-            credentialRepo.save( credential );
-            memberRepo.save( member );
-            return true;
+                member.setCredential( credential );
+                memberRepo.save( member );
+                return true;
+            }
         }
         return false;
     }
@@ -98,7 +101,7 @@ public class JPAMemberService implements MemberService
     @Override
     public boolean deleteMember( Member member )
     {
-        if ( member != null )
+        if ( member != null && memberRepo.exists( member.getMemberId() ) )
         {
             memberRepo.delete( member );
             return true;
