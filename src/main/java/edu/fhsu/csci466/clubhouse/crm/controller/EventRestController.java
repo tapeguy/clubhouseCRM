@@ -3,6 +3,9 @@ package edu.fhsu.csci466.clubhouse.crm.controller;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
@@ -64,8 +67,21 @@ public class EventRestController
     @GetMapping( value = "/event/available/{memberId}", produces = MediaType.APPLICATION_JSON_VALUE )
     public HttpEntity<EntityList<Event>> getAvailableEventsForMember( @PathVariable Long memberId )
     {
-        // TODO: Implement this!!
-        EntityList<Event> list = new EntityList<>();
+        // Assumes an event is available for a member IFF the event is not already full.
+
+     // @formatter:off
+
+        List<Event> events = service.getEvents()
+                                    .stream()
+                                    .filter( e -> e.getReservedSeats() < e.getMaxEventSeats() )
+                                    .peek( e -> e.add( linkTo( methodOn( EventRestController.class )
+                                                              .getEvent( e.getEventId() ) )
+                                                              .withSelfRel() ) )
+                                    .collect( Collectors.toList());
+        
+     // @formatter:on
+
+        EntityList<Event> list = new EntityList<>( events );
         return new ResponseEntity<>( list, HttpStatus.OK );
     }
 
