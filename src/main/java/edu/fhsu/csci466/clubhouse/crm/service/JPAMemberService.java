@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import edu.fhsu.csci466.clubhouse.crm.service.model.Member;
@@ -24,23 +25,38 @@ public class JPAMemberService implements MemberService
 
     private final MemberRepository     memberRepo;
     private final CredentialRepository credentialRepo;
+    private final PasswordEncoder      passwordEncoder;
 
     /**
      * @param memberRepo
      * @param credentialRepo
+     * @param passwordEncoder
      */
     @Autowired
-    public JPAMemberService ( MemberRepository memberRepo, CredentialRepository credentialRepo )
+    public JPAMemberService ( MemberRepository memberRepo, CredentialRepository credentialRepo,
+                    PasswordEncoder passwordEncoder )
     {
         this.memberRepo = memberRepo;
         this.credentialRepo = credentialRepo;
+        this.passwordEncoder = passwordEncoder;
     }
 
+    /**
+     * member password is encrypted by default
+     */
     @Override
     public boolean addMember( Member member )
     {
         if ( member != null )
         {
+            if ( member.getCredential() != null )
+            {
+                Credential credential = member.getCredential();
+                credential.setPassword( passwordEncoder.encode( credential.getPassword() ) );
+                credentialRepo.save( credential );
+                member.setCredential( credential );
+            }
+
             memberRepo.save( member );
             return true;
         }
@@ -87,7 +103,7 @@ public class JPAMemberService implements MemberService
             Credential credential = member.getCredential();
             if ( credential != null )
             {
-                credential.setPassword( password );
+                credential.setPassword( passwordEncoder.encode( password ) );
                 credentialRepo.save( credential );
 
                 member.setCredential( credential );

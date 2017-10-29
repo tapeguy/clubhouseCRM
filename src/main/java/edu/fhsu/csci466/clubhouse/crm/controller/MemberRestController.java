@@ -100,13 +100,13 @@ public class MemberRestController
      * @param newPassword
      * @return HttpStatus
      * 
-     *         TODO investigate spring security encryption
      */
     // This is so bad. Big security hole... Should use hashes or something
     @PutMapping( value = "/member/password/{newPassword}", produces = MediaType.APPLICATION_JSON_VALUE )
     public HttpEntity<Member> updateMemberPassword( @PathVariable Long id, @PathVariable String newPassword )
     {
         // set HttpStatus based on success of update
+        // service handles password encryption prior to saving to the db.
         HttpStatus status = service.updateMemberPassword( id, newPassword ) ? HttpStatus.OK : HttpStatus.NOT_FOUND;
 
         // fetch updated member from db and add link
