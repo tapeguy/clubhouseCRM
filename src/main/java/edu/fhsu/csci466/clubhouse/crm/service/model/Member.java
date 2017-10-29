@@ -2,7 +2,26 @@ package edu.fhsu.csci466.clubhouse.crm.service.model;
 
 import java.io.Serializable;
 import java.util.List;
-import javax.persistence.*;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.DiscriminatorColumn;
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.persistence.Transient;
 
 import org.springframework.hateoas.ResourceSupport;
 
@@ -21,58 +40,57 @@ import edu.fhsu.csci466.clubhouse.crm.service.model.services.PaymentPlan;
  *         Entity class representing a CRM member.
  */
 @Entity
-@Inheritance(strategy = InheritanceType.JOINED)
-@DiscriminatorColumn(name = "member_type")
-@DiscriminatorValue("MEMBER")
+@Inheritance( strategy = InheritanceType.JOINED )
+@DiscriminatorColumn( name = "member_type" )
+@DiscriminatorValue( "MEMBER" )
 public class Member extends ResourceSupport implements Serializable
 {
 
     /**
      *
      */
-    private static final long    serialVersionUID = 4926978862891959688L;
+    private static final long serialVersionUID = 4926978862891959688L;
 
     @Id
     @GeneratedValue( strategy = GenerationType.AUTO )
     @Column( name = "id", unique = true )
-    private Long                 memberId;
+    private Long              memberId;
 
-    private String               name;
+    private String            name;
 
-    private String               email;
+    private String            email;
 
     @Column( name = "member_type" )
-    @Enumerated(EnumType.STRING)
-    private MemberType           type;
+    @Enumerated( EnumType.STRING )
+    private MemberType        type;
 
     @OneToOne( fetch = FetchType.EAGER )
     @JoinColumn( name = "credential_id" )
-    private Credential           credential;
+    private Credential        credential;
 
     @OneToOne( fetch = FetchType.EAGER )
     @JoinColumn( name = "account_id" )
-    private Account              account;
+    private Account           account;
 
     @ManyToOne( fetch = FetchType.EAGER )
     @JoinColumn( name = "payment_plan_id" )
-    private PaymentPlan          paymentPlan;
+    private PaymentPlan       paymentPlan;
 
     @ManyToOne( fetch = FetchType.EAGER )
     @JoinColumn( name = "family_id" )
-    private Family               family;
+    private Family            family;
 
     @ManyToMany( cascade = CascadeType.ALL )
-    @JoinTable( name = "member_team_rel",
-                joinColumns = @JoinColumn( name = "member_id" ),
-                inverseJoinColumns = @JoinColumn( name = "team_id" ) )
-    private List<Team>           memberTeams;
+    @JoinTable( name = "member_team_rel", joinColumns = @JoinColumn( name = "member_id" ), inverseJoinColumns = @JoinColumn( name = "team_id" ) )
+    private List<Team>        memberTeams;
 
     @ManyToMany( cascade = CascadeType.ALL )
-    @JoinTable( name = "member_event_rel",
-                joinColumns = @JoinColumn( name = "member_id" ),
-                inverseJoinColumns = @JoinColumn( name = "event_id" ) )
-    private List<Event>          memberEvents;
+    @JoinTable( name = "member_event_rel", joinColumns = @JoinColumn( name = "member_id" ), inverseJoinColumns = @JoinColumn( name = "event_id" ) )
+    private List<Event>       memberEvents;
 
+    /**
+     * @return whether member is an admin, i.e. a leader
+     */
     public boolean isLeaderAdmin()
     {
         if ( this instanceof Leader )
@@ -131,7 +149,6 @@ public class Member extends ResourceSupport implements Serializable
         this.email = email;
     }
 
-
     /**
      * @return the type
      */
@@ -151,12 +168,11 @@ public class Member extends ResourceSupport implements Serializable
     /**
      * @return the type
      */
-    @Transient                              // Not persisted in the database
+    @Transient // Not persisted in the database
     public String getTypeString()
     {
         return this.getType().toString();
     }
-
 
     /**
      * @return the credential
@@ -209,43 +225,49 @@ public class Member extends ResourceSupport implements Serializable
     /**
      * @return the family
      */
-    @JsonIgnore             // Ignore for now to avoid circular links
-    public Family getFamily() {
+    @JsonIgnore // Ignore for now to avoid circular links
+    public Family getFamily()
+    {
         return family;
     }
 
     /**
      * @param family the family to set
      */
-    public void setFamily(Family family) {
+    public void setFamily( Family family )
+    {
         this.family = family;
     }
 
     /**
      * @return the memberTeams
      */
-    public List<Team> getMemberTeams() {
+    public List<Team> getMemberTeams()
+    {
         return memberTeams;
     }
 
     /**
      * @param memberTeams the memberTeams to set
      */
-    public void setMemberTeams(List<Team> memberTeams) {
+    public void setMemberTeams( List<Team> memberTeams )
+    {
         this.memberTeams = memberTeams;
     }
 
     /**
      * @return the memberEvents
      */
-    public List<Event> getMemberEvents() {
+    public List<Event> getMemberEvents()
+    {
         return memberEvents;
     }
 
     /**
      * @param memberEvents the memberEvents to set
      */
-    public void setMemberEvents(List<Event> memberEvents) {
+    public void setMemberEvents( List<Event> memberEvents )
+    {
         this.memberEvents = memberEvents;
     }
 
@@ -358,8 +380,8 @@ public class Member extends ResourceSupport implements Serializable
     @Override
     public String toString()
     {
-        return "Member [id=" + memberId + ", name=" + name + ", email=" + email + ", credential=" + credential + ", account="
-                        + account + ", paymentPlan=" + paymentPlan + ", family=" + family
+        return "Member [id=" + memberId + ", name=" + name + ", email=" + email + ", credential=" + credential
+                        + ", account=" + account + ", paymentPlan=" + paymentPlan + ", family=" + family
                         + ", memberTeams=" + memberTeams + ", memberEvents=" + memberEvents + "]";
     }
 }

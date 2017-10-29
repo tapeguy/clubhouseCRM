@@ -2,7 +2,9 @@ package edu.fhsu.csci466.clubhouse.crm.service.model.services;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -10,11 +12,14 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
 import org.springframework.hateoas.ResourceSupport;
 
 import edu.fhsu.csci466.clubhouse.crm.service.model.Leader;
+import edu.fhsu.csci466.clubhouse.crm.service.model.Member;
 
 /**
  * @author ss047890
@@ -46,6 +51,10 @@ public class Event extends ResourceSupport implements Serializable
     private Integer           maxEventSeats;
 
     private Integer           reservedSeats;
+
+    @ManyToMany( cascade = CascadeType.ALL )
+    @JoinTable( name = "member_event_rel", joinColumns = @JoinColumn( name = "event_id" ), inverseJoinColumns = @JoinColumn( name = "member_id" ) )
+    private List<Member>      members;
 
     /**
      * @return the id
@@ -181,30 +190,54 @@ public class Event extends ResourceSupport implements Serializable
         return reservedSeats >= maxEventSeats;
     }
 
+    /**
+     * @return the members
+     */
+    public List<Member> getMembers()
+    {
+        return members;
+    }
+
+    /**
+     * @param members the members to set
+     */
+    public void setMembers( List<Member> members )
+    {
+        this.members = members;
+    }
+
+    /**
+     * @param eventDateTime the eventDateTime to set
+     */
+    public void setEventDateTime( Timestamp eventDateTime )
+    {
+        this.eventDateTime = eventDateTime;
+    }
+
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see java.lang.Object#hashCode()
      */
     @Override
     public int hashCode()
     {
         final int prime = 19890919;
-        int result = 1;
-        result = prime * result + ((eventDateTime == null) ? 0 : eventDateTime.hashCode());
+        int result = super.hashCode();
         result = prime * result + ((display == null) ? 0 : display.hashCode());
+        result = prime * result + ((eventDateTime == null) ? 0 : eventDateTime.hashCode());
+        result = prime * result + ((eventId == null) ? 0 : eventId.hashCode());
         result = prime * result + ((eventLocation == null) ? 0 : eventLocation.hashCode());
         result = prime * result + ((leader == null) ? 0 : leader.hashCode());
-        result = prime * result + ((eventId == null) ? 0 : eventId.hashCode());
-        result = prime * result + (isFull() ? 1231 : 1237);
         result = prime * result + ((maxEventSeats == null) ? 0 : maxEventSeats.hashCode());
+        result = prime * result + ((members == null) ? 0 : members.hashCode());
         result = prime * result + ((reservedSeats == null) ? 0 : reservedSeats.hashCode());
         return result;
     }
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see java.lang.Object#equals(java.lang.Object)
      */
     @Override
@@ -212,11 +245,18 @@ public class Event extends ResourceSupport implements Serializable
     {
         if ( this == obj )
             return true;
-        if ( obj == null )
+        if ( !super.equals( obj ) )
             return false;
         if ( getClass() != obj.getClass() )
             return false;
         Event other = (Event) obj;
+        if ( display == null )
+        {
+            if ( other.display != null )
+                return false;
+        }
+        else if ( !display.equals( other.display ) )
+            return false;
         if ( eventDateTime == null )
         {
             if ( other.eventDateTime != null )
@@ -224,12 +264,12 @@ public class Event extends ResourceSupport implements Serializable
         }
         else if ( !eventDateTime.equals( other.eventDateTime ) )
             return false;
-        if ( display == null )
+        if ( eventId == null )
         {
-            if ( other.display != null )
+            if ( other.eventId != null )
                 return false;
         }
-        else if ( !display.equals( other.display ) )
+        else if ( !eventId.equals( other.eventId ) )
             return false;
         if ( eventLocation == null )
         {
@@ -245,21 +285,19 @@ public class Event extends ResourceSupport implements Serializable
         }
         else if ( !leader.equals( other.leader ) )
             return false;
-        if ( eventId == null )
-        {
-            if ( other.eventId != null )
-                return false;
-        }
-        else if ( !eventId.equals( other.eventId ) )
-            return false;
-        if ( isFull() != other.isFull() )
-            return false;
         if ( maxEventSeats == null )
         {
             if ( other.maxEventSeats != null )
                 return false;
         }
         else if ( !maxEventSeats.equals( other.maxEventSeats ) )
+            return false;
+        if ( members == null )
+        {
+            if ( other.members != null )
+                return false;
+        }
+        else if ( !members.equals( other.members ) )
             return false;
         if ( reservedSeats == null )
         {
@@ -279,8 +317,8 @@ public class Event extends ResourceSupport implements Serializable
     @Override
     public String toString()
     {
-        return "Event [id=" + eventId + ", eventDate=" + eventDateTime + ", eventDisplay=" + display + ", eventLocation="
-                        + eventLocation + ", leader=" + leader + ", maxEventSeats=" + maxEventSeats + ", reservedSeats="
-                        + reservedSeats + ", isFull=" + isFull() + "]";
+        return "Event [id=" + eventId + ", eventDate=" + eventDateTime + ", eventDisplay=" + display
+                        + ", eventLocation=" + eventLocation + ", leader=" + leader + ", maxEventSeats=" + maxEventSeats
+                        + ", reservedSeats=" + reservedSeats + ", isFull=" + isFull() + "]";
     }
 }

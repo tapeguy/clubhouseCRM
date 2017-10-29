@@ -4,6 +4,8 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
 import java.util.List;
+import java.util.function.Consumer;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +23,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import edu.fhsu.csci466.clubhouse.crm.service.EventService;
+import edu.fhsu.csci466.clubhouse.crm.service.MemberService;
 import edu.fhsu.csci466.clubhouse.crm.service.model.EntityList;
+import edu.fhsu.csci466.clubhouse.crm.service.model.Member;
 import edu.fhsu.csci466.clubhouse.crm.service.model.services.Event;
 
 /**
@@ -32,15 +36,24 @@ import edu.fhsu.csci466.clubhouse.crm.service.model.services.Event;
 @RequestMapping( "/crm" )
 public class EventRestController
 {
-    private final EventService service;
+    private final EventService            service;
+
+    private final MemberService           memberService;
+
+    private static final Predicate<Event> isNotFull   = e -> e.getReservedSeats() < e.getMaxEventSeats();
+
+    private static final Consumer<Event>  addSelfLink = e -> e
+                    .add( linkTo( methodOn( EventRestController.class ).getEvent( e.getEventId() ) ).withSelfRel() );
 
     /**
      * @param service
+     * @param memberService
      */
     @Autowired
-    public EventRestController ( EventService service )
+    public EventRestController ( EventService service, MemberService memberService )
     {
         this.service = service;
+        this.memberService = memberService;
     }
 
     /**
@@ -73,10 +86,8 @@ public class EventRestController
 
         List<Event> events = service.getEvents()
                                     .stream()
-                                    .filter( e -> e.getReservedSeats() < e.getMaxEventSeats() )
-                                    .peek( e -> e.add( linkTo( methodOn( EventRestController.class )
-                                                              .getEvent( e.getEventId() ) )
-                                                              .withSelfRel() ) )
+                                    .filter( isNotFull )
+                                    .peek( addSelfLink )
                                     .collect( Collectors.toList());
         
      // @formatter:on
@@ -92,8 +103,18 @@ public class EventRestController
     @GetMapping( value = "/event/enrolled/{memberId}", produces = MediaType.APPLICATION_JSON_VALUE )
     public HttpEntity<EntityList<Event>> getEnrolledEventsForMember( @PathVariable Long memberId )
     {
-        // TODO: Implement this!!
-        EntityList<Event> list = new EntityList<>();
+        Member member = memberService.getMember( memberId );
+
+     // @formatter:off
+        
+        List<Event> events = service.getEvents()
+                                    .stream()
+                                    .filter( e -> e.getMembers().contains( member ) )
+                                    .peek( addSelfLink )
+                                    .collect( Collectors.toList());
+                        
+     // @formatter:on
+        EntityList<Event> list = new EntityList<>( events );
         return new ResponseEntity<>( list, HttpStatus.OK );
     }
 
