@@ -26,7 +26,7 @@ public class TestUtil
 
         for ( long i = 1; i <= MEMBER_COUNT; ++i )
         {
-            members.add( buildMember( i ) );
+            members.add( getMember( i ) );
         }
 
         return members;
@@ -36,7 +36,7 @@ public class TestUtil
      * @param i
      * @return an initialized test member
      */
-    public static Member buildMember( long i )
+    public static Member getMember( final long i )
     {
         Credential c = new Credential();
         c.setCredentialId( i * 100 );
@@ -49,6 +49,13 @@ public class TestUtil
         m.setEmail( "m" + i + "@email.com" );
         m.setCredential( c );
 
+        return m;
+    }
+
+    public static Member getMemberNoCredential( final long i )
+    {
+        Member m = getMember( i );
+        m.setCredential( null );
         return m;
     }
 }
