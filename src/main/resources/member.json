@@ -1,0 +1,610 @@
+{
+  "entities" : [ {
+    "memberId" : 1,
+    "name" : "name1",
+    "email" : "m1@email.com",
+    "memberType" : null,
+    "credential" : {
+      "credentialId" : 100,
+      "userName" : "user1"
+    },
+    "account" : {
+      "accountId" : 1,
+      "balance" : 1.8,
+      "annualClubDues" : 19.95,
+      "links" : [ ]
+    },
+    "paymentPlan" : {
+      "paymentPlanId" : 1,
+      "display" : "PaymentPlan",
+      "billingCycleInWeeks" : 2,
+      "fee" : 19.95
+    },
+    "memberTeams" : null,
+    "memberEvents" : null,
+    "type" : null,
+    "typeString" : "",
+    "leaderAdmin" : false,
+    "links" : [ {
+      "rel" : "self",
+      "href" : "http://localhost/crm/member/1"
+    } ]
+  }, {
+    "memberId" : 2,
+    "name" : "name2",
+    "email" : "m2@email.com",
+    "memberType" : null,
+    "credential" : {
+      "credentialId" : 200,
+      "userName" : "user2"
+    },
+    "account" : {
+      "accountId" : 2,
+      "balance" : 3.6,
+      "annualClubDues" : 19.95,
+      "links" : [ ]
+    },
+    "paymentPlan" : {
+      "paymentPlanId" : 2,
+      "display" : "PaymentPlan",
+      "billingCycleInWeeks" : 2,
+      "fee" : 19.95
+    },
+    "memberTeams" : null,
+    "memberEvents" : null,
+    "type" : null,
+    "typeString" : "",
+    "leaderAdmin" : false,
+    "links" : [ {
+      "rel" : "self",
+      "href" : "http://localhost/crm/member/2"
+    } ]
+  }, {
+    "memberId" : 3,
+    "name" : "name3",
+    "email" : "m3@email.com",
+    "memberType" : null,
+    "credential" : {
+      "credentialId" : 300,
+      "userName" : "user3"
+    },
+    "account" : {
+      "accountId" : 3,
+      "balance" : 5.4,
+      "annualClubDues" : 19.95,
+      "links" : [ ]
+    },
+    "paymentPlan" : {
+      "paymentPlanId" : 3,
+      "display" : "PaymentPlan",
+      "billingCycleInWeeks" : 2,
+      "fee" : 19.95
+    },
+    "memberTeams" : null,
+    "memberEvents" : null,
+    "type" : null,
+    "typeString" : "",
+    "leaderAdmin" : false,
+    "links" : [ {
+      "rel" : "self",
+      "href" : "http://localhost/crm/member/3"
+    } ]
+  }, {
+    "memberId" : 4,
+    "name" : "name4",
+    "email" : "m4@email.com",
+    "memberType" : null,
+    "credential" : {
+      "credentialId" : 400,
+      "userName" : "user4"
+    },
+    "account" : {
+      "accountId" : 4,
+      "balance" : 7.2,
+      "annualClubDues" : 19.95,
+      "links" : [ ]
+    },
+    "paymentPlan" : {
+      "paymentPlanId" : 4,
+      "display" : "PaymentPlan",
+      "billingCycleInWeeks" : 2,
+      "fee" : 19.95
+    },
+    "memberTeams" : null,
+    "memberEvents" : null,
+    "type" : null,
+    "typeString" : "",
+    "leaderAdmin" : false,
+    "links" : [ {
+      "rel" : "self",
+      "href" : "http://localhost/crm/member/4"
+    } ]
+  }, {
+    "memberId" : 5,
+    "name" : "name5",
+    "email" : "m5@email.com",
+    "memberType" : null,
+    "credential" : {
+      "credentialId" : 500,
+      "userName" : "user5"
+    },
+    "account" : {
+      "accountId" : 5,
+      "balance" : 9.0,
+      "annualClubDues" : 19.95,
+      "links" : [ ]
+    },
+    "paymentPlan" : {
+      "paymentPlanId" : 5,
+      "display" : "PaymentPlan",
+      "billingCycleInWeeks" : 2,
+      "fee" : 19.95
+    },
+    "memberTeams" : null,
+    "memberEvents" : null,
+    "type" : null,
+    "typeString" : "",
+    "leaderAdmin" : false,
+    "links" : [ {
+      "rel" : "self",
+      "href" : "http://localhost/crm/member/5"
+    } ]
+  }, {
+    "memberId" : 6,
+    "name" : "name6",
+    "email" : "m6@email.com",
+    "memberType" : null,
+    "credential" : {
+      "credentialId" : 600,
+      "userName" : "user6"
+    },
+    "account" : {
+      "accountId" : 6,
+      "balance" : 10.8,
+      "annualClubDues" : 19.95,
+      "links" : [ ]
+    },
+    "paymentPlan" : {
+      "paymentPlanId" : 6,
+      "display" : "PaymentPlan",
+      "billingCycleInWeeks" : 2,
+      "fee" : 19.95
+    },
+    "memberTeams" : null,
+    "memberEvents" : null,
+    "type" : null,
+    "typeString" : "",
+    "leaderAdmin" : false,
+    "links" : [ {
+      "rel" : "self",
+      "href" : "http://localhost/crm/member/6"
+    } ]
+  }, {
+    "memberId" : 7,
+    "name" : "name7",
+    "email" : "m7@email.com",
+    "memberType" : null,
+    "credential" : {
+      "credentialId" : 700,
+      "userName" : "user7"
+    },
+    "account" : {
+      "accountId" : 7,
+      "balance" : 12.6,
+      "annualClubDues" : 19.95,
+      "links" : [ ]
+    },
+    "paymentPlan" : {
+      "paymentPlanId" : 7,
+      "display" : "PaymentPlan",
+      "billingCycleInWeeks" : 2,
+      "fee" : 19.95
+    },
+    "memberTeams" : null,
+    "memberEvents" : null,
+    "type" : null,
+    "typeString" : "",
+    "leaderAdmin" : false,
+    "links" : [ {
+      "rel" : "self",
+      "href" : "http://localhost/crm/member/7"
+    } ]
+  }, {
+    "memberId" : 8,
+    "name" : "name8",
+    "email" : "m8@email.com",
+    "memberType" : null,
+    "credential" : {
+      "credentialId" : 800,
+      "userName" : "user8"
+    },
+    "account" : {
+      "accountId" : 8,
+      "balance" : 14.4,
+      "annualClubDues" : 19.95,
+      "links" : [ ]
+    },
+    "paymentPlan" : {
+      "paymentPlanId" : 8,
+      "display" : "PaymentPlan",
+      "billingCycleInWeeks" : 2,
+      "fee" : 19.95
+    },
+    "memberTeams" : null,
+    "memberEvents" : null,
+    "type" : null,
+    "typeString" : "",
+    "leaderAdmin" : false,
+    "links" : [ {
+      "rel" : "self",
+      "href" : "http://localhost/crm/member/8"
+    } ]
+  }, {
+    "memberId" : 9,
+    "name" : "name9",
+    "email" : "m9@email.com",
+    "memberType" : null,
+    "credential" : {
+      "credentialId" : 900,
+      "userName" : "user9"
+    },
+    "account" : {
+      "accountId" : 9,
+      "balance" : 16.2,
+      "annualClubDues" : 19.95,
+      "links" : [ ]
+    },
+    "paymentPlan" : {
+      "paymentPlanId" : 9,
+      "display" : "PaymentPlan",
+      "billingCycleInWeeks" : 2,
+      "fee" : 19.95
+    },
+    "memberTeams" : null,
+    "memberEvents" : null,
+    "type" : null,
+    "typeString" : "",
+    "leaderAdmin" : false,
+    "links" : [ {
+      "rel" : "self",
+      "href" : "http://localhost/crm/member/9"
+    } ]
+  }, {
+    "memberId" : 10,
+    "name" : "name10",
+    "email" : "m10@email.com",
+    "memberType" : null,
+    "credential" : {
+      "credentialId" : 1000,
+      "userName" : "user10"
+    },
+    "account" : {
+      "accountId" : 10,
+      "balance" : 18.0,
+      "annualClubDues" : 19.95,
+      "links" : [ ]
+    },
+    "paymentPlan" : {
+      "paymentPlanId" : 10,
+      "display" : "PaymentPlan",
+      "billingCycleInWeeks" : 2,
+      "fee" : 19.95
+    },
+    "memberTeams" : null,
+    "memberEvents" : null,
+    "type" : null,
+    "typeString" : "",
+    "leaderAdmin" : false,
+    "links" : [ {
+      "rel" : "self",
+      "href" : "http://localhost/crm/member/10"
+    } ]
+  }, {
+    "memberId" : 11,
+    "name" : "name11",
+    "email" : "m11@email.com",
+    "memberType" : null,
+    "credential" : {
+      "credentialId" : 1100,
+      "userName" : "user11"
+    },
+    "account" : {
+      "accountId" : 11,
+      "balance" : 19.8,
+      "annualClubDues" : 19.95,
+      "links" : [ ]
+    },
+    "paymentPlan" : {
+      "paymentPlanId" : 11,
+      "display" : "PaymentPlan",
+      "billingCycleInWeeks" : 2,
+      "fee" : 19.95
+    },
+    "memberTeams" : null,
+    "memberEvents" : null,
+    "type" : null,
+    "typeString" : "",
+    "leaderAdmin" : false,
+    "links" : [ {
+      "rel" : "self",
+      "href" : "http://localhost/crm/member/11"
+    } ]
+  }, {
+    "memberId" : 12,
+    "name" : "name12",
+    "email" : "m12@email.com",
+    "memberType" : null,
+    "credential" : {
+      "credentialId" : 1200,
+      "userName" : "user12"
+    },
+    "account" : {
+      "accountId" : 12,
+      "balance" : 21.6,
+      "annualClubDues" : 19.95,
+      "links" : [ ]
+    },
+    "paymentPlan" : {
+      "paymentPlanId" : 12,
+      "display" : "PaymentPlan",
+      "billingCycleInWeeks" : 2,
+      "fee" : 19.95
+    },
+    "memberTeams" : null,
+    "memberEvents" : null,
+    "type" : null,
+    "typeString" : "",
+    "leaderAdmin" : false,
+    "links" : [ {
+      "rel" : "self",
+      "href" : "http://localhost/crm/member/12"
+    } ]
+  }, {
+    "memberId" : 13,
+    "name" : "name13",
+    "email" : "m13@email.com",
+    "memberType" : null,
+    "credential" : {
+      "credentialId" : 1300,
+      "userName" : "user13"
+    },
+    "account" : {
+      "accountId" : 13,
+      "balance" : 23.400000000000002,
+      "annualClubDues" : 19.95,
+      "links" : [ ]
+    },
+    "paymentPlan" : {
+      "paymentPlanId" : 13,
+      "display" : "PaymentPlan",
+      "billingCycleInWeeks" : 2,
+      "fee" : 19.95
+    },
+    "memberTeams" : null,
+    "memberEvents" : null,
+    "type" : null,
+    "typeString" : "",
+    "leaderAdmin" : false,
+    "links" : [ {
+      "rel" : "self",
+      "href" : "http://localhost/crm/member/13"
+    } ]
+  }, {
+    "memberId" : 14,
+    "name" : "name14",
+    "email" : "m14@email.com",
+    "memberType" : null,
+    "credential" : {
+      "credentialId" : 1400,
+      "userName" : "user14"
+    },
+    "account" : {
+      "accountId" : 14,
+      "balance" : 25.2,
+      "annualClubDues" : 19.95,
+      "links" : [ ]
+    },
+    "paymentPlan" : {
+      "paymentPlanId" : 14,
+      "display" : "PaymentPlan",
+      "billingCycleInWeeks" : 2,
+      "fee" : 19.95
+    },
+    "memberTeams" : null,
+    "memberEvents" : null,
+    "type" : null,
+    "typeString" : "",
+    "leaderAdmin" : false,
+    "links" : [ {
+      "rel" : "self",
+      "href" : "http://localhost/crm/member/14"
+    } ]
+  }, {
+    "memberId" : 15,
+    "name" : "name15",
+    "email" : "m15@email.com",
+    "memberType" : null,
+    "credential" : {
+      "credentialId" : 1500,
+      "userName" : "user15"
+    },
+    "account" : {
+      "accountId" : 15,
+      "balance" : 27.0,
+      "annualClubDues" : 19.95,
+      "links" : [ ]
+    },
+    "paymentPlan" : {
+      "paymentPlanId" : 15,
+      "display" : "PaymentPlan",
+      "billingCycleInWeeks" : 2,
+      "fee" : 19.95
+    },
+    "memberTeams" : null,
+    "memberEvents" : null,
+    "type" : null,
+    "typeString" : "",
+    "leaderAdmin" : false,
+    "links" : [ {
+      "rel" : "self",
+      "href" : "http://localhost/crm/member/15"
+    } ]
+  }, {
+    "memberId" : 16,
+    "name" : "name16",
+    "email" : "m16@email.com",
+    "memberType" : null,
+    "credential" : {
+      "credentialId" : 1600,
+      "userName" : "user16"
+    },
+    "account" : {
+      "accountId" : 16,
+      "balance" : 28.8,
+      "annualClubDues" : 19.95,
+      "links" : [ ]
+    },
+    "paymentPlan" : {
+      "paymentPlanId" : 16,
+      "display" : "PaymentPlan",
+      "billingCycleInWeeks" : 2,
+      "fee" : 19.95
+    },
+    "memberTeams" : null,
+    "memberEvents" : null,
+    "type" : null,
+    "typeString" : "",
+    "leaderAdmin" : false,
+    "links" : [ {
+      "rel" : "self",
+      "href" : "http://localhost/crm/member/16"
+    } ]
+  }, {
+    "memberId" : 17,
+    "name" : "name17",
+    "email" : "m17@email.com",
+    "memberType" : null,
+    "credential" : {
+      "credentialId" : 1700,
+      "userName" : "user17"
+    },
+    "account" : {
+      "accountId" : 17,
+      "balance" : 30.6,
+      "annualClubDues" : 19.95,
+      "links" : [ ]
+    },
+    "paymentPlan" : {
+      "paymentPlanId" : 17,
+      "display" : "PaymentPlan",
+      "billingCycleInWeeks" : 2,
+      "fee" : 19.95
+    },
+    "memberTeams" : null,
+    "memberEvents" : null,
+    "type" : null,
+    "typeString" : "",
+    "leaderAdmin" : false,
+    "links" : [ {
+      "rel" : "self",
+      "href" : "http://localhost/crm/member/17"
+    } ]
+  }, {
+    "memberId" : 18,
+    "name" : "name18",
+    "email" : "m18@email.com",
+    "memberType" : null,
+    "credential" : {
+      "credentialId" : 1800,
+      "userName" : "user18"
+    },
+    "account" : {
+      "accountId" : 18,
+      "balance" : 32.4,
+      "annualClubDues" : 19.95,
+      "links" : [ ]
+    },
+    "paymentPlan" : {
+      "paymentPlanId" : 18,
+      "display" : "PaymentPlan",
+      "billingCycleInWeeks" : 2,
+      "fee" : 19.95
+    },
+    "memberTeams" : null,
+    "memberEvents" : null,
+    "type" : null,
+    "typeString" : "",
+    "leaderAdmin" : false,
+    "links" : [ {
+      "rel" : "self",
+      "href" : "http://localhost/crm/member/18"
+    } ]
+  }, {
+    "memberId" : 19,
+    "name" : "name19",
+    "email" : "m19@email.com",
+    "memberType" : null,
+    "credential" : {
+      "credentialId" : 1900,
+      "userName" : "user19"
+    },
+    "account" : {
+      "accountId" : 19,
+      "balance" : 34.2,
+      "annualClubDues" : 19.95,
+      "links" : [ ]
+    },
+    "paymentPlan" : {
+      "paymentPlanId" : 19,
+      "display" : "PaymentPlan",
+      "billingCycleInWeeks" : 2,
+      "fee" : 19.95
+    },
+    "memberTeams" : null,
+    "memberEvents" : null,
+    "type" : null,
+    "typeString" : "",
+    "leaderAdmin" : false,
+    "links" : [ {
+      "rel" : "self",
+      "href" : "http://localhost/crm/member/19"
+    } ]
+  }, {
+    "memberId" : 20,
+    "name" : "name20",
+    "email" : "m20@email.com",
+    "memberType" : null,
+    "credential" : {
+      "credentialId" : 2000,
+      "userName" : "user20"
+    },
+    "account" : {
+      "accountId" : 20,
+      "balance" : 36.0,
+      "annualClubDues" : 19.95,
+      "links" : [ ]
+    },
+    "paymentPlan" : {
+      "paymentPlanId" : 20,
+      "display" : "PaymentPlan",
+      "billingCycleInWeeks" : 2,
+      "fee" : 19.95
+    },
+    "memberTeams" : null,
+    "memberEvents" : null,
+    "type" : null,
+    "typeString" : "",
+    "leaderAdmin" : false,
+    "links" : [ {
+      "rel" : "self",
+      "href" : "http://localhost/crm/member/20"
+    } ]
+  } ],
+  "links" : [ {
+    "rel" : "list",
+    "href" : "http://localhost/crm/member"
+  }, {
+    "rel" : "add",
+    "href" : "http://localhost/crm/member/add"
+  } ]
+}

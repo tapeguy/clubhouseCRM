@@ -13,6 +13,8 @@ import javax.persistence.OneToOne;
 
 import org.springframework.hateoas.ResourceSupport;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import edu.fhsu.csci466.clubhouse.crm.service.model.Member;
 
 /**
@@ -32,7 +34,8 @@ public class Account extends ResourceSupport implements Serializable
     @Column( name = "id", unique = true )
     private Long              accountId;
 
-    @OneToOne( fetch = FetchType.EAGER )
+    @JsonIgnore
+    @OneToOne( fetch = FetchType.LAZY )
     @JoinColumn( name = "member_id" )
     private Member            member;
 

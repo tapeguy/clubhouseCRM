@@ -187,7 +187,7 @@ public class Member extends ResourceSupport implements Serializable
     @Transient // Not persisted in the database
     public String getTypeString()
     {
-        return this.getType().toString();
+        return this.getType() != null ? this.getType().toString() : "";
     }
 
     /**

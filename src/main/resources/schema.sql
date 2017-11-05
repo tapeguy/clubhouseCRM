@@ -49,7 +49,7 @@ create table member (
 	family_id int,
 	credential_id int,
 	account_id int,
-	payment_plan_id varchar(256)
+	payment_plan_id int
 );
 
 create table leader (
