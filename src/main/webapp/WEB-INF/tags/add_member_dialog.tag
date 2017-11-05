@@ -10,20 +10,25 @@
 
    <label for="username">Username:</label>
    <input id="username" name="username">
-   <<br><br>
+   <br><br>
+
+   <label for="password">Password:</label>
+   <input type="password" id="password" name="password">
+   <br><br>
 
    <label for="email">Email:</label>
    <input id="email" name="email">
    <br><br>
 
-   <label for="type">Type:</label><br>
-   <select>
+   <label for="member_type">Type:</label><br>
+   <select id="member_type">
        <option>Member</option>
        <option>Leader</option>
    </select>
    <br><br>
 
    <label for="payment_plan">Payment Plan:</label>
-   <input id="payment_plan" name="payment_plan">
+   <select id="payment_plan">
+   </select>
    <br />
 </div>

@@ -6,26 +6,53 @@
 <script type="text/javascript">
 $(function() {
 
-    var member_columns = [ 'memberId', 'name', 'email', 'typeString' ];
-    var restMethod = {
-            href: "/crm/member",
-            type: "GET"
-        };
-    restful.callMethod(restMethod, null, displayMembers);
-    function displayMembers(msg) {
-        $.each(msg.entities, function() {
-            var tr = $('<tr>');
-            $.each(this, function(key, value) {
-                if (member_columns.indexOf(key) >= 0) {
-                    tr.append($('<td>').html(value));
-                }
-            });
-            $('#members').append(tr);
-        });
+    function renderMembers() {
+       var member_columns = [ 'memberId', 'name', 'email', 'typeString' ];
+
+       // Build the html table of members.
+       $('#members').html($('<tr>')
+                    .append($('<th>').html('Member ID'))
+                    .append($('<th>').html('Name'))
+                    .append($('<th>').html('Email'))
+                    .append($('<th>').html('Type'))
+                    .append($('<th>').html('Payment Plan')));
+
+       var restMethod = {
+               href: "/crm/member",
+               type: "GET"
+       };
+       restful.callMethod(restMethod, null, function(msg) {
+           $.each(msg.entities, function() {
+               var tr = $('<tr>');
+               $.each(this, function(key, value) {
+                   if (member_columns.indexOf(key) >= 0) {
+                       tr.append($('<td>').html(value));
+                   }
+               });
+               tr.append($('<td>').html(this.paymentPlan.display));
+               $('#members').append(tr);
+           });
+       });
     }
+
+    renderMembers();
  
     $('#add_member_button').click( function() {
-        $('#add_member_dialog').dialog("open");
+
+        // Insert the payment plan options into the dialog
+        var restMethod = {
+                href: "/crm/paymentPlan",
+                type: "GET"
+            };
+        restful.callMethod(restMethod, null, function(msg) {
+            $.each(msg.entities, function(key, value) {   
+                $('#add_member_dialog > #payment_plan')
+                     .append($('<option>')
+                             .attr("value", value.paymentPlanId)
+                             .text(value.display)); 
+           });
+           $('#add_member_dialog').dialog("open");
+        });
     });
 
     $('#add_member_dialog').dialog({
@@ -37,6 +64,36 @@ $(function() {
             {
                 text: "Save",
                 click: function() {
+                    var member = {
+                        name: $('#add_member_dialog > #name').val(),
+                        email: $('#add_member_dialog > #email').val(),
+                        type: $('#add_member_dialog > #member_type').val().toUpperCase(),
+                        credential: {
+                            userName: $('#add_member_dialog > #username').val(),
+                            password: ''
+                        },
+                        paymentPlan: {
+                            paymentPlanId: $('#add_member_dialog > #payment_plan').val()
+                        }
+                    };
+                    var restMethod = {
+                        href: "/crm/member",
+                        type: "POST"
+                    };
+                    restful.callMethod(restMethod, null, function(msg) {
+
+                        // Set the password for the new member.
+                        var restMethod = {
+                            href: "/crm/member/{id}/password/{newPassword}",
+                            type: "PUT"
+                        };
+                        restful.callMethod(restMethod, {
+                            '{id}' : msg.memberId,
+                            '{newPassword}' : $('#add_member_dialog > #password').val()
+                        });
+                        $('#add_member_dialog').dialog("close");
+                        renderMembers();
+                    }, null, JSON.stringify(member));
                 },
             },
             {
@@ -63,12 +120,6 @@ $(function() {
     </div>
     <div class="panel-body">
         <table id="members">
-            <tr>
-                <th>Member ID</th>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Type</th>
-            </tr>
         </table>
     </div>
 </div>

@@ -8,12 +8,14 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import org.springframework.hateoas.ResourceSupport;
+
 /**
  * @author ss047890
  *
  */
 @Entity
-public class PaymentPlan implements Serializable
+public class PaymentPlan extends ResourceSupport implements Serializable
 {
     /**
      *

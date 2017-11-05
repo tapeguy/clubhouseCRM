@@ -37,8 +37,7 @@ public class CrmAuthenticationProvider implements AuthenticationProvider
             String password = authentication.getCredentials().toString();
 
             Member member = memberService.getMemberByName( name );
-            if ( member != null && member.getCredential() != null && member.getCredential().getPassword() != null
-                            && member.getCredential().getPassword().equals( password ) )
+            if ( memberService.authenticate( member, password ) )
             {
                 return new MemberToken( name, password, member );
             }

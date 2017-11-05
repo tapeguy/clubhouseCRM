@@ -1,5 +1,6 @@
 package edu.fhsu.csci466.clubhouse.crm.service;
 
+import java.security.SecureRandom;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,10 @@ public class JPAMemberService implements MemberService
     private final CredentialRepository credentialRepo;
     private final PasswordEncoder      passwordEncoder;
 
+    private static final String NEW_PASSWORD_CHARSET = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+    private static final int NEW_PASSWORD_LENGTH = 32;
+    private static final SecureRandom rand = new SecureRandom();
+
     /**
      * @param memberRepo
      * @param credentialRepo
@@ -52,7 +57,7 @@ public class JPAMemberService implements MemberService
             if ( member.getCredential() != null )
             {
                 Credential credential = member.getCredential();
-                credential.setPassword( passwordEncoder.encode( credential.getPassword() ) );
+                credential.setPassword( passwordEncoder.encode( this.randomPassword() ) );
                 credentialRepo.save( credential );
                 member.setCredential( credential );
             }
@@ -123,5 +128,22 @@ public class JPAMemberService implements MemberService
             return true;
         }
         return false;
+    }
+
+    @Override
+    public boolean authenticate ( Member member, String password )
+    {
+        return ( member != null &&
+                 member.getCredential() != null &&
+                 member.getCredential().getPassword() != null &&
+                 passwordEncoder.matches ( password, member.getCredential().getPassword() ) );
+    }
+
+    private String randomPassword()
+    {
+        StringBuilder sb = new StringBuilder( NEW_PASSWORD_LENGTH );
+        for ( int i = 0; i < NEW_PASSWORD_LENGTH; i++ )
+           sb.append( NEW_PASSWORD_CHARSET.charAt( rand.nextInt ( NEW_PASSWORD_CHARSET.length() ) ) );
+        return sb.toString();
     }
 }

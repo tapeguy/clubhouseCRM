@@ -51,4 +51,11 @@ public interface MemberService
      * @return whether the delete was successful
      */
     public boolean deleteMember( Member member );
+
+    /**
+     * @param member
+     * @param password
+     * @return true if authentication was successful.
+     */
+    public boolean authenticate ( Member member, String password );
 }

@@ -60,7 +60,7 @@ public class Member extends ResourceSupport implements Serializable
 
     private String            email;
 
-    @Column( name = "member_type" )
+    @Column( name = "member_type", insertable=false, updatable = false )
     @Enumerated( EnumType.STRING )
     private MemberType        memberType;
 
