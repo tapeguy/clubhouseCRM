@@ -14,7 +14,8 @@ $(function() {
                     .append($('<th>').html('Member ID'))
                     .append($('<th>').html('Name'))
                     .append($('<th>').html('Email'))
-                    .append($('<th>').html('Type')));
+                    .append($('<th>').html('Type'))
+                    .append($('<th>').html('Payment Plan')));
 
        var restMethod = {
                href: "/crm/member",
@@ -28,6 +29,7 @@ $(function() {
                        tr.append($('<td>').html(value));
                    }
                });
+               tr.append($('<td>').html(this.paymentPlan.display));
                $('#members').append(tr);
            });
        });
@@ -89,7 +91,7 @@ $(function() {
                             '{id}' : msg.memberId,
                             '{newPassword}' : $('#add_member_dialog > #password').val()
                         });
-                        $(this).dialog("close");
+                        $('#add_member_dialog').dialog("close");
                         renderMembers();
                     }, null, JSON.stringify(member));
                 },

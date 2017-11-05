@@ -130,7 +130,16 @@ public class JPAMemberService implements MemberService
         return false;
     }
 
-    public String randomPassword()
+    @Override
+    public boolean authenticate ( Member member, String password )
+    {
+        return ( member != null &&
+                 member.getCredential() != null &&
+                 member.getCredential().getPassword() != null &&
+                 passwordEncoder.matches ( password, member.getCredential().getPassword() ) );
+    }
+
+    private String randomPassword()
     {
         StringBuilder sb = new StringBuilder( NEW_PASSWORD_LENGTH );
         for ( int i = 0; i < NEW_PASSWORD_LENGTH; i++ )

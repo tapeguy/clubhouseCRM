@@ -5,14 +5,14 @@ insert into payment_plan (display, billing_cycle_in_weeks, fee) values
 ('Premium', 4, 201.00);
 
 insert into credential (user_name, password) values
-('president', 'president'),
-('leader', 'leader'),
-('user1', 'user1'),
-('user2', 'user2'),
-('user3', 'user3'),
-('user4', 'user4'),
-('user5', 'user5'),
-('user6', 'user6');
+('president', '$2a$10$joiHDq3b8.0G6NUck5259eps6LEpsXNK16Rc9pWhwLhtIXxqLfpY.'),
+('leader', '$2a$10$ER3XVFJzyQCyTMtc3huE0uH/i0QbGUpD0XKfM9toXc67pqQ/ljjgC'),
+('user1', '$2a$10$J98445.hWibWAAKa8lb0S.i2gQqjyCL42CS2qDNevkJNad90CPHH.'),
+('user2', '$2a$10$lIL5zNpb3ErvijJTnxTw/eC5FUHxUf15Q58dWkVow0ycVBHqZnQpS'),
+('user3', '$2a$10$R1eGZF8YOfg5DB82icMbYea/mn8mt.bjpaRTb2CbiyIH3FjzNxE.q'),
+('user4', '$2a$10$qhkjynshXlOUS0/4LBRLze/np8uWBJ3AbQdGql2zPbF/l.Mri/B0y'),
+('user5', '$2a$10$TuFfgPSg/pOHl4DOE6D3R.NM34E2kgTuR2LFGRgI1xHIuSeq0AstW'),
+('user6', '$2a$10$FVo0Y5Zmkv9JjYwkJ03mG.HZxCxaKLsn13dIqSYgNcpR46huvARgm');
 
 insert into family (family_name) values ('Simpson');
 

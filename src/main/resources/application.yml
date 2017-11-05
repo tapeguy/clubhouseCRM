@@ -13,6 +13,8 @@ spring:
     console:
       enabled: true
       path: /console
+      settings:
+        web-allow-others: true
   jpa:
     properties:
       hibernate:
