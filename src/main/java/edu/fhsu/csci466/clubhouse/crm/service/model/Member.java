@@ -62,7 +62,7 @@ public class Member extends ResourceSupport implements Serializable
 
     @Column( name = "member_type" )
     @Enumerated( EnumType.STRING )
-    private MemberType        type;
+    private MemberType        memberType;
 
     @OneToOne( fetch = FetchType.EAGER )
     @JoinColumn( name = "credential_id" )
@@ -152,9 +152,25 @@ public class Member extends ResourceSupport implements Serializable
     /**
      * @return the type
      */
+    public MemberType getMemberType()
+    {
+        return memberType;
+    }
+
+    /**
+     * @param type the type to set
+     */
+    public void setMemberType( MemberType type )
+    {
+        this.memberType = type;
+    }
+
+    /**
+     * @return the type
+     */
     public MemberType getType()
     {
-        return type;
+        return getMemberType();
     }
 
     /**
@@ -162,7 +178,7 @@ public class Member extends ResourceSupport implements Serializable
      */
     public void setType( MemberType type )
     {
-        this.type = type;
+        setMemberType( type );
     }
 
     /**
