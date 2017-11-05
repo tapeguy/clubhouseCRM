@@ -2,7 +2,7 @@ package edu.fhsu.csci466.clubhouse.crm.service;
 
 import java.util.List;
 
-import edu.fhsu.csci466.clubhouse.crm.service.model.services.Event;
+import edu.fhsu.csci466.clubhouse.crm.service.model.services.PaymentPlan;
 
 /**
  * @author ss047890
@@ -11,18 +11,23 @@ import edu.fhsu.csci466.clubhouse.crm.service.model.services.Event;
 public interface PaymentPlanService
 {
     /**
-     * @param event
+     * @param paymentPlan
      */
-    public void addEvent( final Event event );
+    public boolean addPaymentPlan( final PaymentPlan paymentPlan );
 
     /**
-     * @return event
+     * @param paymentPlan
      */
-    public List<Event> getEvents();
+    public boolean deletePaymentPlan( final Long id );
+
+    /**
+     * @return List of paymentPlan
+     */
+    public List<PaymentPlan> getPaymentPlans();
 
     /**
      * @param id
-     * @return event
+     * @return paymentPlan
      */
-    public Event getEvent( final Long id );
+    public PaymentPlan getPaymentPlan( final Long id );
 }

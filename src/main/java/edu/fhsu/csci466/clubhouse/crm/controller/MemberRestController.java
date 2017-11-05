@@ -62,10 +62,10 @@ public class MemberRestController
      * @param member
      * @return response entity the status to return
      */
-    @PostMapping( value = "/member/add", produces = MediaType.APPLICATION_JSON_VALUE )
+    @PostMapping( value = "/member", produces = MediaType.APPLICATION_JSON_VALUE )
     public HttpEntity<Member> addMember( @RequestBody Member member )
     {
-        HttpStatus status = service.addMember( member ) ? HttpStatus.OK : HttpStatus.I_AM_A_TEAPOT;
+        HttpStatus status = service.addMember( member ) ? HttpStatus.OK : HttpStatus.INTERNAL_SERVER_ERROR;
         member.add( linkTo( methodOn( MemberRestController.class ).getMember( member.getMemberId() ) ).withSelfRel() );
         return new ResponseEntity<>( member, status );
     }
@@ -87,7 +87,7 @@ public class MemberRestController
      * @param member
      * @return response entity the status to return
      */
-    @PutMapping( value = "/member/update", produces = MediaType.APPLICATION_JSON_VALUE )
+    @PutMapping( value = "/member", produces = MediaType.APPLICATION_JSON_VALUE )
     public HttpEntity<Member> updateMember( @RequestBody Member member )
     {
         HttpStatus status = service.updateMember( member ) ? HttpStatus.OK : HttpStatus.NOT_FOUND;
@@ -99,10 +99,10 @@ public class MemberRestController
      * @param id
      * @param newPassword
      * @return HttpStatus
-     * 
+     *
      */
-    // This is so bad. Big security hole... Should use hashes or something
-    @PutMapping( value = "/member/password/{newPassword}", produces = MediaType.APPLICATION_JSON_VALUE )
+    // This should be using HTTPS.
+    @PutMapping( value = "/member/{id}/password/{newPassword}", produces = MediaType.APPLICATION_JSON_VALUE )
     public HttpEntity<Member> updateMemberPassword( @PathVariable Long id, @PathVariable String newPassword )
     {
         // set HttpStatus based on success of update
@@ -120,7 +120,7 @@ public class MemberRestController
      * @param id
      * @return response entity the status to return
      */
-    @DeleteMapping( value = "member/delete/{id}" )
+    @DeleteMapping( value = "member/{id}" )
     public HttpEntity<Member> deleteMember( @PathVariable Long id )
     {
         Member member = service.getMember( id );
