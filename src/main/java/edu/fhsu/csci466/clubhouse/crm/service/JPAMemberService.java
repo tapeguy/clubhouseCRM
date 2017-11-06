@@ -15,7 +15,7 @@ import edu.fhsu.csci466.clubhouse.crm.service.repo.CredentialRepository;
 import edu.fhsu.csci466.clubhouse.crm.service.repo.MemberRepository;
 
 /**
- * @author ss047890
+ * @author scottKC
  *
  */
 @Service
@@ -28,9 +28,9 @@ public class JPAMemberService implements MemberService
     private final CredentialRepository credentialRepo;
     private final PasswordEncoder      passwordEncoder;
 
-    private static final String NEW_PASSWORD_CHARSET = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-    private static final int NEW_PASSWORD_LENGTH = 32;
-    private static final SecureRandom rand = new SecureRandom();
+    private static final String        NEW_PASSWORD_CHARSET = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+    private static final int           NEW_PASSWORD_LENGTH  = 32;
+    private static final SecureRandom  rand                 = new SecureRandom();
 
     /**
      * @param memberRepo
@@ -57,7 +57,7 @@ public class JPAMemberService implements MemberService
             if ( member.getCredential() != null )
             {
                 Credential credential = member.getCredential();
-                credential.setPassword( passwordEncoder.encode( this.randomPassword() ) );
+                credential.setPassword( passwordEncoder.encode( randomPassword() ) );
                 credentialRepo.save( credential );
                 member.setCredential( credential );
             }
@@ -131,19 +131,17 @@ public class JPAMemberService implements MemberService
     }
 
     @Override
-    public boolean authenticate ( Member member, String password )
+    public boolean authenticate( Member member, String password )
     {
-        return ( member != null &&
-                 member.getCredential() != null &&
-                 member.getCredential().getPassword() != null &&
-                 passwordEncoder.matches ( password, member.getCredential().getPassword() ) );
+        return (member != null && member.getCredential() != null && member.getCredential().getPassword() != null
+                        && passwordEncoder.matches( password, member.getCredential().getPassword() ));
     }
 
-    private String randomPassword()
+    private static String randomPassword()
     {
         StringBuilder sb = new StringBuilder( NEW_PASSWORD_LENGTH );
         for ( int i = 0; i < NEW_PASSWORD_LENGTH; i++ )
-           sb.append( NEW_PASSWORD_CHARSET.charAt( rand.nextInt ( NEW_PASSWORD_CHARSET.length() ) ) );
+            sb.append( NEW_PASSWORD_CHARSET.charAt( rand.nextInt( NEW_PASSWORD_CHARSET.length() ) ) );
         return sb.toString();
     }
 }
