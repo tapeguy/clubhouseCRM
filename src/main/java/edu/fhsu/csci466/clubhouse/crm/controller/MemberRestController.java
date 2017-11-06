@@ -22,7 +22,7 @@ import edu.fhsu.csci466.clubhouse.crm.service.model.EntityList;
 import edu.fhsu.csci466.clubhouse.crm.service.model.Member;
 
 /**
- * @author ss047890
+ * @author scottKC
  *
  */
 @RestController

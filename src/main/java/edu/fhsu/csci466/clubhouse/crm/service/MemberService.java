@@ -5,7 +5,7 @@ import java.util.List;
 import edu.fhsu.csci466.clubhouse.crm.service.model.Member;
 
 /**
- * @author ss047890
+ * @author scottKC
  *
  */
 public interface MemberService
@@ -57,5 +57,5 @@ public interface MemberService
      * @param password
      * @return true if authentication was successful.
      */
-    public boolean authenticate ( Member member, String password );
+    public boolean authenticate( Member member, String password );
 }
