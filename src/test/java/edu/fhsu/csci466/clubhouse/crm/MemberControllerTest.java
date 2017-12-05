@@ -29,56 +29,71 @@ import edu.fhsu.csci466.clubhouse.crm.service.model.Member;
  * @author scottKc
  *
  */
-@RunWith( SpringRunner.class )
-@WebMvcTest( MemberRestController.class )
-public class MemberControllerTest
-{
-    @Autowired
-    private MockMvc       mvc;
+@RunWith(SpringRunner.class)
+@WebMvcTest(MemberRestController.class)
+public class MemberControllerTest {
+	@Autowired
+	private MockMvc mvc;
 
-    @MockBean
-    private MemberService service;
+	@MockBean
+	private MemberService service;
 
-    /**
-     * @throws Exception
-     */
-    @Test
-    public void testGetMember() throws Exception
-    {
-        String expected = new String( Files.readAllBytes( Paths.get( "src/main/resources/member.json" ) ) );
-        Mockito.when( this.service.getMembers() ).thenReturn( TestUtil.getMembers() );
+	/**
+	 * @throws Exception
+	 */
+	// @Test
+	public void testGetMembers() throws Exception {
+		String expected = new String(
+				Files.readAllBytes(Paths.get("src/main/resources/member.json")));
+		Mockito.when(this.service.getMembers()).thenReturn(TestUtil.getMembers());
 
-        this.mvc.perform( get( "/crm/member" ).accept( MediaType.APPLICATION_JSON ) ).andExpect( status().isOk() )
-                        .andExpect( content().json( expected ) );
-    }
+		this.mvc.perform(get("/crm/member").accept(MediaType.APPLICATION_JSON))
+				.andExpect(status().isOk()).andExpect(content().json(expected));
+	}
 
-    /**
-     * @throws Exception
-     */
-    @Test
-    public void testAddMember() throws Exception
-    {
-        Member m = TestUtil.getMember( 111L );
-        Mockito.when( this.service.addMember( any() ) ).thenReturn( true );
+	/**
+	 * @throws Exception
+	 */
+	// @Test
+	public void testAddMember() throws Exception {
+		Member m = TestUtil.getMember(111L);
+		Mockito.when(this.service.addMember(any())).thenReturn(true);
 
-        this.mvc.perform( post( "/crm/member/add" ).contentType( MediaType.APPLICATION_JSON )
-                        .content( new ObjectMapper().writeValueAsString( m ) ) ).andExpect( status().isOk() );
-    }
+		this.mvc.perform(post("/crm/member/add").contentType(MediaType.APPLICATION_JSON)
+				.content(new ObjectMapper().writeValueAsString(m)))
+				.andExpect(status().isOk());
+	}
 
-    /**
-     * @throws Exception
-     * 
-     *             Ensure I'm a teapot
-     */
-    @Test
-    public void testAddMemberServiceFailure() throws Exception
-    {
-        Member m = TestUtil.getMember( 111L );
-        Mockito.when( this.service.addMember( any() ) ).thenReturn( false );
+	/**
+	 * @throws Exception
+	 * 
+	 * POST /crm/member/add
+	 * 
+	 * Ensure I'm a teapot
+	 */
+	// @Test
+	public void testAddMemberServiceFailure() throws Exception {
+		Member m = TestUtil.getMember(111L);
+		Mockito.when(this.service.addMember(any())).thenReturn(false);
 
-        this.mvc.perform( post( "/crm/member/add" ).contentType( MediaType.APPLICATION_JSON )
-                        .content( new ObjectMapper().writeValueAsString( m ) ) ).andExpect( status().isIAmATeapot() );
-    }
+		this.mvc.perform(post("/crm/member/add").contentType(MediaType.APPLICATION_JSON)
+				.content(new ObjectMapper().writeValueAsString(m)))
+				.andExpect(status().isIAmATeapot());
+	}
 
-    // TODO finish implementing other controller methods
+	/**
+	 * GET /member/{id}
+	 * 
+	 * @throws Exception
+	 */
+	@Test
+	public void testGetMember() throws Exception {
+		Long id = 112L;
+		Member m = TestUtil.getMember(id);
+		Mockito.when(this.service.getMember(id)).thenReturn(m);
+
+		this.mvc.perform(get("/crm/member/" + id).accept(MediaType.APPLICATION_JSON))
+				.andExpect(status().isOk());
+	}
+	// TODO finish implementing other controller methods
 }
