@@ -41,7 +41,7 @@ public class MemberControllerTest {
 	/**
 	 * @throws Exception
 	 */
-	// @Test
+	@Test
 	public void testGetMembers() throws Exception {
 		String expected = new String(
 				Files.readAllBytes(Paths.get("src/main/resources/member.json")));
@@ -54,12 +54,12 @@ public class MemberControllerTest {
 	/**
 	 * @throws Exception
 	 */
-	// @Test
+	@Test
 	public void testAddMember() throws Exception {
 		Member m = TestUtil.getMember(111L);
 		Mockito.when(this.service.addMember(any())).thenReturn(true);
 
-		this.mvc.perform(post("/crm/member/add").contentType(MediaType.APPLICATION_JSON)
+		this.mvc.perform(post("/crm/member").contentType(MediaType.APPLICATION_JSON)
 				.content(new ObjectMapper().writeValueAsString(m)))
 				.andExpect(status().isOk());
 	}
@@ -71,14 +71,14 @@ public class MemberControllerTest {
 	 * 
 	 * Ensure I'm a teapot
 	 */
-	// @Test
+	@Test
 	public void testAddMemberServiceFailure() throws Exception {
 		Member m = TestUtil.getMember(111L);
 		Mockito.when(this.service.addMember(any())).thenReturn(false);
 
-		this.mvc.perform(post("/crm/member/add").contentType(MediaType.APPLICATION_JSON)
+		this.mvc.perform(post("/crm/member").contentType(MediaType.APPLICATION_JSON)
 				.content(new ObjectMapper().writeValueAsString(m)))
-				.andExpect(status().isIAmATeapot());
+				.andExpect(status().isInternalServerError());
 	}
 
 	/**
