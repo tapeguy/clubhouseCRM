@@ -2,6 +2,7 @@ package edu.fhsu.csci466.clubhouse.crm.service;
 
 import java.util.List;
 
+import edu.fhsu.csci466.clubhouse.crm.service.model.Leader;
 import edu.fhsu.csci466.clubhouse.crm.service.model.groups.Team;
 
 /**
@@ -25,4 +26,9 @@ public interface TeamService
      * @return team
      */
     public Team getTeam( final Long id );
+
+	public boolean addMemberToTeam(Long memberId, Long teamId);
+
+	public List<Team> getTeamsMatchingLeader(Long leaderId );
+
 }
