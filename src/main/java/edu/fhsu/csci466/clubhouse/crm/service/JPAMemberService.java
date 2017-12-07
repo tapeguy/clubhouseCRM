@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import edu.fhsu.csci466.clubhouse.crm.service.model.Member;
 import edu.fhsu.csci466.clubhouse.crm.service.model.services.Credential;
+import edu.fhsu.csci466.clubhouse.crm.service.repo.AccountRepository;
 import edu.fhsu.csci466.clubhouse.crm.service.repo.CredentialRepository;
 import edu.fhsu.csci466.clubhouse.crm.service.repo.MemberRepository;
 
@@ -26,6 +27,7 @@ public class JPAMemberService implements MemberService
 
     private final MemberRepository     memberRepo;
     private final CredentialRepository credentialRepo;
+    private final AccountRepository    accountRepo;
     private final PasswordEncoder      passwordEncoder;
 
     private static final String        NEW_PASSWORD_CHARSET = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
@@ -35,14 +37,16 @@ public class JPAMemberService implements MemberService
     /**
      * @param memberRepo
      * @param credentialRepo
+     * @param accountRepo
      * @param passwordEncoder
      */
     @Autowired
     public JPAMemberService ( MemberRepository memberRepo, CredentialRepository credentialRepo,
-                    PasswordEncoder passwordEncoder )
+                    AccountRepository accountRepo, PasswordEncoder passwordEncoder )
     {
         this.memberRepo = memberRepo;
         this.credentialRepo = credentialRepo;
+        this.accountRepo = accountRepo;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -143,5 +147,24 @@ public class JPAMemberService implements MemberService
         for ( int i = 0; i < NEW_PASSWORD_LENGTH; i++ )
             sb.append( NEW_PASSWORD_CHARSET.charAt( rand.nextInt( NEW_PASSWORD_CHARSET.length() ) ) );
         return sb.toString();
+    }
+
+    @Override
+    public boolean makePayment( Long id, Double payment )
+    {
+        if ( PaymentUtil.isValidPayment( payment ) )
+        {
+            Member member = memberRepo.findOne( id );
+            if ( member != null )
+            {
+                // payment util returns a member w/ account balance updated
+                member = PaymentUtil.makePayment( member, payment );
+                memberRepo.save( member );
+                accountRepo.save( member.getAccount() );
+                return true;
+
+            }
+        }
+        return false;
     }
 }

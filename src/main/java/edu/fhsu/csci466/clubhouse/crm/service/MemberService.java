@@ -58,4 +58,11 @@ public interface MemberService
      * @return true if authentication was successful.
      */
     public boolean authenticate( Member member, String password );
+
+    /**
+     * @param id
+     * @param payment
+     * @return whether payment was successfully made
+     */
+    public boolean makePayment( final Long id, final Double payment );
 }
