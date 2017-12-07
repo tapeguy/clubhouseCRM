@@ -11,12 +11,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import edu.fhsu.csci466.clubhouse.crm.service.TeamService;
 import edu.fhsu.csci466.clubhouse.crm.service.model.EntityList;
+import edu.fhsu.csci466.clubhouse.crm.service.model.Member;
 import edu.fhsu.csci466.clubhouse.crm.service.model.groups.Team;
 
 /**
@@ -62,8 +64,13 @@ public class TeamRestController
     @GetMapping( value = "/team/leader/{leaderId}", produces = MediaType.APPLICATION_JSON_VALUE )
     public HttpEntity<EntityList<Team>> getTeamsByLeader(Long leaderId)
     {
-        // TODO: Implement this!!
-        EntityList<Team> list = new EntityList<>( );
+        
+        EntityList<Team> list = new EntityList<>( service.getTeamsMatchingLeader( leaderId ) );
+        for ( Team team : list.getEntities() )
+        {
+            team.add( linkTo( methodOn( TeamRestController.class ).getTeamsByLeader( team.getLeader().getMemberId() ) ).withSelfRel() );
+        }
+        list.add( linkTo( methodOn( TeamRestController.class ).getTeams() ).withRel( "list" ) );
         return new ResponseEntity<>( list, HttpStatus.OK );
     }
 
@@ -88,5 +95,19 @@ public class TeamRestController
         Team Team = service.getTeam( id );
         Team.add( linkTo( methodOn( TeamRestController.class ).getTeam( id ) ).withSelfRel() );
         return new ResponseEntity<>( Team, HttpStatus.OK );
+    }
+    
+    /**
+     * @param addMemberToTeam
+     * @return status
+     */
+    
+    @PutMapping( value = "/team/addMember", produces = MediaType.APPLICATION_JSON_VALUE )
+    public HttpEntity<Team> addMemberToTeam( @RequestBody Member member, @RequestBody Team team)
+    {
+    		Long memberId = member.getMemberId();
+    		Long teamId = team.getTeamId();
+    		HttpStatus status = service.addMemberToTeam( memberId, teamId	) ? HttpStatus.OK : HttpStatus.NOT_FOUND;
+    		return new ResponseEntity<>( team, status);
     }
 }
