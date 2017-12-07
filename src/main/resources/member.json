@@ -605,6 +605,6 @@
     "href" : "http://localhost/crm/member"
   }, {
     "rel" : "add",
-    "href" : "http://localhost/crm/member/add"
+    "href" : "http://localhost/crm/member"
   } ]
 }

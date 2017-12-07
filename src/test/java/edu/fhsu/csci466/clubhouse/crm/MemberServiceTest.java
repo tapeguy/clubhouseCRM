@@ -19,7 +19,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 import edu.fhsu.csci466.clubhouse.crm.service.JPAMemberService;
 import edu.fhsu.csci466.clubhouse.crm.service.MemberService;
 import edu.fhsu.csci466.clubhouse.crm.service.model.Member;
+import edu.fhsu.csci466.clubhouse.crm.service.model.services.Account;
 import edu.fhsu.csci466.clubhouse.crm.service.model.services.Credential;
+import edu.fhsu.csci466.clubhouse.crm.service.repo.AccountRepository;
 import edu.fhsu.csci466.clubhouse.crm.service.repo.CredentialRepository;
 import edu.fhsu.csci466.clubhouse.crm.service.repo.MemberRepository;
 
@@ -37,6 +39,9 @@ public class MemberServiceTest
     private CredentialRepository credRepo;
 
     @MockBean
+    private AccountRepository    accountRepo;
+
+    @MockBean
     private PasswordEncoder      encoder;
 
     private MemberService        service;
@@ -47,7 +52,7 @@ public class MemberServiceTest
     @Before
     public void before()
     {
-        service = new JPAMemberService( memberRepo, credRepo, encoder );
+        service = new JPAMemberService( memberRepo, credRepo, accountRepo, encoder );
     }
 
     /**
@@ -229,5 +234,46 @@ public class MemberServiceTest
         Mockito.when( memberRepo.exists( id ) ).thenReturn( false );
         assertFalse( service.deleteMember( m ) );
         verify( memberRepo, never() ).delete( m );
+    }
+
+    /**
+     * Takes making payment
+     */
+    @Test
+    public void testMakePayment()
+    {
+        Long id = 1L;
+        Member m = TestUtil.getMember( id );
+        Mockito.when( memberRepo.findOne( id ) ).thenReturn( m );
+        assertTrue( service.makePayment( id, 10.0 ) );
+        verify( memberRepo ).save( m );
+        verify( accountRepo ).save( any( Account.class ) );
+    }
+
+    /**
+     * Takes making payment
+     */
+    @Test
+    public void testMakePaymentInvalidPayment()
+    {
+        Long id = 1L;
+        Member m = TestUtil.getMember( id );
+        Mockito.when( memberRepo.findOne( id ) ).thenReturn( m );
+        assertFalse( service.makePayment( id, -5.1 ) );
+        verify( memberRepo, never() ).save( any( Member.class ) );
+        verify( accountRepo, never() ).save( any( Account.class ) );
+    }
+
+    /**
+     * Takes making payment
+     */
+    @Test
+    public void testMakePaymentMemberNotFound()
+    {
+        Long id = 1L;
+        Mockito.when( memberRepo.findOne( id ) ).thenReturn( null );
+        assertFalse( service.makePayment( id, 10.0 ) );
+        verify( memberRepo, never() ).save( any( Member.class ) );
+        verify( accountRepo, never() ).save( any( Account.class ) );
     }
 }

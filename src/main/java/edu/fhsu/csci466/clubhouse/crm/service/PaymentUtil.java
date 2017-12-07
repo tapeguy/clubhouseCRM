@@ -1,4 +1,4 @@
-package edu.fhsu.csci466.clubhouse.crm.controller;
+package edu.fhsu.csci466.clubhouse.crm.service;
 
 import edu.fhsu.csci466.clubhouse.crm.service.model.Member;
 import edu.fhsu.csci466.clubhouse.crm.service.model.services.Account;
