@@ -9,7 +9,6 @@ var member_id = ${member_id};
 $(function() {
 
     function renderEvents() {
-       var enrolled_columns = [ 'eventId', 'eventDateTime', 'leader', 'eventLocation' ];
 
        // Build the html table of events.
        $('#enrolled_events').html($('<tr>')
@@ -40,7 +39,21 @@ $(function() {
     renderEvents();
 
     $('#enroll_event_button').click( function() {
-        $('#enroll_event_button').dialog("open");
+        // Insert the payment plan options into the dialog
+        var restMethod = {
+            href: "/crm/event/available/" + member_id,
+            type: "GET"
+        };
+        restful.callMethod(restMethod, null, function(msg) {
+            $.each(msg.entities, function(key, value) {   
+                $('#enroll_event_dialog > #event_name')
+                     .append($('<option>')
+                             .attr("value", value.eventId)
+                             .text(value.display)); 
+            });
+
+            $('#enroll_event_dialog').dialog("open");
+        });
     });
 
     $('#enroll_event_dialog').dialog({
@@ -52,6 +65,22 @@ $(function() {
             {
                 text: "Save",
                 click: function() {
+                    var event_id = $('#enroll_event_dialog > #event_name').val();
+
+                    // Add the event.
+                    var restMethod = {
+                        href: "/crm/event/{id}/addMember/{memberId}",
+                        type: "PUT"
+                    };
+                    restful.callMethod(restMethod, {
+	                       '{id}' : event_id,
+	                       '{memberId}' : member_id
+	                    },
+	                    function() {
+	                        renderEvents();
+	                    },
+	                    $('#enroll_event_dialog')
+	                );
                 }
             },
             {

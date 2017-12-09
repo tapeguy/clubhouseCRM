@@ -4,7 +4,8 @@
 <div id="enroll_event_dialog">
    <br>
 
-   <label for="event_name">Name:</label>
-   <input id="event_name" name="event_name">
+   <label for="event_name">Event:</label>
+   <select id="event_name">
+   </select>
 
 </div>

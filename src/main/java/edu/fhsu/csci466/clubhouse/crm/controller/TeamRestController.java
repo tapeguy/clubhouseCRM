@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import edu.fhsu.csci466.clubhouse.crm.service.TeamService;
 import edu.fhsu.csci466.clubhouse.crm.service.model.EntityList;
-import edu.fhsu.csci466.clubhouse.crm.service.model.Member;
 import edu.fhsu.csci466.clubhouse.crm.service.model.groups.Team;
 
 /**
@@ -61,10 +60,28 @@ public class TeamRestController
      * @param lastName
      * @return list of Teams
      */
+    @GetMapping( value = "/team/member/{memberId}", produces = MediaType.APPLICATION_JSON_VALUE )
+    public HttpEntity<EntityList<Team>> getTeamsByMember(Long memberId)
+    {
+        // TODO
+        return null;
+//        EntityList<Team> list = new EntityList<>( service.getTeamsMatchingMember( memberId ) );
+//        for ( Team team : list.getEntities() )
+//        {
+//            team.add( linkTo( methodOn( TeamRestController.class ).getTeamsByLeader( team.getLeader().getMemberId() ) ).withSelfRel() );
+//        }
+//        list.add( linkTo( methodOn( TeamRestController.class ).getTeams() ).withRel( "list" ) );
+//        return new ResponseEntity<>( list, HttpStatus.OK );
+    }
+
+    /**
+     * @param lastName
+     * @return list of Teams
+     */
     @GetMapping( value = "/team/leader/{leaderId}", produces = MediaType.APPLICATION_JSON_VALUE )
     public HttpEntity<EntityList<Team>> getTeamsByLeader(Long leaderId)
     {
-        
+
         EntityList<Team> list = new EntityList<>( service.getTeamsMatchingLeader( leaderId ) );
         for ( Team team : list.getEntities() )
         {
@@ -92,22 +109,20 @@ public class TeamRestController
     @GetMapping( value = "/team/{id}", produces = MediaType.APPLICATION_JSON_VALUE )
     public HttpEntity<Team> getTeam( @PathVariable Long id )
     {
-        Team Team = service.getTeam( id );
-        Team.add( linkTo( methodOn( TeamRestController.class ).getTeam( id ) ).withSelfRel() );
-        return new ResponseEntity<>( Team, HttpStatus.OK );
+        Team team = service.getTeam( id );
+        team.add( linkTo( methodOn( TeamRestController.class ).getTeam( id ) ).withSelfRel() );
+        return new ResponseEntity<>( team, HttpStatus.OK );
     }
-    
+
     /**
      * @param addMemberToTeam
      * @return status
      */
-    
-    @PutMapping( value = "/team/addMember", produces = MediaType.APPLICATION_JSON_VALUE )
-    public HttpEntity<Team> addMemberToTeam( @RequestBody Member member, @RequestBody Team team)
+    @PutMapping( value = "/team/{id}/addMember/{memberId}", produces = MediaType.APPLICATION_JSON_VALUE )
+    public HttpEntity<Team> addMemberToTeam( @PathVariable Long teamId, @PathVariable Long memberId )
     {
-    		Long memberId = member.getMemberId();
-    		Long teamId = team.getTeamId();
-    		HttpStatus status = service.addMemberToTeam( memberId, teamId	) ? HttpStatus.OK : HttpStatus.NOT_FOUND;
-    		return new ResponseEntity<>( team, status);
+        HttpStatus status = service.addMemberToTeam( memberId, teamId) ? HttpStatus.OK : HttpStatus.NOT_FOUND;
+        Team team = service.getTeam( teamId );
+        return new ResponseEntity<>( team, status );
     }
 }

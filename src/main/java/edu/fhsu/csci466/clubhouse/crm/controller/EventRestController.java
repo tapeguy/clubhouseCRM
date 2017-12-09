@@ -82,14 +82,17 @@ public class EventRestController
     {
         // Assumes an event is available for a member IFF the event is not already full.
 
+        Member member = memberService.getMember( memberId );
+
      // @formatter:off
 
         List<Event> events = service.getEvents()
                                     .stream()
                                     .filter( isNotFull )
+                                    .filter( e -> !e.getMembers().contains( member ) )
                                     .peek( addSelfLink )
                                     .collect( Collectors.toList());
-        
+
      // @formatter:on
 
         EntityList<Event> list = new EntityList<>( events );
@@ -106,13 +109,13 @@ public class EventRestController
         Member member = memberService.getMember( memberId );
 
      // @formatter:off
-        
+
         List<Event> events = service.getEvents()
                                     .stream()
                                     .filter( e -> e.getMembers().contains( member ) )
                                     .peek( addSelfLink )
                                     .collect( Collectors.toList());
-                        
+
      // @formatter:on
         EntityList<Event> list = new EntityList<>( events );
         return new ResponseEntity<>( list, HttpStatus.OK );
@@ -163,5 +166,19 @@ public class EventRestController
     {
         HttpStatus status = service.deleteEvent( id ) ? HttpStatus.OK : HttpStatus.NOT_FOUND;
         return new ResponseEntity<>( status );
+    }
+
+    /**
+     * @param addMemberToEvent
+     * @return status
+     */
+    @PutMapping( value = "/event/{id}/addMember/{memberId}", produces = MediaType.APPLICATION_JSON_VALUE )
+    public HttpEntity<Event> addMemberToEvent( @PathVariable Long id, @PathVariable Long memberId )
+    {
+        // TODO
+        return null;
+//        status = service.addMemberToEvent( memberId, id ) ? HttpStatus.OK : HttpStatus.NOT_FOUND;
+//        Event event = service.getEvent( id );
+//        return new ResponseEntity<>( event, status );
     }
 }

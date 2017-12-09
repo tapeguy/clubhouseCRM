@@ -9,31 +9,30 @@ var member_id = ${member_id};
 $(function() {
 
     function renderTeams() {
-        var enrolled_columns = [ 'eventId', 'eventDateTime', 'leader', 'eventLocation' ];
 
-        // Build the html table of members.
-        $('#members').html($('<tr>')
-                   .append($('<th>').html('Event ID'))
-                   .append($('<th>').html('Date'))
-                   .append($('<th>').html('Leader'))
-                   .append($('<th>').html('Location')));
+        // Build the html table of teams.
+        $('#teams').html($('<tr>')
+                   .append($('<th>').html('Team ID'))
+                   .append($('<th>').html('Name'))
+                   .append($('<th>').html('Leader')));
      
         var restMethod = {
-             href: "/event/enrolled/" + member_id,
+             href: "/crm/team/member/" + member_id,
              type: "GET"
         };
         restful.callMethod(restMethod, null, function(msg) {
            $.each(msg.entities, function() {
               var tr = $('<tr>');
-              $.each(this, function(key, value) {
-                 if (member_columns.indexOf(key) >= 0) {
-                     tr.append($('<td>').html(value));
-                 }
-              });
-              $('#enrolled_events').append(tr);
+              tr.append($('<td>').html(this.teamId));
+              tr.append($('<td>').html(this.teamName));
+              tr.append($('<td>').html(this.leader ? this.leader.name : "---"));
+
+              $('#teams').append(tr);
            });
         });
      }
+
+    renderTeams();
 
 });
 </script>
@@ -48,7 +47,7 @@ $(function() {
 <jsp:body>
 <div class="panel" style="margin-left: 15px">
     <div class="panel-heading">
-        <h3>You are a member of the following teams</h3>
+        <h3>Teams</h3>
     </div>
     <div class="panel-body">
         <table id="teams">
