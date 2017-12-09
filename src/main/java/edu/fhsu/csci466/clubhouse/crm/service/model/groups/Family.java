@@ -15,6 +15,9 @@ import javax.persistence.OneToMany;
 
 import org.springframework.hateoas.ResourceSupport;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import edu.fhsu.csci466.clubhouse.crm.service.model.Member;
 
 /**
@@ -22,6 +25,7 @@ import edu.fhsu.csci466.clubhouse.crm.service.model.Member;
  *
  *         Entity class representing a CRM member.
  */
+@JsonIdentityInfo( generator = ObjectIdGenerators.PropertyGenerator.class, property = "familyId" )
 @Entity
 public class Family extends ResourceSupport implements Serializable
 {

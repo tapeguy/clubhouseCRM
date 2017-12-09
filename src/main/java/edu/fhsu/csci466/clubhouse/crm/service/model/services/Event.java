@@ -18,6 +18,10 @@ import javax.persistence.ManyToOne;
 
 import org.springframework.hateoas.ResourceSupport;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import edu.fhsu.csci466.clubhouse.crm.service.model.Leader;
 import edu.fhsu.csci466.clubhouse.crm.service.model.Member;
 
@@ -25,6 +29,7 @@ import edu.fhsu.csci466.clubhouse.crm.service.model.Member;
  * @author ss047890
  *
  */
+@JsonIdentityInfo( generator = ObjectIdGenerators.PropertyGenerator.class, property = "eventId" )
 @Entity
 public class Event extends ResourceSupport implements Serializable
 {
@@ -38,6 +43,7 @@ public class Event extends ResourceSupport implements Serializable
     @Column( name = "id", unique = true )
     private Long              eventId;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm a")
     private Timestamp         eventDateTime;
 
     private String            display;
@@ -216,7 +222,7 @@ public class Event extends ResourceSupport implements Serializable
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Object#hashCode()
      */
     @Override
@@ -237,7 +243,7 @@ public class Event extends ResourceSupport implements Serializable
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Object#equals(java.lang.Object)
      */
     @Override

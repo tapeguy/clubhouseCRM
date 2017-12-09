@@ -11,29 +11,33 @@ $(function() {
     function renderEvents() {
        var enrolled_columns = [ 'eventId', 'eventDateTime', 'leader', 'eventLocation' ];
 
-       // Build the html table of members.
-       $('#members').html($('<tr>')
+       // Build the html table of events.
+       $('#enrolled_events').html($('<tr>')
                   .append($('<th>').html('Event ID'))
-                  .append($('<th>').html('Date'))
+                  .append($('<th>').html('Name'))
+                  .append($('<th>').html('Date & Time'))
                   .append($('<th>').html('Leader'))
                   .append($('<th>').html('Location')));
     
        var restMethod = {
-            href: "/event/enrolled/" + member_id,
+            href: "/crm/event/enrolled/" + member_id,
             type: "GET"
        };
        restful.callMethod(restMethod, null, function(msg) {
           $.each(msg.entities, function() {
              var tr = $('<tr>');
-             $.each(this, function(key, value) {
-                if (member_columns.indexOf(key) >= 0) {
-                    tr.append($('<td>').html(value));
-                }
-             });
+             tr.append($('<td>').html(this.eventId));
+             tr.append($('<td>').html(this.display));
+             tr.append($('<td>').html(this.eventDateTime));
+             tr.append($('<td>').html(this.leader ? this.leader.name : "---"));
+             tr.append($('<td>').html(this.eventLocation));
+
              $('#enrolled_events').append(tr);
           });
        });
     }
+
+    renderEvents();
 
     $('#enroll_event_button').click( function() {
         $('#enroll_event_button').dialog("open");
@@ -74,7 +78,7 @@ $(function() {
         <h3>Enrolled Events</h3>
     </div>
     <div class="panel-body">
-        <table id="enrolled_events">
+        <table id="enrolled_events" style="width: 80%">
         </table>
     </div>
 </div>

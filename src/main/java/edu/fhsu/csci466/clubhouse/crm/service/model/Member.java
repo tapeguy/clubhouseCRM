@@ -26,9 +26,11 @@ import javax.persistence.Transient;
 
 import org.springframework.hateoas.ResourceSupport;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import edu.fhsu.csci466.clubhouse.crm.service.model.display.ClubDisplay;
 import edu.fhsu.csci466.clubhouse.crm.service.model.groups.Family;
@@ -52,6 +54,7 @@ import edu.fhsu.csci466.clubhouse.crm.service.model.services.PaymentPlan;
       @JsonSubTypes.Type( value = Leader.class, name = ClubDisplay.LEADER ),
       @JsonSubTypes.Type( value = President.class, name = ClubDisplay.PRESIDENT )
 } )
+@JsonIdentityInfo( generator = ObjectIdGenerators.PropertyGenerator.class, property = "memberId" )
 @Entity
 @Inheritance( strategy = InheritanceType.JOINED )
 @DiscriminatorColumn( name = "member_type" )
@@ -93,10 +96,12 @@ public class Member extends ResourceSupport implements Serializable
     @JoinColumn( name = "family_id" )
     private Family            family;
 
+    @JsonIgnore     /* Don't expose these from the member service, use the team service instead. */
     @ManyToMany( cascade = CascadeType.ALL )
     @JoinTable( name = "member_team_rel", joinColumns = @JoinColumn( name = "member_id" ), inverseJoinColumns = @JoinColumn( name = "team_id" ) )
     private List<Team>        memberTeams;
 
+    @JsonIgnore     /* Don't expose these from the member service, use the event service instead. */
     @ManyToMany( cascade = CascadeType.ALL )
     @JoinTable( name = "member_event_rel", joinColumns = @JoinColumn( name = "member_id" ), inverseJoinColumns = @JoinColumn( name = "event_id" ) )
     private List<Event>       memberEvents;
@@ -254,7 +259,6 @@ public class Member extends ResourceSupport implements Serializable
     /**
      * @return the family
      */
-    @JsonIgnore // Ignore for now to avoid circular links
     public Family getFamily()
     {
         return family;

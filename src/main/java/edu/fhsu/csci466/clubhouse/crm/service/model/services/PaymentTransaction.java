@@ -14,17 +14,21 @@ import javax.persistence.OneToOne;
 
 import org.springframework.hateoas.ResourceSupport;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import edu.fhsu.csci466.clubhouse.crm.service.model.Member;
 
 /**
  * @author amcatalano@mail.fhsu.edu
  *
  */
+@JsonIdentityInfo( generator = ObjectIdGenerators.PropertyGenerator.class, property = "paymentTransactionId" )
 @Entity
 public class PaymentTransaction extends ResourceSupport implements Serializable {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = -8299245387259322370L;
 
@@ -137,7 +141,7 @@ public class PaymentTransaction extends ResourceSupport implements Serializable 
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#hashCode()
 	 */
 	@Override
@@ -155,7 +159,7 @@ public class PaymentTransaction extends ResourceSupport implements Serializable 
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
@@ -202,7 +206,7 @@ public class PaymentTransaction extends ResourceSupport implements Serializable 
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#toString()
 	 */
 	@Override

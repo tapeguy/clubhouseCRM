@@ -13,7 +13,8 @@ import javax.persistence.OneToOne;
 
 import org.springframework.hateoas.ResourceSupport;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import edu.fhsu.csci466.clubhouse.crm.service.model.Member;
 
@@ -21,6 +22,7 @@ import edu.fhsu.csci466.clubhouse.crm.service.model.Member;
  * @author ss047890
  *
  */
+@JsonIdentityInfo( generator = ObjectIdGenerators.PropertyGenerator.class, property = "accountId" )
 @Entity
 public class Account extends ResourceSupport implements Serializable
 {
@@ -34,7 +36,6 @@ public class Account extends ResourceSupport implements Serializable
     @Column( name = "id", unique = true )
     private Long              accountId;
 
-    @JsonIgnore
     @OneToOne( fetch = FetchType.LAZY )
     @JoinColumn( name = "member_id" )
     private Member            member;

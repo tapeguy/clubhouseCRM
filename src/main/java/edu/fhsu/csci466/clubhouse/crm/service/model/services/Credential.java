@@ -8,12 +8,15 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 /**
  * @author ss047890
  *
  */
+@JsonIdentityInfo( generator = ObjectIdGenerators.PropertyGenerator.class, property = "credentialId" )
 @Entity
 public class Credential implements Serializable
 {

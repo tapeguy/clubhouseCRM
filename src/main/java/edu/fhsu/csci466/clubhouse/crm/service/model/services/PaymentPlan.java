@@ -10,10 +10,14 @@ import javax.persistence.Id;
 
 import org.springframework.hateoas.ResourceSupport;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 /**
  * @author ss047890
  *
  */
+@JsonIdentityInfo( generator = ObjectIdGenerators.PropertyGenerator.class, property = "paymentPlanId" )
 @Entity
 public class PaymentPlan extends ResourceSupport implements Serializable
 {

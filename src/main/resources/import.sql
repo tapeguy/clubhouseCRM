@@ -42,9 +42,16 @@ insert into member_team_rel (member_id, team_id) values
 ((select id from member where name = 'Mr. Burns'), (select id from team where team_name = 'Star Wars Fan Club'));
 
 insert into event ( event_date_time, display, leader_id, event_location, max_event_seats, reserved_seats ) values
-(null, 'Xmas Party', (select id from member where name = 'Han Solo'), 'Power Plant', 500, 371 ),
-(null, 'Belt Ceremony', (select id from member where name = 'Mr. Smithers'), 'Main Street Dojo', 50, 21 ),
-(null, 'Beginners Class', null, 'Yoga Studio A', 20, 14 );
+('2017-12-23 15:00:00', 'Xmas Party', (select id from member where name = 'Han Solo'), 'Power Plant', 500, 371 ),
+('2017-01-21 10:30:00', 'Belt Ceremony', (select id from member where name = 'Mr. Smithers'), 'Main Street Dojo', 50, 21 ),
+('2018-01-15 12:00:00', 'Beginners Class', null, 'Yoga Studio A', 20, 14 );
+
+insert into member_event_rel (member_id, event_id) values
+((select id from member where name = 'Maggie Simpson'), (select id from event where display = 'Belt Ceremony')),
+((select id from member where name = 'Lisa Simpson'), (select id from event where display = 'Belt Ceremony')),
+((select id from member where name = 'Bart Simpson'), (select id from event where display = 'Belt Ceremony')),
+((select id from member where name = 'Mr. Burns'), (select id from event where display = 'Xmas Party')),
+((select id from member where name = 'Mr. Burns'), (select id from event where display = 'Beginners Class'));
 
 insert into account ( member_id, annual_club_dues, balance) values
 ( (select id from member where name = 'Homer Simpson'), 15.99, 0),
