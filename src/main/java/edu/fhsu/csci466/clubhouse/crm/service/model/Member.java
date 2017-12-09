@@ -23,10 +23,14 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Transient;
 
+
 import org.springframework.hateoas.ResourceSupport;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
+import edu.fhsu.csci466.clubhouse.crm.service.model.display.ClubDisplay;
 import edu.fhsu.csci466.clubhouse.crm.service.model.groups.Family;
 import edu.fhsu.csci466.clubhouse.crm.service.model.groups.Team;
 import edu.fhsu.csci466.clubhouse.crm.service.model.services.Account;
@@ -39,6 +43,15 @@ import edu.fhsu.csci466.clubhouse.crm.service.model.services.PaymentPlan;
  *
  *         Entity class representing a CRM member.
  */
+@JsonTypeInfo(      /* Allow polymorphism from JSON */
+        use = JsonTypeInfo.Id.NAME,
+        include = JsonTypeInfo.As.EXISTING_PROPERTY,
+        property = "typeString" )
+@JsonSubTypes( {
+      @JsonSubTypes.Type( value = Member.class, name = ClubDisplay.MEMBER ),
+      @JsonSubTypes.Type( value = Leader.class, name = ClubDisplay.LEADER ),
+      @JsonSubTypes.Type( value = President.class, name = ClubDisplay.PRESIDENT )
+} )
 @Entity
 @Inheritance( strategy = InheritanceType.JOINED )
 @DiscriminatorColumn( name = "member_type" )
