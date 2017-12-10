@@ -33,58 +33,59 @@ import edu.fhsu.csci466.clubhouse.crm.service.model.services.Event;
  *
  */
 @RestController
-@RequestMapping( "/crm" )
-public class EventRestController
-{
-    private final EventService            service;
+@RequestMapping("/crm")
+public class EventRestController {
+	private final EventService service;
 
-    private final MemberService           memberService;
+	private final MemberService memberService;
 
-    private static final Predicate<Event> isNotFull   = e -> e.getReservedSeats() < e.getMaxEventSeats();
+	private static final Predicate<Event> isNotFull = e -> e.getReservedSeats() < e
+			.getMaxEventSeats();
 
-    private static final Consumer<Event>  addSelfLink = e -> e
-                    .add( linkTo( methodOn( EventRestController.class ).getEvent( e.getEventId() ) ).withSelfRel() );
+	private static final Consumer<Event> addSelfLink = e -> e
+			.add(linkTo(methodOn(EventRestController.class).getEvent(e.getEventId()))
+					.withSelfRel());
 
-    /**
-     * @param service
-     * @param memberService
-     */
-    @Autowired
-    public EventRestController ( EventService service, MemberService memberService )
-    {
-        this.service = service;
-        this.memberService = memberService;
-    }
+	/**
+	 * @param service
+	 * @param memberService
+	 */
+	@Autowired
+	public EventRestController(EventService service, MemberService memberService) {
+		this.service = service;
+		this.memberService = memberService;
+	}
 
-    /**
-     * @param lastName
-     * @return list of all Event
-     */
-    @GetMapping( value = "/event", produces = MediaType.APPLICATION_JSON_VALUE )
-    public HttpEntity<EntityList<Event>> getEvents()
-    {
-        EntityList<Event> list = new EntityList<>( service.getEvents() );
-        for ( Event event : list.getEntities() )
-        {
-            event.add( linkTo( methodOn( EventRestController.class ).getEvent( event.getEventId() ) ).withSelfRel() );
-        }
-        list.add( linkTo( methodOn( EventRestController.class ).getEvents() ).withRel( "list" ) );
-        list.add( linkTo( methodOn( EventRestController.class ).addEvent( null ) ).withRel( "add" ) );
-        return new ResponseEntity<>( list, HttpStatus.OK );
-    }
+	/**
+	 * @param lastName
+	 * @return list of all Event
+	 */
+	@GetMapping(value = "/event", produces = MediaType.APPLICATION_JSON_VALUE)
+	public HttpEntity<EntityList<Event>> getEvents() {
+		EntityList<Event> list = new EntityList<>(service.getEvents());
+		for (Event event : list.getEntities()) {
+			event.add(linkTo(
+					methodOn(EventRestController.class).getEvent(event.getEventId()))
+							.withSelfRel());
+		}
+		list.add(linkTo(methodOn(EventRestController.class).getEvents()).withRel("list"));
+		list.add(linkTo(methodOn(EventRestController.class).addEvent(null))
+				.withRel("add"));
+		return new ResponseEntity<>(list, HttpStatus.OK);
+	}
 
-    /**
-     * @param memberId
-     * @return List of Event
-     */
-    @GetMapping( value = "/event/available/{memberId}", produces = MediaType.APPLICATION_JSON_VALUE )
-    public HttpEntity<EntityList<Event>> getAvailableEventsForMember( @PathVariable Long memberId )
-    {
-        // Assumes an event is available for a member IFF the event is not already full.
+	/**
+	 * @param memberId
+	 * @return List of Event
+	 */
+	@GetMapping(value = "/event/available/{memberId}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public HttpEntity<EntityList<Event>> getAvailableEventsForMember(
+			@PathVariable Long memberId) {
+		// Assumes an event is available for a member IFF the event is not already full.
 
-        Member member = memberService.getMember( memberId );
+		Member member = memberService.getMember(memberId);
 
-     // @formatter:off
+		// @formatter:off
 
         List<Event> events = service.getEvents()
                                     .stream()
@@ -95,20 +96,20 @@ public class EventRestController
 
      // @formatter:on
 
-        EntityList<Event> list = new EntityList<>( events );
-        return new ResponseEntity<>( list, HttpStatus.OK );
-    }
+		EntityList<Event> list = new EntityList<>(events);
+		return new ResponseEntity<>(list, HttpStatus.OK);
+	}
 
-    /**
-     * @param memberId
-     * @return List of Event
-     */
-    @GetMapping( value = "/event/enrolled/{memberId}", produces = MediaType.APPLICATION_JSON_VALUE )
-    public HttpEntity<EntityList<Event>> getEnrolledEventsForMember( @PathVariable Long memberId )
-    {
-        Member member = memberService.getMember( memberId );
+	/**
+	 * @param memberId
+	 * @return List of Event
+	 */
+	@GetMapping(value = "/event/enrolled/{memberId}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public HttpEntity<EntityList<Event>> getEnrolledEventsForMember(
+			@PathVariable Long memberId) {
+		Member member = memberService.getMember(memberId);
 
-     // @formatter:off
+		// @formatter:off
 
         List<Event> events = service.getEvents()
                                     .stream()
@@ -117,68 +118,67 @@ public class EventRestController
                                     .collect( Collectors.toList());
 
      // @formatter:on
-        EntityList<Event> list = new EntityList<>( events );
-        return new ResponseEntity<>( list, HttpStatus.OK );
-    }
+		EntityList<Event> list = new EntityList<>(events);
+		return new ResponseEntity<>(list, HttpStatus.OK);
+	}
 
-    /**
-     * @param id
-     * @return Event
-     */
-    @GetMapping( value = "/event/{id}", produces = MediaType.APPLICATION_JSON_VALUE )
-    public HttpEntity<Event> getEvent( @PathVariable Long id )
-    {
-        Event Event = service.getEvent( id );
-        Event.add( linkTo( methodOn( EventRestController.class ).getEvent( id ) ).withSelfRel() );
-        return new ResponseEntity<>( Event, HttpStatus.OK );
-    }
+	/**
+	 * @param id
+	 * @return Event
+	 */
+	@GetMapping(value = "/event/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public HttpEntity<Event> getEvent(@PathVariable Long id) {
+		Event Event = service.getEvent(id);
+		Event.add(linkTo(methodOn(EventRestController.class).getEvent(id)).withSelfRel());
+		return new ResponseEntity<>(Event, HttpStatus.OK);
+	}
 
-    /**
-     * @param event
-     * @return response entity the status to return
-     */
-    @PostMapping( value = "/event/add", produces = MediaType.APPLICATION_JSON_VALUE )
-    public HttpEntity<Event> addEvent( @RequestBody Event event )
-    {
-        HttpStatus status = service.addEvent( event ) ? HttpStatus.OK : HttpStatus.NOT_FOUND;
-        event.add( linkTo( methodOn( EventRestController.class ).getEvent( event.getEventId() ) ).withSelfRel() );
-        return new ResponseEntity<>( event, status );
-    }
+	/**
+	 * @param event
+	 * @return response entity the status to return
+	 */
+	@PostMapping(value = "/event/add", produces = MediaType.APPLICATION_JSON_VALUE)
+	public HttpEntity<Event> addEvent(@RequestBody Event event) {
+		HttpStatus status = service.addEvent(event) ? HttpStatus.OK
+				: HttpStatus.NOT_FOUND;
+		event.add(linkTo(methodOn(EventRestController.class).getEvent(event.getEventId()))
+				.withSelfRel());
+		return new ResponseEntity<>(event, status);
+	}
 
-    /**
-     * @param event
-     * @return response entity the status to return
-     */
-    @PutMapping( value = "/event/update", produces = MediaType.APPLICATION_JSON_VALUE )
-    public HttpEntity<Event> updateEvent( @RequestBody Event event )
-    {
-        HttpStatus status = service.updateEvent( event ) ? HttpStatus.OK : HttpStatus.NOT_FOUND;
-        event.add( linkTo( methodOn( EventRestController.class ).getEvent( event.getEventId() ) ).withSelfRel() );
-        return new ResponseEntity<>( event, status );
-    }
+	/**
+	 * @param event
+	 * @return response entity the status to return
+	 */
+	@PutMapping(value = "/event/update", produces = MediaType.APPLICATION_JSON_VALUE)
+	public HttpEntity<Event> updateEvent(@RequestBody Event event) {
+		HttpStatus status = service.updateEvent(event) ? HttpStatus.OK
+				: HttpStatus.NOT_FOUND;
+		event.add(linkTo(methodOn(EventRestController.class).getEvent(event.getEventId()))
+				.withSelfRel());
+		return new ResponseEntity<>(event, status);
+	}
 
-    /**
-     * @param id
-     * @return response entity the status to return
-     */
-    @DeleteMapping( value = "/event/delete/{id}", produces = MediaType.APPLICATION_JSON_VALUE )
-    public HttpEntity<Event> deleteEvent( @RequestBody Long id )
-    {
-        HttpStatus status = service.deleteEvent( id ) ? HttpStatus.OK : HttpStatus.NOT_FOUND;
-        return new ResponseEntity<>( status );
-    }
+	/**
+	 * @param id
+	 * @return response entity the status to return
+	 */
+	@DeleteMapping(value = "/event/delete/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public HttpEntity<Event> deleteEvent(@RequestBody Long id) {
+		HttpStatus status = service.deleteEvent(id) ? HttpStatus.OK
+				: HttpStatus.NOT_FOUND;
+		return new ResponseEntity<>(status);
+	}
 
-    /**
-     * @param addMemberToEvent
-     * @return status
-     */
-    @PutMapping( value = "/event/{id}/addMember/{memberId}", produces = MediaType.APPLICATION_JSON_VALUE )
-    public HttpEntity<Event> addMemberToEvent( @PathVariable Long id, @PathVariable Long memberId )
-    {
-        // TODO
-        return null;
-//        status = service.addMemberToEvent( memberId, id ) ? HttpStatus.OK : HttpStatus.NOT_FOUND;
-//        Event event = service.getEvent( id );
-//        return new ResponseEntity<>( event, status );
-    }
+	/**
+	 * @param addMemberToEvent
+	 * @return status
+	 */
+	@PutMapping(value = "/event/{id}/addMember/{memberId}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public HttpEntity<Event> addMemberToEvent(@PathVariable Long id,
+			@PathVariable Long memberId) {
+		HttpStatus status = service.addMemberToEvent(memberId, id) ? HttpStatus.OK
+				: HttpStatus.NOT_FOUND;
+		return new ResponseEntity<>(service.getEvent(id), status);
+	}
 }
