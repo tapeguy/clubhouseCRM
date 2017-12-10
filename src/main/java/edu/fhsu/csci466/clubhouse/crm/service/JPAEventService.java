@@ -77,7 +77,7 @@ public class JPAEventService implements EventService {
 		if (memberId != null && id != null) {
 			Event e = eventRepo.getOne(id);
 			Member m = memberRepo.getOne(memberId);
-			if (m != null && e != null) {
+			if (m != null && e != null && e.getReservedSeats() <= e.getMaxEventSeats()) {
 				memberRepo.save(addEventToMember(m, e));
 				eventRepo.save(addMemberToEvent(m, e));
 				return true;
@@ -94,6 +94,7 @@ public class JPAEventService implements EventService {
 		if (!members.contains(m)) {
 			members.add(m);
 			event.setMembers(members);
+			event.incrementReservedSeats();
 		}
 		return event;
 	}
