@@ -1,7 +1,9 @@
 package edu.fhsu.csci466.clubhouse.crm.service.model.groups;
 
 import java.io.Serializable;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -9,6 +11,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 
 import org.springframework.hateoas.ResourceSupport;
@@ -17,6 +21,7 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import edu.fhsu.csci466.clubhouse.crm.service.model.Leader;
+import edu.fhsu.csci466.clubhouse.crm.service.model.Member;
 
 /**
  * @author ss047890
@@ -43,6 +48,14 @@ public class Team extends ResourceSupport implements Serializable
     @JoinColumn( name = "leader_id" )
     private Leader            leader;
 
+    @OneToOne( fetch = FetchType.EAGER )
+    @JoinColumn( name = "member_id" )
+    private Member            member;
+    
+    @ManyToMany( cascade = CascadeType.ALL )
+    @JoinTable( name = "member_team_rel", joinColumns = @JoinColumn( name = "team_id" ), inverseJoinColumns = @JoinColumn( name = "member_id" ) )
+    private List<Member>      members;
+    
     /**
      * @return the id
      */
@@ -89,6 +102,22 @@ public class Team extends ResourceSupport implements Serializable
     public void setLeader( Leader leader )
     {
         this.leader = leader;
+    }
+    
+    /**
+     * @return the member
+     */
+    public Member getMember()
+    {
+        return member;
+    }
+    
+    /**
+     * @return the members
+     */
+    public List<Member> getMembers()
+    {
+        return members;
     }
 
     /*

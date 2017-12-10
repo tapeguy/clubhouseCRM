@@ -3,6 +3,10 @@ package edu.fhsu.csci466.clubhouse.crm.controller;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
+import java.util.List;
+import java.util.function.Consumer;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
@@ -16,9 +20,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import edu.fhsu.csci466.clubhouse.crm.service.MemberService;
 import edu.fhsu.csci466.clubhouse.crm.service.TeamService;
 import edu.fhsu.csci466.clubhouse.crm.service.model.EntityList;
+import edu.fhsu.csci466.clubhouse.crm.service.model.Member;
 import edu.fhsu.csci466.clubhouse.crm.service.model.groups.Team;
+import edu.fhsu.csci466.clubhouse.crm.service.model.services.Event;
 
 /**
  * @author ss047890
@@ -29,14 +36,23 @@ import edu.fhsu.csci466.clubhouse.crm.service.model.groups.Team;
 public class TeamRestController
 {
     private final TeamService service;
-
+    
+    private final MemberService memberService;
+    
+    private static final Consumer<Team> addSelfLink = e -> e
+			.add(linkTo(methodOn(TeamRestController.class).getTeam(e.getTeamId()))
+					.withSelfRel());
+    
     /**
      * @param service
      */
     @Autowired
-    public TeamRestController ( TeamService service )
+    public TeamRestController ( TeamService service, MemberService memberService )
     {
         this.service = service;
+        this.memberService = memberService;
+        
+        
     }
 
     /**
@@ -57,21 +73,28 @@ public class TeamRestController
     }
 
     /**
-     * @param lastName
+     * @param memberId
      * @return list of Teams
      */
     @GetMapping( value = "/team/member/{memberId}", produces = MediaType.APPLICATION_JSON_VALUE )
-    public HttpEntity<EntityList<Team>> getTeamsByMember(Long memberId)
+    public HttpEntity<EntityList<Team>> getTeamsByMember( @PathVariable Long memberId)
     {
-        // TODO
-        return null;
-//        EntityList<Team> list = new EntityList<>( service.getTeamsMatchingMember( memberId ) );
-//        for ( Team team : list.getEntities() )
-//        {
-//            team.add( linkTo( methodOn( TeamRestController.class ).getTeamsByLeader( team.getLeader().getMemberId() ) ).withSelfRel() );
-//        }
-//        list.add( linkTo( methodOn( TeamRestController.class ).getTeams() ).withRel( "list" ) );
-//        return new ResponseEntity<>( list, HttpStatus.OK );
+        
+    	Member member = memberService.getMember(memberId);
+    	
+    	// @formatter:off
+    	
+    	List<Team> teams = service.getTeams()
+                                    .stream()
+                                    .filter( e -> e.getMembers().contains( member ) )
+                                    .peek( addSelfLink )
+                                    .collect( Collectors.toList());
+
+        // @formatter:on
+
+		EntityList<Team> list = new EntityList<>(teams);
+		return new ResponseEntity<>(list, HttpStatus.OK);
+
     }
 
     /**

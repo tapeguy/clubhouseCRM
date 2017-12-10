@@ -85,4 +85,18 @@ public class JPATeamService implements TeamService
 			}
 			return teamsMatchingLeader;
     }
+
+
+
+	@Override
+	public List<Team> getTeamsMatchingMember(Long memberId) {
+		List<Team> teams = getTeams();
+		List<Team> teamsMatchingMember = new ArrayList<>();
+			for (Team team : teams) 
+			{
+				if (team.getMember().getMemberId() == memberId)
+					teamsMatchingMember.add(team);
+			}
+			return teamsMatchingMember;
+	}
 }

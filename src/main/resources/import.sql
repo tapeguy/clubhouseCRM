@@ -39,7 +39,8 @@ insert into team (team_name, leader_id) values ( 'Star Wars Fan Club', (select i
 insert into member_team_rel (member_id, team_id) values
 ((select id from member where name = 'Maggie Simpson'), (select id from team where team_name = 'White Belts')),
 ((select id from member where name = 'Lisa Simpson'), (select id from team where team_name = 'White Belts')),
-((select id from member where name = 'Mr. Burns'), (select id from team where team_name = 'Star Wars Fan Club'));
+((select id from member where name = 'Mr. Burns'), (select id from team where team_name = 'Star Wars Fan Club')),
+((select id from member where name = 'Mr. Burns'), (select id from team where team_name = 'Civil War Re-enactors'));
 
 insert into event ( event_date_time, display, leader_id, event_location, max_event_seats, reserved_seats ) values
 ('2017-12-23 15:00:00', 'Xmas Party', (select id from member where name = 'Han Solo'), 'Power Plant', 500, 371 ),

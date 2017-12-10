@@ -30,5 +30,7 @@ public interface TeamService
 	public boolean addMemberToTeam(Long memberId, Long teamId);
 
 	public List<Team> getTeamsMatchingLeader(Long leaderId );
+	
+	public List<Team> getTeamsMatchingMember(Long memberId );
 
 }
