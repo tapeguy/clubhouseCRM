@@ -91,8 +91,10 @@ public class JPAEventService implements EventService {
 		List<Member> members = event.getMembers();
 		if (members == null)
 			members = new ArrayList<>();
-		members.add(m);
-		event.setMembers(members);
+		if (!members.contains(m)) {
+			members.add(m);
+			event.setMembers(members);
+		}
 		return event;
 	}
 
@@ -101,8 +103,10 @@ public class JPAEventService implements EventService {
 		List<Event> events = m.getMemberEvents();
 		if (events == null)
 			events = new ArrayList<>();
-		events.add(e);
-		m.setMemberEvents(events);
+		if (!events.contains(e)) {
+			events.add(e);
+			m.setMemberEvents(events);
+		}
 		return member;
 	}
 }
