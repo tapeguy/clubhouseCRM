@@ -20,12 +20,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import edu.fhsu.csci466.clubhouse.crm.service.LeaderService;
 import edu.fhsu.csci466.clubhouse.crm.service.MemberService;
 import edu.fhsu.csci466.clubhouse.crm.service.TeamService;
 import edu.fhsu.csci466.clubhouse.crm.service.model.EntityList;
+import edu.fhsu.csci466.clubhouse.crm.service.model.Leader;
 import edu.fhsu.csci466.clubhouse.crm.service.model.Member;
 import edu.fhsu.csci466.clubhouse.crm.service.model.groups.Team;
-import edu.fhsu.csci466.clubhouse.crm.service.model.services.Event;
 
 /**
  * @author ss047890
@@ -39,6 +40,8 @@ public class TeamRestController
     
     private final MemberService memberService;
     
+    private final LeaderService leaderService;
+    
     private static final Consumer<Team> addSelfLink = e -> e
 			.add(linkTo(methodOn(TeamRestController.class).getTeam(e.getTeamId()))
 					.withSelfRel());
@@ -47,11 +50,11 @@ public class TeamRestController
      * @param service
      */
     @Autowired
-    public TeamRestController ( TeamService service, MemberService memberService )
+    public TeamRestController ( TeamService service, MemberService memberService, LeaderService leaderService )
     {
         this.service = service;
         this.memberService = memberService;
-        
+        this.leaderService = leaderService;
         
     }
 
@@ -77,7 +80,7 @@ public class TeamRestController
      * @return list of Teams
      */
     @GetMapping( value = "/team/member/{memberId}", produces = MediaType.APPLICATION_JSON_VALUE )
-    public HttpEntity<EntityList<Team>> getTeamsByMember( @PathVariable Long memberId)
+    public HttpEntity<EntityList<Team>> getTeamsByMember(@PathVariable Long memberId)
     {
         
     	Member member = memberService.getMember(memberId);
@@ -98,20 +101,40 @@ public class TeamRestController
     }
 
     /**
-     * @param lastName
+     * @param leaderId
      * @return list of Teams
      */
     @GetMapping( value = "/team/leader/{leaderId}", produces = MediaType.APPLICATION_JSON_VALUE )
-    public HttpEntity<EntityList<Team>> getTeamsByLeader(Long leaderId)
+    public HttpEntity<EntityList<Team>> getTeamsByLeader(@PathVariable Long leaderId)
     {
 
+    	Leader leader = leaderService.getLeader(leaderId);
+    	//Member member = memberService.getMember(memberId);
+    	
+    	// @formatter:off
+    	
+    	List<Team> teams = service.getTeams()
+                                    .stream()
+                                    .filter( e -> e.getLeaders().contains( leader ) )
+                                    .peek( addSelfLink )
+                                    .collect( Collectors.toList());
+
+        // @formatter:on
+
+		EntityList<Team> list = new EntityList<>(teams);
+		return new ResponseEntity<>(list, HttpStatus.OK);
+    	
+        /*
         EntityList<Team> list = new EntityList<>( service.getTeamsMatchingLeader( leaderId ) );
+        
         for ( Team team : list.getEntities() )
         {
             team.add( linkTo( methodOn( TeamRestController.class ).getTeamsByLeader( team.getLeader().getMemberId() ) ).withSelfRel() );
         }
         list.add( linkTo( methodOn( TeamRestController.class ).getTeams() ).withRel( "list" ) );
         return new ResponseEntity<>( list, HttpStatus.OK );
+        */
+    	
     }
 
     /**

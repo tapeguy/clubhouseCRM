@@ -53,6 +53,10 @@ public class Team extends ResourceSupport implements Serializable
     private Member            member;
     
     @ManyToMany( cascade = CascadeType.ALL )
+    @JoinTable( name = "team", joinColumns = @JoinColumn( name = "id" ), inverseJoinColumns = @JoinColumn( name = "leader_id" ) )
+    private List<Leader>      leaders;
+    
+    @ManyToMany( cascade = CascadeType.ALL )
     @JoinTable( name = "member_team_rel", joinColumns = @JoinColumn( name = "team_id" ), inverseJoinColumns = @JoinColumn( name = "member_id" ) )
     private List<Member>      members;
     
@@ -118,6 +122,14 @@ public class Team extends ResourceSupport implements Serializable
     public List<Member> getMembers()
     {
         return members;
+    }
+    
+    /**
+     * @return the teams
+     */
+    public List<Leader> getLeaders()
+    {
+        return leaders;
     }
 
     /*
