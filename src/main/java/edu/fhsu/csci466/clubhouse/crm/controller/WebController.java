@@ -50,7 +50,8 @@ public class WebController {
     {
         if ( token.getMember().isLeaderAdmin() )
         {
-            return "admin_members";
+        	model.put("leader_id", token.getMember().getMemberId());
+        	return "admin_members";
         }
         throw new AccessDeniedException( "Access denied.");
     }
@@ -60,7 +61,8 @@ public class WebController {
     {
         if ( token.getMember().isLeaderAdmin() )
         {
-            return "admin_teams";
+        	 model.put("leader_id", token.getMember().getMemberId());
+        	return "admin_teams";
         }
         throw new AccessDeniedException( "Access denied.");
     }
@@ -70,7 +72,8 @@ public class WebController {
     {
         if ( token.getMember().isLeaderAdmin() )
         {
-            return "admin_events";
+        	model.put("leader_id", token.getMember().getMemberId());
+        	return "admin_events";
         }
         throw new AccessDeniedException( "Access denied.");
     }
@@ -80,7 +83,8 @@ public class WebController {
     {
         if ( token.getMember().isLeaderAdmin() )
         {
-            return "admin_financial";
+        	model.put("leader_id", token.getMember().getMemberId());
+        	return "admin_financial";
         }
         throw new AccessDeniedException( "Access denied.");
     }

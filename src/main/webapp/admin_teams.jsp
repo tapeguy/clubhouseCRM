@@ -13,8 +13,9 @@ $(function() {
         // Build the html table of teams.
         $('#teams').html($('<tr>')
                    .append($('<th>').html('Team ID'))
-                   .append($('<th>').html('Name'))
-                   //.append($('<th>').html('Leader')));
+                   .append($('<th>').html('Name')));
+                   //uncomment following line to add team leader heading to table
+        		   //.append($('<th>').html('Leader')));
      
         var restMethod = {
              href: "/crm/team/leader/" + leader_id,
@@ -25,7 +26,8 @@ $(function() {
               var tr = $('<tr>');
               tr.append($('<td>').html(this.teamId));
               tr.append($('<td>').html(this.teamName));
-              //tr.append($('<td>').html(this.leader ? this.leader.name : "---"));
+              //uncomment following line to add team leader to table
+              //tr.append($('<td>').html(this.leader ? this.leader.name : "---")); 
 
               $('#teams').append(tr);
            });
